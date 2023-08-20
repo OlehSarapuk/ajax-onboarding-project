@@ -15,10 +15,10 @@ class CinemaHallMapper : RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
         )
     }
 
-    override fun mapToDto(cinemaHall: CinemaHall): CinemaHallResponseDto {
-        return cinemaHall.id?.let { CinemaHallResponseDto(
+    override fun mapToDto(model: CinemaHall): CinemaHallResponseDto {
+        return model.id?.let { CinemaHallResponseDto(
                 id = it,
-                capacity = cinemaHall.capacity,
-                description = cinemaHall.description)}!!
+                capacity = model.capacity,
+                description = model.description)}!!
     }
 }
