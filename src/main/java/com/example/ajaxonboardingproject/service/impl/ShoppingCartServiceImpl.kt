@@ -15,12 +15,12 @@ class ShoppingCartServiceImpl(
         private val ticketRepository: TicketRepository
 ) : ShoppingCartService {
     override fun addSession(movieSession: MovieSession, user: User) {
-        val ticket = Ticket()
-        ticket.movieSession = movieSession
-        ticket.user = user
+        val ticket = Ticket(
+                movieSession = movieSession,
+                user = user)
         val shoppingCart = shoppingCartRepository.findByUser(user)
         ticketRepository.save(ticket)
-        shoppingCart.tickets.add(ticket)
+        shoppingCart.tickets?.add(ticket)
         shoppingCartRepository.save(shoppingCart)
     }
 
@@ -29,13 +29,14 @@ class ShoppingCartServiceImpl(
     }
 
     override fun registerNewShoppingCart(user: User) {
-        val shoppingCart = ShoppingCart()
-        shoppingCart.user = user
+        val shoppingCart = ShoppingCart(
+                user = user,
+                tickets = mutableListOf())
         shoppingCartRepository.save(shoppingCart)
     }
 
     override fun clear(shoppingCart: ShoppingCart) {
-        shoppingCart.tickets = null
+        shoppingCart.tickets = mutableListOf() // was null
         shoppingCartRepository.save(shoppingCart)
     }
 }

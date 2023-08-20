@@ -16,10 +16,11 @@ class AuthenticationServiceImpl(
         private val shoppingCartService: ShoppingCartService,
         private val passwordEncoder: PasswordEncoder) : AuthenticationService{
     override fun register(email: String, password: String): User {
-        val user = User()
-        user.email = email
-        user.password = password
-        user.roles = mutableSetOf(roleService.getByRoleName("USER"))
+        val roles = mutableSetOf(roleService.getByRoleName("USER"))
+        val user = User(
+                email = email,
+                password = password,
+                roles = roles)
         userService.add(user)
         shoppingCartService.registerNewShoppingCart(user)
         return user
