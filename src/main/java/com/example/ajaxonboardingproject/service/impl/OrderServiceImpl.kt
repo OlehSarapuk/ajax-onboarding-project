@@ -13,9 +13,10 @@ class OrderServiceImpl(
         private val orderRepository: OrderRepository,
         private val shoppingCartService: ShoppingCartServiceImpl) : OrderService{
     override fun completeOrder(shoppingCart: ShoppingCart): Order {
-        val order = Order()
-        order.setTickets(shoppingCart.tickets)
-        order.user = shoppingCart.user
+        val order = Order(
+                tickets = shoppingCart.tickets,
+                user = shoppingCart.user,
+                orderTime = LocalDateTime.now())
         orderRepository.save(order)
         shoppingCartService.clear(shoppingCart)
         return order

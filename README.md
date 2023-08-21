@@ -1,1 +1,1 @@
-# ajax-onboarding-project
+# still moving my project to kotlin, so there are still some classes in Java but i will move project till the end of a day. Firstly i want my code to compile so it is simple but till Monday i will do my best to look it more KOTLINISH (add some kotlin features)
