@@ -15,7 +15,7 @@ class JwtTokenFilter(private val jwtTokenProvider: JwtTokenProvider) : GenericFi
                           servletResponse: ServletResponse,
                           filterChain: FilterChain) {
         val token : String? = jwtTokenProvider.resolveToken(servletRequest as HttpServletRequest)
-        if (token?.let{jwtTokenProvider.validateToken(token)} ?: false) {
+        if (token != null && jwtTokenProvider.validateToken(token)) {
             val authentication : Authentication = jwtTokenProvider.getAuthentication(token)
             SecurityContextHolder.getContext().authentication = authentication
         }
