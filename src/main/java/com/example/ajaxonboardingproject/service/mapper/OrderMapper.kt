@@ -10,7 +10,7 @@ class OrderMapper : ResponseDtoMapper<OrderResponseDto, Order> {
         return OrderResponseDto(
                 id = model.id!!,
                 ticketIds = model.tickets
-                        .map { it.id!! }
+                        .mapNotNull{ it?.id }
                         .toMutableList(),
                 userId = model.user.id!!,
                 orderTime = model.orderTime)

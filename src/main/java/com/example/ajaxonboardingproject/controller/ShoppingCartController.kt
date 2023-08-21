@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/shopping-cart")
+@RequestMapping("/shopping-carts")
 data class ShoppingCartController(
         private val shoppingCartService: ShoppingCartService,
         private val movieSessionService: MovieSessionService,
         private val userService: UserService,
         private val shoppingCartResponseDtoMapper: ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCart>) {
-    @PutMapping("/movie-session")
+    @PutMapping("/movie-sessions")
     fun addToCart(auth : Authentication,
                   @RequestParam movieSessionId : Long) {
         val details = auth.principal as UserDetails

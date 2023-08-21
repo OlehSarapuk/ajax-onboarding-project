@@ -9,8 +9,12 @@ import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.util.NoSuchElementException
 
+@RestController
+@RequestMapping("orders")
 data class OrderController(
         private val shoppingCartService: ShoppingCartService,
         private val orderService: OrderService,

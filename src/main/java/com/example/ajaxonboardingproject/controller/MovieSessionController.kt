@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("/movie-session")
+@RequestMapping("/movie-sessions")
 data class MovieSessionController(
         private val movieSessionService: MovieSessionService,
         private val movieSessionRequestDtoMapper: RequestDtoMapper<MovieSessionRequestDto, MovieSession>,

@@ -11,8 +11,7 @@ class ShoppingCartMapper : ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCa
         return ShoppingCartResponseDto(
                 model.user.id!!,
                 model.tickets
-                        .stream()
-                        .map{it.id!!}
+                        .mapNotNull{it?.id}
                         .toList())
     }
 }

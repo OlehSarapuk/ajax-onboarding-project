@@ -2,7 +2,11 @@ package com.example.ajaxonboardingproject.security.jwt
 
 import com.example.ajaxonboardingproject.exception.InvalidJwtAuthenticationException
 import com.example.ajaxonboardingproject.model.Role
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
@@ -48,7 +52,7 @@ class JwtTokenProvider(
     fun getUserNameFromToken(token : String) : String {
         return Jwts.parser()
                 .setSigningKey(secret)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .body
                 .subject
     }

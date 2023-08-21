@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.RoleService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
+import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -15,6 +16,7 @@ class AuthenticationServiceImpl(
         private val roleService: RoleService,
         private val shoppingCartService: ShoppingCartService,
         private val passwordEncoder: PasswordEncoder) : AuthenticationService{
+    @Transactional
     override fun register(email: String, password: String): User {
         val roles = mutableSetOf(roleService.getByRoleName("USER"))
         val user = User(

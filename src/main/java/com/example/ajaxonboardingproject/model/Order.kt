@@ -10,10 +10,10 @@ data class Order(
         @JoinTable(name = "orders_tickets",
                 joinColumns = [JoinColumn(name = "order_id")],
                 inverseJoinColumns = [JoinColumn(name = "ticket_id")])
-        var tickets : MutableList<Ticket>,
+        var tickets : MutableList<Ticket?>,
         @Column(name = "order_time")
         var orderTime : LocalDateTime,
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")
         var user : User,
         @Id
