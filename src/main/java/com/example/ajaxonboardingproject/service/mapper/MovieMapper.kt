@@ -5,19 +5,18 @@ import com.example.ajaxonboardingproject.dto.response.MovieResponseDto
 import com.example.ajaxonboardingproject.model.Movie
 import org.springframework.stereotype.Component
 
-@Component
-class MovieMapper : RequestDtoMapper<MovieRequestDto, Movie>,
-        ResponseDtoMapper<MovieResponseDto, Movie> {
-    override fun mapToModel(dto: MovieRequestDto): Movie {
+    fun MovieMapper.mapToModel(dto: MovieRequestDto): Movie {
         return Movie(
                 title = dto.title,
                 description = dto.description)
     }
 
-    override fun mapToDto(model : Movie): MovieResponseDto {
+    fun MovieMapper.mapToDto(model : Movie): MovieResponseDto {
         return model.id?.let{ MovieResponseDto(
                 id = it,
                 title = model.title,
                 description = model.description)}!!
     }
-}
+
+@Component
+class MovieMapper

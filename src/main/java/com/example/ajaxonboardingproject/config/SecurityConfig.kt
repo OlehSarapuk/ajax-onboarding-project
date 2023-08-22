@@ -43,15 +43,15 @@ class SecurityConfig(
                 (it.requestMatchers(HttpMethod.POST,
                         "/cinema-halls",
                         "/movies",
-                        "/movie-sessions").authenticated())
+                        "/movie-sessions").hasRole("ADMIN"))
                 (it.requestMatchers(HttpMethod.GET,
                         "/orders",
                         "/shopping-carts/by-user",
-                        "/users/by-email").authenticated())
-                (it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").authenticated())
-                (it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").authenticated())
-                (it.requestMatchers(HttpMethod.POST, "/orders/complete").authenticated())
-                (it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").authenticated())
+                        "/users/by-email").hasRole("USER"))
+                (it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("ADMIN"))
+                (it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("ADMIN"))
+                (it.requestMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER"))
+                (it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER"))
             }
             .authenticationProvider(authenticationProvider())
             .csrf{it.disable()}

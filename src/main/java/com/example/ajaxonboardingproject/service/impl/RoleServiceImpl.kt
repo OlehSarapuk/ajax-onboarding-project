@@ -14,6 +14,6 @@ class RoleServiceImpl (private val roleRepository: RoleRepository) : RoleService
 
     override fun getByRoleName(roleName: String): Role {
         return roleRepository.findByName(Role.RoleName.valueOf(roleName))
-                .orElseThrow {NoSuchElementException("Can't ger role with name $roleName")}
+                ?: throw NoSuchElementException("Can't ger role with name $roleName")
     }
 }

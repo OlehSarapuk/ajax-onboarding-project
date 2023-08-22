@@ -4,9 +4,9 @@ import jakarta.validation.Constraint
 import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
+@Target(AnnotationTarget.FIELD)
 @MustBeDocumented
 @Constraint(validatedBy = [EmailValidator::class])
-@Target(AnnotationTarget.TYPE)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ValidEmail(
         val message: String = "Invalid email",

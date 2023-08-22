@@ -2,10 +2,11 @@ package com.example.ajaxonboardingproject.model
 
 import jakarta.persistence.*
 
+
 @Entity
 @Table(name = "shopping_carts")
 data class ShoppingCart(
-        @OneToMany(fetch = FetchType.EAGER)
+        @OneToMany(fetch = FetchType.LAZY)
         @JoinTable(name = "shopping_carts_tickets",
                 joinColumns = [JoinColumn(name = "shopping_cart_id")],
                 inverseJoinColumns = [JoinColumn(name = "ticket_id")])

@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.model
 
 import jakarta.persistence.*
 
+
 @Entity
 @Table(name = "cinema_halls")
 data class CinemaHall(
@@ -9,5 +10,4 @@ data class CinemaHall(
         var description : String,
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id : Long? = null
-)
+        var id : Long? = null)

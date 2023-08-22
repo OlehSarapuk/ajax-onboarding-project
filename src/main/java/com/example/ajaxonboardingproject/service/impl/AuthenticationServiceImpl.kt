@@ -29,9 +29,8 @@ class AuthenticationServiceImpl(
     }
 
     override fun login(login: String, password: String): User {
-        val user = userService.findByEmail(login).orElseThrow {
-            NoSuchElementException("Can't find user by login $login")
-        }
+        val user = userService.findByEmail(login)
+                ?: throw NoSuchElementException("Can't find user by login $login")
         val encodedPassword = passwordEncoder.encode(password)
         return if (passwordEncoder.matches(password, encodedPassword)) user
                 else throw AuthenticationException("Incorrect username or password!!!")

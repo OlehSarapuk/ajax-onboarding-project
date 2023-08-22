@@ -20,5 +20,4 @@ class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallReposito
     override fun getAll(): MutableList<CinemaHall> {
         return cinemaHallRepository.findAll()
     }
-
 }

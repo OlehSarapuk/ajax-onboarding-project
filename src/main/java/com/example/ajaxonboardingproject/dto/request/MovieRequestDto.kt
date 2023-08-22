@@ -1,8 +1,11 @@
 package com.example.ajaxonboardingproject.dto.request
 
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class MovieRequestDto(
-        val title : String, // @NotNull
-        val description : @Size(max = 200) String
+        @field:NotBlank
+        val title : String,
+        @field:Size(max = 200)
+        val description : String
 )
