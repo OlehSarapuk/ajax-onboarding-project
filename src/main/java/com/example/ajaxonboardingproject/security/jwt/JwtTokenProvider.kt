@@ -30,7 +30,10 @@ class JwtTokenProvider(
         secret = Base64.getEncoder().encodeToString(secret.toByteArray())
     }
 
-    fun createToken(login : String, roles : Set<Role>) : String {
+    fun createToken(
+            login : String,
+            roles : Set<Role>
+    ) : String {
         val claims : Claims = Jwts.claims().setSubject(login)
         claims["roles"] = roles
         val now = Date()
@@ -59,8 +62,8 @@ class JwtTokenProvider(
 
     fun resolveToken(request : HttpServletRequest) : String? {
         val token : String? = request.getHeader("Authorization")
-        if (token?.let { token.startsWith("Bearer ") } ?: false) {
-            return token?.substring(7)
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7)
         }
         return null
     }

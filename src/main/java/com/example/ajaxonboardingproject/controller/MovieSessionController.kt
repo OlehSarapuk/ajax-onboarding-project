@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.request.MovieSessionRequestDto
 import com.example.ajaxonboardingproject.dto.response.MovieSessionResponseDto
+import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.mapper.MovieSessionMapper
 import com.example.ajaxonboardingproject.service.mapper.mapToDto
@@ -26,8 +27,10 @@ data class MovieSessionController(
         private val movieSessionService: MovieSessionService,
         private val movieSessionMapper: MovieSessionMapper) {
     @PostMapping
-    fun add(@Valid @RequestBody requestDto: MovieSessionRequestDto) : MovieSessionResponseDto {
-        val movieSession = movieSessionMapper.mapToModel(requestDto)
+    fun add(
+            @Valid @RequestBody requestDto: MovieSessionRequestDto
+    ) : MovieSessionResponseDto {
+        val movieSession : MovieSession = movieSessionMapper.mapToModel(requestDto)
         movieSessionService.add(movieSession)
         return movieSessionMapper.mapToDto(movieSession)
     }
@@ -35,16 +38,19 @@ data class MovieSessionController(
     @GetMapping("/available")
     fun findAvailableSessions(
             @RequestParam movieId : Long,
-            @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date : LocalDate) : List<MovieSessionResponseDto>{
+            @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date : LocalDate
+    ): List<MovieSessionResponseDto>{
         return movieSessionService.findAvailableSessions(movieId, date)
                 .map(movieSessionMapper::mapToDto)
                 .toList()
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id : Long,
-               @Valid @RequestBody requestDto: MovieSessionRequestDto) : MovieSessionResponseDto{
-        val movieSession = movieSessionMapper.mapToModel(requestDto)
+    fun update(
+            @PathVariable id : Long,
+            @Valid @RequestBody requestDto: MovieSessionRequestDto
+    ) : MovieSessionResponseDto{
+        val movieSession : MovieSession = movieSessionMapper.mapToModel(requestDto)
         movieSession.id = id
         movieSessionService.update(movieSession)
         return movieSessionMapper.mapToDto(movieSession)

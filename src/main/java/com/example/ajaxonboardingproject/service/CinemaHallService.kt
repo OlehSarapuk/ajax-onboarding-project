@@ -7,5 +7,5 @@ interface CinemaHallService {
 
     fun get(id : Long) : CinemaHall
 
-    fun getAll() : MutableList<CinemaHall>
+    fun getAll() : List<CinemaHall>
 }

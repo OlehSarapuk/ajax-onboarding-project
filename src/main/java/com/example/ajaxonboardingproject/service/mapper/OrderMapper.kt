@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.dto.response.OrderResponseDto
 import com.example.ajaxonboardingproject.model.Order
 import org.springframework.stereotype.Component
 
-    fun OrderMapper.mapToDto(model: Order): OrderResponseDto {
+fun OrderMapper.mapToDto(model: Order): OrderResponseDto {
     return OrderResponseDto(
             id = model.id!!,
             ticketIds = model.tickets

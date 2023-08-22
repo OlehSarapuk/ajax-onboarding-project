@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.request.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.dto.response.CinemaHallResponseDto
+import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.mapper.CinemaHallMapper
 import com.example.ajaxonboardingproject.service.mapper.mapToDto
@@ -19,8 +20,10 @@ data class CinemaHallController(
         private val cinemaHallService: CinemaHallService,
         private val cinemaHallMapper: CinemaHallMapper) {
     @PostMapping
-    fun add(@Valid @RequestBody requestDto : CinemaHallRequestDto) : CinemaHallResponseDto {
-        val cinemaHall = cinemaHallService.add(cinemaHallMapper.mapToModel(requestDto))
+    fun add(
+            @Valid @RequestBody requestDto : CinemaHallRequestDto
+    ) : CinemaHallResponseDto {
+        val cinemaHall : CinemaHall = cinemaHallService.add(cinemaHallMapper.mapToModel(requestDto))
         return cinemaHallMapper.mapToDto(cinemaHall)
     }
 

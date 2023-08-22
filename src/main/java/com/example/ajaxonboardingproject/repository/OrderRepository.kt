@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query
 
 interface OrderRepository : JpaRepository<Order, Long>{
     @Query("from Order o join fetch o.tickets where o.user = :user")
-    fun findAllByUser(user : User) : MutableList<Order?>
+    fun findAllByUser(user : User) : List<Order?>
 }

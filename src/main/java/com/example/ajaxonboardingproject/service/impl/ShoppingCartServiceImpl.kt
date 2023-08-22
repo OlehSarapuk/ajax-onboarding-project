@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service
 class ShoppingCartServiceImpl(
         private val shoppingCartRepository: ShoppingCartRepository,
         private val ticketRepository: TicketRepository) : ShoppingCartService {
-    override fun addSession(movieSession: MovieSession, user: User) {
+    override fun addSession(
+            movieSession: MovieSession,
+            user: User
+    ) {
         val ticket = Ticket(
                 movieSession = movieSession,
                 user = user)

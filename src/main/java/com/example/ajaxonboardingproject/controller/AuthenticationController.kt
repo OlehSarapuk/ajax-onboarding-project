@@ -3,6 +3,7 @@ package com.example.ajaxonboardingproject.controller
 import com.example.ajaxonboardingproject.dto.request.UserLoginRequestDto
 import com.example.ajaxonboardingproject.dto.request.UserRegistrationRequestDto
 import com.example.ajaxonboardingproject.dto.response.UserResponseDto
+import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.mapper.UserMapper
@@ -20,15 +21,19 @@ class AuthenticationController(
         private val userMapper: UserMapper,
         private val jwtTokenProvider : JwtTokenProvider) {
     @PostMapping("/register")
-    fun register(@Valid @RequestBody requestDto : UserRegistrationRequestDto) : UserResponseDto {
-        val user = authenticationService.register(requestDto.email, requestDto.password)
+    fun register(
+            @Valid @RequestBody requestDto : UserRegistrationRequestDto
+    ) : UserResponseDto {
+        val user : User = authenticationService.register(requestDto.email, requestDto.password)
         return userMapper.mapToDto(user)
     }
 
     @PostMapping("/login")
-    fun login(@Valid @RequestBody requestDto : UserLoginRequestDto) : ResponseEntity<Any> {
-        val user = authenticationService.login(requestDto.login, requestDto.password)
-        val token = jwtTokenProvider.createToken(user.email, user.roles)
+    fun login(
+            @Valid @RequestBody requestDto : UserLoginRequestDto
+    ) : ResponseEntity<Any> {
+        val user : User = authenticationService.login(requestDto.login, requestDto.password)
+        val token: String = jwtTokenProvider.createToken(user.email, user.roles)
         return ResponseEntity("token" to token, HttpStatus.OK)
     }
 }

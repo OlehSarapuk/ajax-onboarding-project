@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
     class CustomGlobalExceptionHandler {
     @ExceptionHandler(value = [IllegalArgumentException::class, MethodArgumentNotValidException::class])
     protected fun handleException(
-            ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
+            ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>>
+    {
         val errors = mutableMapOf<String, String>()
         ex.bindingResult.fieldErrors.forEach { error: FieldError ->
             errors[error.field] = error.defaultMessage ?: "Validation error"

@@ -1,6 +1,8 @@
 package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.response.OrderResponseDto
+import com.example.ajaxonboardingproject.model.ShoppingCart
+import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.OrderService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
@@ -21,16 +23,16 @@ data class OrderController(
         private val orderMapper: OrderMapper) {
     @PostMapping("/complete")
     fun completeOrder(auth : Authentication) : OrderResponseDto {
-        val email = auth.name
-        val user = userService.findByEmail(email)
-        val cart = shoppingCartService.getByUser(user)
+        val email: String = auth.name
+        val user: User = userService.findByEmail(email)
+        val cart: ShoppingCart = shoppingCartService.getByUser(user)
         return orderMapper.mapToDto(orderService.completeOrder(cart))
     }
 
     @GetMapping
     fun getOrderHistory(auth : Authentication) : List<OrderResponseDto> {
-        val email = auth.name
-        val user = userService.findByEmail(email)
+        val email: String = auth.name
+        val user: User = userService.findByEmail(email)
         return orderService.getOrdersHistory(user)
                 .map(orderMapper::mapToDto)
                 .toList()

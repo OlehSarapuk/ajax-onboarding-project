@@ -17,7 +17,10 @@ class AuthenticationServiceImpl(
         private val shoppingCartService: ShoppingCartService,
         private val passwordEncoder: PasswordEncoder) : AuthenticationService{
     @Transactional
-    override fun register(email: String, password: String): User {
+    override fun register(
+            email: String,
+            password: String
+    ): User {
         val roles = mutableSetOf(roleService.getByRoleName("USER"))
         val user = User(
                 email = email,
@@ -28,10 +31,12 @@ class AuthenticationServiceImpl(
         return user
     }
 
-    override fun login(login: String, password: String): User {
-        val user = userService.findByEmail(login)
-                ?: throw NoSuchElementException("Can't find user by login $login")
-        val encodedPassword = passwordEncoder.encode(password)
+    override fun login(
+            login: String,
+            password: String
+    ): User {
+        val user: User = userService.findByEmail(login)
+        val encodedPassword: String = passwordEncoder.encode(password)
         return if (passwordEncoder.matches(password, encodedPassword)) user
                 else throw AuthenticationException("Incorrect username or password!!!")
     }

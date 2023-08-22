@@ -7,14 +7,14 @@ import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.MovieService
 import org.springframework.stereotype.Component
 
-    fun MovieSessionMapper.mapToModel(dto: MovieSessionRequestDto): MovieSession {
+fun MovieSessionMapper.mapToModel(dto: MovieSessionRequestDto): MovieSession {
     return MovieSession(
             movie = this.movieService.get(dto.movieId),
             cinemaHall = this.cinemaHallService.get(dto.cinemaHallId),
             showTime = dto.showTime)
 }
 
-    fun MovieSessionMapper.mapToDto(model : MovieSession): MovieSessionResponseDto {
+fun MovieSessionMapper.mapToDto(model : MovieSession): MovieSessionResponseDto {
     return MovieSessionResponseDto(
             movieSessionId = model.id!!,
             cinemaHallId = model.cinemaHall.id!!,

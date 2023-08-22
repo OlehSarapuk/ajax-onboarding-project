@@ -1,6 +1,8 @@
 package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.response.ShoppingCartResponseDto
+import com.example.ajaxonboardingproject.model.MovieSession
+import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
@@ -22,20 +24,22 @@ data class ShoppingCartController(
         private val userService: UserService,
         private val shoppingCartMapper: ShoppingCartMapper) {
     @PutMapping("/movie-sessions")
-    fun addToCart(auth : Authentication,
-                  @RequestParam movieSessionId : Long) {
+    fun addToCart(
+            auth : Authentication,
+            @RequestParam movieSessionId : Long
+    ) {
         val details = auth.principal as UserDetails
-        val email = details.username
-        val user = userService.findByEmail(email)
-        val movieSession = movieSessionService.get(movieSessionId)
+        val email: String = details.username
+        val user: User = userService.findByEmail(email)
+        val movieSession: MovieSession = movieSessionService.get(movieSessionId)
         shoppingCartService.addSession(movieSession, user)
     }
 
     @GetMapping("/by-user")
     fun getByUser(auth : Authentication) : ShoppingCartResponseDto {
         val details = auth.principal as UserDetails
-        val email = details.username
-        val user = userService.findByEmail(email)
+        val email: String = details.username
+        val user: User = userService.findByEmail(email)
         return shoppingCartMapper.mapToDto(shoppingCartService.getByUser(user))
     }
 }

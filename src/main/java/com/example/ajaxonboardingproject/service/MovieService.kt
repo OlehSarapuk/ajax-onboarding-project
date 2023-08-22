@@ -7,5 +7,5 @@ interface MovieService {
 
     fun get(id : Long) : Movie
 
-    fun getAll() : MutableList<Movie>
+    fun getAll() : List<Movie>
 }

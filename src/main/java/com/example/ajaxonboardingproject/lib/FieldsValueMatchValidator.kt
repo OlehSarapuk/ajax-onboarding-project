@@ -6,9 +6,16 @@ import org.springframework.beans.BeanWrapperImpl
 
 class FieldsValueMatchValidator(private val field : String, private val fieldMatch : String)
     : ConstraintValidator<FieldsValueMatch, Any> {
-    override fun isValid(value : Any?, context : ConstraintValidatorContext?): Boolean {
-        val fieldValue = value?.let { BeanWrapperImpl(value).getPropertyValue(field) }
-        val fieldMatchValue = value?.let { BeanWrapperImpl(value).getPropertyValue(fieldMatch) }
+    override fun isValid(
+            value : Any?,
+            context : ConstraintValidatorContext?
+    ): Boolean {
+        fun Any?.getPropertyValueOfNullable(field: String) : Any?{
+            return this?.let { BeanWrapperImpl(this).getPropertyValue(field) }
+        }
+
+        val fieldValue = value.getPropertyValueOfNullable(field)
+        val fieldMatchValue = value.getPropertyValueOfNullable(fieldMatch)
         return fieldValue == fieldMatchValue
     }
 }

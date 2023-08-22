@@ -11,9 +11,11 @@ import org.springframework.web.filter.GenericFilterBean
 
 @Component
 class JwtTokenFilter(private val jwtTokenProvider: JwtTokenProvider) : GenericFilterBean() {
-    override fun doFilter(servletRequest: ServletRequest,
-                          servletResponse: ServletResponse,
-                          filterChain: FilterChain) {
+    override fun doFilter(
+            servletRequest: ServletRequest,
+            servletResponse: ServletResponse,
+            filterChain: FilterChain
+    ) {
         val token : String? = jwtTokenProvider.resolveToken(servletRequest as HttpServletRequest)
         if (token != null && jwtTokenProvider.validateToken(token)) {
             val authentication : Authentication = jwtTokenProvider.getAuthentication(token)
