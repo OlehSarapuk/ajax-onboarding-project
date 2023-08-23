@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size
 
 data class UserRegistrationRequestDto(
         @field:ValidEmail()
-        val email : String,
+        val email: String,
         @field:Size(min = 8, max = 40)
-        val password : String,
-        val repeatPassword : String)
+        val password: String,
+        val repeatPassword: String)

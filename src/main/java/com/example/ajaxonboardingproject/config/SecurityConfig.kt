@@ -29,7 +29,7 @@ class SecurityConfig(
     }
 
     @Bean
-    private fun filterChain(http : HttpSecurity) : SecurityFilterChain {
+    internal fun filterChain(http : HttpSecurity) : SecurityFilterChain {
         return http
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests{

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size
 
 data class MovieRequestDto(
         @field:NotBlank
-        val title : String,
+        val title: String,
         @field:Size(max = 200)
-        val description : String
+        val description: String
 )

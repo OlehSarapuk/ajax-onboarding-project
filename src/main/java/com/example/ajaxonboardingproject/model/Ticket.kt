@@ -18,9 +18,9 @@ data class Ticket(
         var movieSession: MovieSession,
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")
-        var user : User,
+        var user: User,
 ) {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        lateinit var id : java.lang.Long
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    lateinit var id: java.lang.Long
 }
