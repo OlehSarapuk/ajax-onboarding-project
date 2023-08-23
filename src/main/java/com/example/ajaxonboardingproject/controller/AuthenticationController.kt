@@ -6,7 +6,8 @@ import com.example.ajaxonboardingproject.dto.response.UserResponseDto
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 import com.example.ajaxonboardingproject.service.AuthenticationService
-import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
+import com.example.ajaxonboardingproject.service.mapper.UserMapper
+import com.example.ajaxonboardingproject.service.mapper.mapToDto
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,18 +18,22 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AuthenticationController(
         private val authenticationService : AuthenticationService,
-        private val userDtoResponseMapper : ResponseDtoMapper<UserResponseDto, User>,
+        private val userMapper: UserMapper,
         private val jwtTokenProvider : JwtTokenProvider) {
     @PostMapping("/register")
-    fun register(@RequestBody requestDto : @Valid UserRegistrationRequestDto) : UserResponseDto {
-        val user = authenticationService.register(requestDto.email, requestDto.password)
-        return userDtoResponseMapper.mapToDto(user)
+    fun register(
+            @Valid @RequestBody requestDto : UserRegistrationRequestDto
+    ) : UserResponseDto {
+        val user : User = authenticationService.register(requestDto.email, requestDto.password)
+        return userMapper.mapToDto(user)
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody requestDto : @Valid UserLoginRequestDto) : ResponseEntity<Any> {
-        val user = authenticationService.login(requestDto.login, requestDto.password)
-        val token = jwtTokenProvider.createToken(user.email, user.roles)
+    fun login(
+            @Valid @RequestBody requestDto : UserLoginRequestDto
+    ) : ResponseEntity<Any> {
+        val user : User = authenticationService.login(requestDto.login, requestDto.password)
+        val token: String = jwtTokenProvider.createToken(user.email, user.roles)
         return ResponseEntity("token" to token, HttpStatus.OK)
     }
 }

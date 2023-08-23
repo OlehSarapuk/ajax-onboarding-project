@@ -2,7 +2,11 @@ package com.example.ajaxonboardingproject.security.jwt
 
 import com.example.ajaxonboardingproject.exception.InvalidJwtAuthenticationException
 import com.example.ajaxonboardingproject.model.Role
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
@@ -26,7 +30,10 @@ class JwtTokenProvider(
         secret = Base64.getEncoder().encodeToString(secret.toByteArray())
     }
 
-    fun createToken(login : String, roles : Set<Role>) : String {
+    fun createToken(
+            login : String,
+            roles : Set<Role>
+    ) : String {
         val claims : Claims = Jwts.claims().setSubject(login)
         claims["roles"] = roles
         val now = Date()
@@ -48,15 +55,15 @@ class JwtTokenProvider(
     fun getUserNameFromToken(token : String) : String {
         return Jwts.parser()
                 .setSigningKey(secret)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .body
                 .subject
     }
 
     fun resolveToken(request : HttpServletRequest) : String? {
         val token : String? = request.getHeader("Authorization")
-        if (token?.let { token.startsWith("Bearer ") } ?: false) {
-            return token?.substring(7)
+        if (token != null && token.startsWith("Bearer ")) {
+            return token.substring(7)
         }
         return null
     }

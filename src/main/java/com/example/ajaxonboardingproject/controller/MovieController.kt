@@ -4,8 +4,9 @@ import com.example.ajaxonboardingproject.dto.request.MovieRequestDto
 import com.example.ajaxonboardingproject.dto.response.MovieResponseDto
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.service.MovieService
-import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
-import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
+import com.example.ajaxonboardingproject.service.mapper.MovieMapper
+import com.example.ajaxonboardingproject.service.mapper.mapToDto
+import com.example.ajaxonboardingproject.service.mapper.mapToModel
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,18 +18,19 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/movies")
 data class MovieController(
         private val movieService: MovieService,
-        private val movieRequestDtoMapper : RequestDtoMapper<MovieRequestDto, Movie>,
-        private val movieResponseDtoMapper: ResponseDtoMapper<MovieResponseDto, Movie>) {
+        private val movieMapper: MovieMapper) {
     @PostMapping
-    fun add(@RequestBody requestDto : @Valid MovieRequestDto) : MovieResponseDto {
-        val movie = movieService.add(movieRequestDtoMapper.mapToModel((requestDto)))
-        return movieResponseDtoMapper.mapToDto(movie)
+    fun add(
+            @Valid @RequestBody requestDto : MovieRequestDto
+    ) : MovieResponseDto {
+        val movie : Movie = movieService.add(movieMapper.mapToModel((requestDto)))
+        return movieMapper.mapToDto(movie)
     }
 
     @GetMapping
     fun getAll() : List<MovieResponseDto> {
         return movieService.getAll()
-                .map(movieResponseDtoMapper::mapToDto)
+                .map(movieMapper::mapToDto)
                 .toList()
     }
 }

@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.RoleService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
+import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -15,7 +16,11 @@ class AuthenticationServiceImpl(
         private val roleService: RoleService,
         private val shoppingCartService: ShoppingCartService,
         private val passwordEncoder: PasswordEncoder) : AuthenticationService{
-    override fun register(email: String, password: String): User {
+    @Transactional
+    override fun register(
+            email: String,
+            password: String
+    ): User {
         val roles = mutableSetOf(roleService.getByRoleName("USER"))
         val user = User(
                 email = email,
@@ -26,11 +31,12 @@ class AuthenticationServiceImpl(
         return user
     }
 
-    override fun login(login: String, password: String): User {
-        val user = userService.findByEmail(login).orElseThrow {
-            NoSuchElementException("Can't find user by login $login")
-        }
-        val encodedPassword = passwordEncoder.encode(password)
+    override fun login(
+            login: String,
+            password: String
+    ): User {
+        val user: User = userService.findByEmail(login)
+        val encodedPassword: String = passwordEncoder.encode(password)
         return if (passwordEncoder.matches(password, encodedPassword)) user
                 else throw AuthenticationException("Incorrect username or password!!!")
     }

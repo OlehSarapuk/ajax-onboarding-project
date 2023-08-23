@@ -7,5 +7,5 @@ import com.example.ajaxonboardingproject.model.User
 interface OrderService {
     fun completeOrder(shoppingCart : ShoppingCart) : Order
 
-    fun getOrdersHistory(user : User) : MutableList<Order>
+    fun getOrdersHistory(user : User) : List<Order>
 }

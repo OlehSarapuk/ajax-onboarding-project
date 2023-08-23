@@ -14,7 +14,9 @@ class OrderServiceImpl(
         private val shoppingCartService: ShoppingCartServiceImpl) : OrderService{
     override fun completeOrder(shoppingCart: ShoppingCart): Order {
         val order = Order(
-                tickets = shoppingCart.tickets,
+                tickets = shoppingCart.tickets
+                        .filterNotNull()
+                        .toMutableList(),
                 user = shoppingCart.user,
                 orderTime = LocalDateTime.now())
         orderRepository.save(order)
@@ -22,7 +24,7 @@ class OrderServiceImpl(
         return order
     }
 
-    override fun getOrdersHistory(user: User): MutableList<Order> {
-        return orderRepository.findAllByUser(user)
+    override fun getOrdersHistory(user: User): List<Order> {
+        return orderRepository.findAllByUser(user).filterNotNull().toMutableList()
     }
 }

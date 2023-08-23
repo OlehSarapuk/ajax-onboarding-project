@@ -17,7 +17,7 @@ class MovieServiceImpl(private val movieRepository: MovieRepository) : MovieServ
                 NoSuchElementException("Can't get movie by id $id")}
     }
 
-    override fun getAll(): MutableList<Movie> {
+    override fun getAll(): List<Movie> {
         return movieRepository.findAll()
     }
 }
