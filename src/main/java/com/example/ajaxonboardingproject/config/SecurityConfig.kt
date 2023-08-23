@@ -33,25 +33,25 @@ class SecurityConfig(
         return http
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests{
-                (it.requestMatchers(HttpMethod.POST,
+                it.requestMatchers(HttpMethod.POST,
                         "/register",
-                        "/login").permitAll())
-                (it.requestMatchers(HttpMethod.GET,
+                        "/login").permitAll()
+                it.requestMatchers(HttpMethod.GET,
                         "/cinema-halls",
                         "/movies",
-                        "/movie-sessions/available").authenticated())
-                (it.requestMatchers(HttpMethod.POST,
+                        "/movie-sessions/available").authenticated()
+                it.requestMatchers(HttpMethod.POST,
                         "/cinema-halls",
                         "/movies",
-                        "/movie-sessions").hasRole("ADMIN"))
-                (it.requestMatchers(HttpMethod.GET,
+                        "/movie-sessions").hasRole("ADMIN")
+                it.requestMatchers(HttpMethod.GET,
                         "/orders",
                         "/shopping-carts/by-user",
-                        "/users/by-email").hasRole("USER"))
-                (it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("ADMIN"))
-                (it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("ADMIN"))
-                (it.requestMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER"))
-                (it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER"))
+                        "/users/by-email").hasRole("USER")
+                it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("ADMIN")
+                it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("ADMIN")
+                it.requestMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER")
+                it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER")
             }
             .authenticationProvider(authenticationProvider())
             .csrf{it.disable()}

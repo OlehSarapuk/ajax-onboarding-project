@@ -9,7 +9,8 @@ fun ShoppingCartMapper.mapToDto(model : ShoppingCart) : ShoppingCartResponseDto 
             model.user.id!!,
             model.tickets
                     .mapNotNull{it?.id}
-                    .toList())
+                    .toList()
+    )
 }
 
 @Component

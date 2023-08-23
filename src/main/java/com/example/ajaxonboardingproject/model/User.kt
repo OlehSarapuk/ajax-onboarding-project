@@ -16,4 +16,8 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id : Long? = null
-)
+) {
+        override fun toString(): String {
+                return "User(id=$id, email=$email, roles=$roles)"
+        }
+}

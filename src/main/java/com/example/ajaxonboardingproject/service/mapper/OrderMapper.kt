@@ -11,7 +11,8 @@ fun OrderMapper.mapToDto(model: Order): OrderResponseDto {
                     .mapNotNull{ it?.id }
                     .toMutableList(),
             userId = model.user.id!!,
-            orderTime = model.orderTime)
+            orderTime = model.orderTime
+    )
 }
 
 @Component

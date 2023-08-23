@@ -24,7 +24,7 @@ class OrderServiceImpl(
         return order
     }
 
-    override fun getOrdersHistory(user: User): MutableList<Order> {
+    override fun getOrdersHistory(user: User): List<Order> {
         return orderRepository.findAllByUser(user).filterNotNull().toMutableList()
     }
 }

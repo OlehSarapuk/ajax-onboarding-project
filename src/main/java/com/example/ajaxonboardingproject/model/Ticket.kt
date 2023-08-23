@@ -2,7 +2,6 @@ package com.example.ajaxonboardingproject.model
 
 import jakarta.persistence.*
 
-
 @Entity
 @Table(name = "tickets")
 data class Ticket(

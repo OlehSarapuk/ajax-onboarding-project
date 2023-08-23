@@ -13,10 +13,11 @@ fun CinemaHallMapper.mapToModel(dto : CinemaHallRequestDto) : CinemaHall {
 }
 
 fun CinemaHallMapper.mapToDto(model: CinemaHall): CinemaHallResponseDto {
-    return model.id?.let { CinemaHallResponseDto(
-            id = it,
+    return CinemaHallResponseDto(
+            id = model.id!!,
             capacity = model.capacity,
-            description = model.description)}!!
+            description = model.description
+    )
 }
 
 @Component

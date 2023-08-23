@@ -11,7 +11,8 @@ fun MovieSessionMapper.mapToModel(dto: MovieSessionRequestDto): MovieSession {
     return MovieSession(
             movie = this.movieService.get(dto.movieId),
             cinemaHall = this.cinemaHallService.get(dto.cinemaHallId),
-            showTime = dto.showTime)
+            showTime = dto.showTime
+    )
 }
 
 fun MovieSessionMapper.mapToDto(model : MovieSession): MovieSessionResponseDto {
@@ -20,7 +21,8 @@ fun MovieSessionMapper.mapToDto(model : MovieSession): MovieSessionResponseDto {
             cinemaHallId = model.cinemaHall.id!!,
             movieTitle = model.movie.title,
             movieId = model.movie.id!!,
-            showTime = model.showTime)
+            showTime = model.showTime
+    )
 }
 
 @Component
