@@ -47,7 +47,7 @@ data class MovieSessionController(
 
     @PutMapping("/{id}")
     fun update(
-            @PathVariable id : Long,
+            @PathVariable id : java.lang.Long,
             @Valid @RequestBody requestDto: MovieSessionRequestDto
     ) : MovieSessionResponseDto{
         val movieSession : MovieSession = movieSessionMapper.mapToModel(requestDto)

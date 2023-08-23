@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 
 fun ShoppingCartMapper.mapToDto(model : ShoppingCart) : ShoppingCartResponseDto {
     return ShoppingCartResponseDto(
-            model.user.id!!,
+            model.user.id,
             model.tickets
                     .mapNotNull{it?.id}
                     .toList()

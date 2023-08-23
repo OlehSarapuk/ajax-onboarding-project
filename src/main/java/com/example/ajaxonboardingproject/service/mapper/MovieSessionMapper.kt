@@ -17,10 +17,10 @@ fun MovieSessionMapper.mapToModel(dto: MovieSessionRequestDto): MovieSession {
 
 fun MovieSessionMapper.mapToDto(model : MovieSession): MovieSessionResponseDto {
     return MovieSessionResponseDto(
-            movieSessionId = model.id!!,
-            cinemaHallId = model.cinemaHall.id!!,
+            movieSessionId = model.id,
+            cinemaHallId = model.cinemaHall.id,
             movieTitle = model.movie.title,
-            movieId = model.movie.id!!,
+            movieId = model.movie.id,
             showTime = model.showTime
     )
 }

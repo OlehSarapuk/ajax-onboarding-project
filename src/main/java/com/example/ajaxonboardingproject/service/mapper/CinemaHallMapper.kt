@@ -14,7 +14,7 @@ fun CinemaHallMapper.mapToModel(dto : CinemaHallRequestDto) : CinemaHall {
 
 fun CinemaHallMapper.mapToDto(model: CinemaHall): CinemaHallResponseDto {
     return CinemaHallResponseDto(
-            id = model.id!!,
+            id = model.id,
             capacity = model.capacity,
             description = model.description
     )

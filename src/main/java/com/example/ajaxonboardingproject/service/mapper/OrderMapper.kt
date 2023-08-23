@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component
 
 fun OrderMapper.mapToDto(model: Order): OrderResponseDto {
     return OrderResponseDto(
-            id = model.id!!,
+            id = model.id,
             ticketIds = model.tickets
-                    .mapNotNull{ it?.id }
+                    .map { it.id }
                     .toMutableList(),
-            userId = model.user.id!!,
+            userId = model.user.id,
             orderTime = model.orderTime
     )
 }

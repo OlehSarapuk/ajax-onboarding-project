@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 
 fun UserMapper.mapToDto(model: User) : UserResponseDto {
     return UserResponseDto(
-            id = model.id!!,
+            id = model.id,
             email = model.email
     )
 }

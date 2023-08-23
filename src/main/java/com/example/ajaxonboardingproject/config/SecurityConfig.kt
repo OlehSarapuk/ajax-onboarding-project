@@ -29,7 +29,7 @@ class SecurityConfig(
     }
 
     @Bean
-    protected fun filterChain(http : HttpSecurity) : SecurityFilterChain {
+    private fun filterChain(http : HttpSecurity) : SecurityFilterChain {
         return http
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests{
@@ -43,13 +43,13 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.POST,
                         "/cinema-halls",
                         "/movies",
-                        "/movie-sessions").hasRole("ADMIN")
+                        "/movie-sessions").hasRole("USER")
                 it.requestMatchers(HttpMethod.GET,
                         "/orders",
                         "/shopping-carts/by-user",
                         "/users/by-email").hasRole("USER")
-                it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("ADMIN")
-                it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("ADMIN")
+                it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("USER")
+                it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("USER")
                 it.requestMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER")
                 it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER")
             }

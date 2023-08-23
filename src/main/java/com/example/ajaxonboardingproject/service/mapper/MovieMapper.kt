@@ -14,7 +14,7 @@ fun MovieMapper.mapToModel(dto: MovieRequestDto): Movie {
 
 fun MovieMapper.mapToDto(model : Movie): MovieResponseDto {
         return MovieResponseDto(
-                id = model.id!!,
+                id = model.id,
                 title = model.title,
                 description = model.description
             )
