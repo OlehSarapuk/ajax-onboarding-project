@@ -12,7 +12,7 @@ class MovieSessionServiceImpl(private val movieSessionRepository: MovieSessionRe
         movieId: Long,
         date: LocalDate
     ): List<MovieSession> {
-        return movieSessionRepository.findAvailableSessions(movieId, date).filterNotNull()
+        return movieSessionRepository.findAvailableSessions(movieId, date)
     }
 
     override fun add(session: MovieSession): MovieSession {

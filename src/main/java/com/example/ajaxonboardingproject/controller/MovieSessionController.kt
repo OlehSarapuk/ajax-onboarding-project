@@ -4,9 +4,8 @@ import com.example.ajaxonboardingproject.dto.request.MovieSessionRequestDto
 import com.example.ajaxonboardingproject.dto.response.MovieSessionResponseDto
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
-import com.example.ajaxonboardingproject.service.mapper.MovieSessionMapper
-import com.example.ajaxonboardingproject.service.mapper.mapToDto
-import com.example.ajaxonboardingproject.service.mapper.mapToModel
+import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
+import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import com.example.ajaxonboardingproject.util.DATE_PATTERN
 import jakarta.validation.Valid
 import org.springframework.format.annotation.DateTimeFormat
@@ -25,15 +24,16 @@ import java.time.LocalDate
 @RequestMapping("/movie-sessions")
 data class MovieSessionController(
     private val movieSessionService: MovieSessionService,
-    private val movieSessionMapper: MovieSessionMapper
+    private val movieSessionRequestDtoMapper: RequestDtoMapper<MovieSessionRequestDto, MovieSession>,
+    private val movieSessionResponseDtoMapper: ResponseDtoMapper<MovieSessionResponseDto, MovieSession>
 ) {
     @PostMapping
     fun add(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): MovieSessionResponseDto {
-        val movieSession: MovieSession = movieSessionMapper.mapToModel(requestDto)
+        val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
         movieSessionService.add(movieSession)
-        return movieSessionMapper.mapToDto(movieSession)
+        return movieSessionResponseDtoMapper.mapToDto(movieSession)
     }
 
     @GetMapping("/available")
@@ -42,7 +42,7 @@ data class MovieSessionController(
         @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDate
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
-            .map(movieSessionMapper::mapToDto)
+            .map(movieSessionResponseDtoMapper::mapToDto)
             .toList()
     }
 
@@ -51,10 +51,10 @@ data class MovieSessionController(
         @PathVariable id: java.lang.Long,
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): MovieSessionResponseDto {
-        val movieSession: MovieSession = movieSessionMapper.mapToModel(requestDto)
+        val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
         movieSession.id = id
         movieSessionService.update(movieSession)
-        return movieSessionMapper.mapToDto(movieSession)
+        return movieSessionResponseDtoMapper.mapToDto(movieSession)
     }
 
     @DeleteMapping("/{id}")

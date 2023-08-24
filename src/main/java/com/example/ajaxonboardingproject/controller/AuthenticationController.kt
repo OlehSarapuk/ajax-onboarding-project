@@ -6,8 +6,7 @@ import com.example.ajaxonboardingproject.dto.response.UserResponseDto
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 import com.example.ajaxonboardingproject.service.AuthenticationService
-import com.example.ajaxonboardingproject.service.mapper.UserMapper
-import com.example.ajaxonboardingproject.service.mapper.mapToDto
+import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AuthenticationController(
     private val authenticationService: AuthenticationService,
-    private val userMapper: UserMapper,
+    private val userDtoResponseMapper: ResponseDtoMapper<UserResponseDto, User>,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
     @PostMapping("/register")
@@ -26,7 +25,7 @@ class AuthenticationController(
         @Valid @RequestBody requestDto: UserRegistrationRequestDto
     ): UserResponseDto {
         val user: User = authenticationService.register(requestDto.email, requestDto.password)
-        return userMapper.mapToDto(user)
+        return userDtoResponseMapper.mapToDto(user)
     }
 
     @PostMapping("/login")

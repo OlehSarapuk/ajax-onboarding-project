@@ -4,9 +4,8 @@ import com.example.ajaxonboardingproject.dto.request.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.dto.response.CinemaHallResponseDto
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
-import com.example.ajaxonboardingproject.service.mapper.CinemaHallMapper
-import com.example.ajaxonboardingproject.service.mapper.mapToDto
-import com.example.ajaxonboardingproject.service.mapper.mapToModel
+import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
+import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -18,20 +17,21 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/cinema-halls")
 data class CinemaHallController(
     private val cinemaHallService: CinemaHallService,
-    private val cinemaHallMapper: CinemaHallMapper
+    private val cinemaHallRequestDtoMapper: RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
+    private val cinemaHallResponseDtoMapper: ResponseDtoMapper<CinemaHallResponseDto, CinemaHall>
 ) {
     @PostMapping
     fun add(
         @Valid @RequestBody requestDto: CinemaHallRequestDto
     ): CinemaHallResponseDto {
-        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallMapper.mapToModel(requestDto))
-        return cinemaHallMapper.mapToDto(cinemaHall)
+        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto))
+        return cinemaHallResponseDtoMapper.mapToDto(cinemaHall)
     }
 
     @GetMapping
     fun getAll(): List<CinemaHallResponseDto> {
         return cinemaHallService.getAll()
-            .map(cinemaHallMapper::mapToDto)
+            .map(cinemaHallResponseDtoMapper::mapToDto)
             .toList()
     }
 }
