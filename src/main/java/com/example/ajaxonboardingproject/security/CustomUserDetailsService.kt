@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomUserDetailsService(private val userService: UserService) : UserDetailsService {
+    @Suppress("SpreadOperator")
     override fun loadUserByUsername(username: String): UserDetails {
         val user: User = userService.findByEmail(username)
         return withUsername(username).apply {

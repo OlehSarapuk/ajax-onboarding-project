@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class UserMapper : ResponseDtoMapper<UserResponseDto, User> {
     override fun mapToDto(model: User): UserResponseDto {
         return UserResponseDto(
-            id = model.id,
+            id = model.id.toLong(),
             email = model.email
         )
     }

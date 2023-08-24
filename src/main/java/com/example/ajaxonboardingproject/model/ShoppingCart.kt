@@ -22,7 +22,7 @@ data class ShoppingCart(
         joinColumns = [JoinColumn(name = "shopping_cart_id")],
         inverseJoinColumns = [JoinColumn(name = "ticket_id")]
     )
-    var tickets: MutableList<Ticket?>,
+    var tickets: MutableList<Ticket>,
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")

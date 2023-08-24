@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component
 class OrderMapper : ResponseDtoMapper<OrderResponseDto, Order> {
     override fun mapToDto(model: Order): OrderResponseDto {
         return OrderResponseDto(
-            id = model.id,
+            id = model.id.toLong(),
             ticketIds = model.tickets
-                .map { it.id }
+                .map { it.id.toLong() }
                 .toMutableList(),
-            userId = model.user.id,
+            userId = model.user.id.toLong(),
             orderTime = model.orderTime
         )
     }

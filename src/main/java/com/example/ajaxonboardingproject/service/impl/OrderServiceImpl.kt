@@ -16,7 +16,6 @@ class OrderServiceImpl(
     override fun completeOrder(shoppingCart: ShoppingCart): Order {
         val order = Order(
             tickets = shoppingCart.tickets
-                .filterNotNull()
                 .toMutableList(),
             user = shoppingCart.user,
             orderTime = LocalDateTime.now()
