@@ -13,16 +13,17 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "roles")
 data class Role(
-        @Column(unique = true)
-        @JsonProperty("name")
-        @Enumerated(value = EnumType.STRING)
-        var name : RoleName,
+    @Column(unique = true)
+    @JsonProperty("name")
+    @Enumerated(value = EnumType.STRING)
+    var name: RoleName,
 ) {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        lateinit var id : java.lang.Long
-        enum class RoleName {
-            ADMIN, USER
-        }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    lateinit var id: java.lang.Long
+
+    enum class RoleName {
+        ADMIN, USER
+    }
 }
 

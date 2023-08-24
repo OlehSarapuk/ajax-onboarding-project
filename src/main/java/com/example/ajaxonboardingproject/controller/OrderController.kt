@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("orders")
 data class OrderController(
-        private val shoppingCartService: ShoppingCartService,
-        private val orderService: OrderService,
-        private val userService: UserService,
-        private val orderMapper: OrderMapper) {
+    private val shoppingCartService: ShoppingCartService,
+    private val orderService: OrderService,
+    private val userService: UserService,
+    private val orderMapper: OrderMapper
+) {
     @PostMapping("/complete")
-    fun completeOrder(auth : Authentication) : OrderResponseDto {
+    fun completeOrder(auth: Authentication): OrderResponseDto {
         val email: String = auth.name
         val user: User = userService.findByEmail(email)
         val cart: ShoppingCart = shoppingCartService.getByUser(user)
@@ -30,11 +31,11 @@ data class OrderController(
     }
 
     @GetMapping
-    fun getOrderHistory(auth : Authentication) : List<OrderResponseDto> {
+    fun getOrderHistory(auth: Authentication): List<OrderResponseDto> {
         val email: String = auth.name
         val user: User = userService.findByEmail(email)
         return orderService.getOrdersHistory(user)
-                .map(orderMapper::mapToDto)
-                .toList()
+            .map(orderMapper::mapToDto)
+            .toList()
     }
 }

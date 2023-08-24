@@ -10,15 +10,17 @@ import java.time.LocalDateTime
 
 @Service
 class OrderServiceImpl(
-        private val orderRepository: OrderRepository,
-        private val shoppingCartService: ShoppingCartServiceImpl) : OrderService{
+    private val orderRepository: OrderRepository,
+    private val shoppingCartService: ShoppingCartServiceImpl
+) : OrderService {
     override fun completeOrder(shoppingCart: ShoppingCart): Order {
         val order = Order(
-                tickets = shoppingCart.tickets
-                        .filterNotNull()
-                        .toMutableList(),
-                user = shoppingCart.user,
-                orderTime = LocalDateTime.now())
+            tickets = shoppingCart.tickets
+                .filterNotNull()
+                .toMutableList(),
+            user = shoppingCart.user,
+            orderTime = LocalDateTime.now()
+        )
         orderRepository.save(order)
         shoppingCartService.clear(shoppingCart)
         return order

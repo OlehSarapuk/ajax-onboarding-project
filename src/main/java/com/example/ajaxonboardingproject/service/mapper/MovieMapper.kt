@@ -6,18 +6,18 @@ import com.example.ajaxonboardingproject.model.Movie
 import org.springframework.stereotype.Component
 
 fun MovieMapper.mapToModel(dto: MovieRequestDto): Movie {
-        return Movie(
-                title = dto.title,
-                description = dto.description
-        )
+    return Movie(
+        title = dto.title,
+        description = dto.description
+    )
 }
 
-fun MovieMapper.mapToDto(model : Movie): MovieResponseDto {
-        return MovieResponseDto(
-                id = model.id,
-                title = model.title,
-                description = model.description
-            )
+fun MovieMapper.mapToDto(model: Movie): MovieResponseDto {
+    return MovieResponseDto(
+        id = model.id,
+        title = model.title,
+        description = model.description
+    )
 }
 
 @Component

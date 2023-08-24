@@ -17,20 +17,21 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/cinema-halls")
 data class CinemaHallController(
-        private val cinemaHallService: CinemaHallService,
-        private val cinemaHallMapper: CinemaHallMapper) {
+    private val cinemaHallService: CinemaHallService,
+    private val cinemaHallMapper: CinemaHallMapper
+) {
     @PostMapping
     fun add(
-            @Valid @RequestBody requestDto : CinemaHallRequestDto
-    ) : CinemaHallResponseDto {
-        val cinemaHall : CinemaHall = cinemaHallService.add(cinemaHallMapper.mapToModel(requestDto))
+        @Valid @RequestBody requestDto: CinemaHallRequestDto
+    ): CinemaHallResponseDto {
+        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallMapper.mapToModel(requestDto))
         return cinemaHallMapper.mapToDto(cinemaHall)
     }
 
     @GetMapping
-    fun getAll() : List<CinemaHallResponseDto> {
+    fun getAll(): List<CinemaHallResponseDto> {
         return cinemaHallService.getAll()
-                .map (cinemaHallMapper::mapToDto)
-                .toList()
+            .map(cinemaHallMapper::mapToDto)
+            .toList()
     }
 }

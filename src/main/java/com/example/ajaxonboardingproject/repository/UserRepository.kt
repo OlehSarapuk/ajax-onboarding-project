@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.Query
 
 interface UserRepository : JpaRepository<User, Long> {
     @Query("from User u join fetch u.roles where u.id = :id")
-    fun findByUserId(id : Long) : User?
+    fun findByUserId(id: Long): User?
 
     @Query("from User u join fetch u.roles where u.email = :email")
-    fun findByEmail(email : String) : User?
+    fun findByEmail(email: String): User?
 }

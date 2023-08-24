@@ -4,13 +4,13 @@ import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import org.springframework.beans.BeanWrapperImpl
 
-class FieldsValueMatchValidator(private val field : String, private val fieldMatch : String)
-    : ConstraintValidator<FieldsValueMatch, Any> {
+class FieldsValueMatchValidator(private val field: String, private val fieldMatch: String) :
+    ConstraintValidator<FieldsValueMatch, Any> {
     override fun isValid(
-            value : Any?,
-            context : ConstraintValidatorContext?
+        value: Any?,
+        context: ConstraintValidatorContext?
     ): Boolean {
-        fun Any?.getPropertyValueOfNullable(field: String) : Any?{
+        fun Any?.getPropertyValueOfNullable(field: String): Any? {
             return this?.let { BeanWrapperImpl(this).getPropertyValue(field) }
         }
 

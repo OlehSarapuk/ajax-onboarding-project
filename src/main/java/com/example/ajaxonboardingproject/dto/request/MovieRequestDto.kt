@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class MovieRequestDto(
-        @field:NotBlank
-        val title: String,
-        @field:Size(max = 200)
-        val description: String
+    @field:NotBlank
+    val title: String,
+    @field:Size(max = 200)
+    val description: String
 )

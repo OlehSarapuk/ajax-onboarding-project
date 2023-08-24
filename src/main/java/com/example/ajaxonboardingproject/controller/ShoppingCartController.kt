@@ -19,14 +19,15 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/shopping-carts")
 data class ShoppingCartController(
-        private val shoppingCartService: ShoppingCartService,
-        private val movieSessionService: MovieSessionService,
-        private val userService: UserService,
-        private val shoppingCartMapper: ShoppingCartMapper) {
+    private val shoppingCartService: ShoppingCartService,
+    private val movieSessionService: MovieSessionService,
+    private val userService: UserService,
+    private val shoppingCartMapper: ShoppingCartMapper
+) {
     @PutMapping("/movie-sessions")
     fun addToCart(
-            auth : Authentication,
-            @RequestParam movieSessionId : Long
+        auth: Authentication,
+        @RequestParam movieSessionId: Long
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username
@@ -36,7 +37,7 @@ data class ShoppingCartController(
     }
 
     @GetMapping("/by-user")
-    fun getByUser(auth : Authentication) : ShoppingCartResponseDto {
+    fun getByUser(auth: Authentication): ShoppingCartResponseDto {
         val details = auth.principal as UserDetails
         val email: String = details.username
         val user: User = userService.findByEmail(email)

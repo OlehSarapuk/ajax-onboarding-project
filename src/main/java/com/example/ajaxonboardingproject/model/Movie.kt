@@ -9,10 +9,10 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "movies")
 data class Movie(
-        var title : String,
-        var description : String,
+    var title: String,
+    var description: String,
 ) {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        lateinit var id: java.lang.Long
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    lateinit var id: java.lang.Long
 }
