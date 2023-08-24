@@ -9,8 +9,9 @@ import kotlin.NoSuchElementException
 
 @Service
 class UserServiceImpl(
-        private val encoder : PasswordEncoder,
-        private val userRepository: UserRepository) : UserService{
+    private val encoder: PasswordEncoder,
+    private val userRepository: UserRepository
+) : UserService {
     override fun add(user: User): User {
         user.password = encoder.encode(user.password)
         return userRepository.save(user)

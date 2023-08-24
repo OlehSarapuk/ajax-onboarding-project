@@ -5,7 +5,7 @@ import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
 
 interface OrderService {
-    fun completeOrder(shoppingCart : ShoppingCart) : Order
+    fun completeOrder(shoppingCart: ShoppingCart): Order
 
-    fun getOrdersHistory(user : User) : List<Order>
+    fun getOrdersHistory(user: User): List<Order>
 }

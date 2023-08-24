@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
-    class CustomGlobalExceptionHandler {
+class CustomGlobalExceptionHandler {
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     private fun handleException(
-            ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
-        val errors : Map<String, String> = ex.bindingResult.fieldErrors
-                .associate{ error ->
-                    error.field to (error.defaultMessage ?: "Validation error")
-                }
+        ex: MethodArgumentNotValidException
+    ): ResponseEntity<Map<String, String>> {
+        val errors: Map<String, String> = ex.bindingResult.fieldErrors
+            .associate { error ->
+                error.field to (error.defaultMessage ?: "Validation error")
+            }
         return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 }

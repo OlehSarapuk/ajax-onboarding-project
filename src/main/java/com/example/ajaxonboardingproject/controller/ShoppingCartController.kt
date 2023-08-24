@@ -2,12 +2,12 @@ package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.response.ShoppingCartResponseDto
 import com.example.ajaxonboardingproject.model.MovieSession
+import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
-import com.example.ajaxonboardingproject.service.mapper.ShoppingCartMapper
-import com.example.ajaxonboardingproject.service.mapper.mapToDto
+import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,14 +19,15 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/shopping-carts")
 data class ShoppingCartController(
-        private val shoppingCartService: ShoppingCartService,
-        private val movieSessionService: MovieSessionService,
-        private val userService: UserService,
-        private val shoppingCartMapper: ShoppingCartMapper) {
+    private val shoppingCartService: ShoppingCartService,
+    private val movieSessionService: MovieSessionService,
+    private val userService: UserService,
+    private val shoppingCartResponseDtoMapper: ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCart>
+) {
     @PutMapping("/movie-sessions")
     fun addToCart(
-            auth : Authentication,
-            @RequestParam movieSessionId : Long
+        auth: Authentication,
+        @RequestParam movieSessionId: Long
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username
@@ -36,10 +37,10 @@ data class ShoppingCartController(
     }
 
     @GetMapping("/by-user")
-    fun getByUser(auth : Authentication) : ShoppingCartResponseDto {
+    fun getByUser(auth: Authentication): ShoppingCartResponseDto {
         val details = auth.principal as UserDetails
         val email: String = details.username
         val user: User = userService.findByEmail(email)
-        return shoppingCartMapper.mapToDto(shoppingCartService.getByUser(user))
+        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getByUser(user))
     }
 }

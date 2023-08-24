@@ -9,10 +9,10 @@ import java.time.LocalDate
 @Service
 class MovieSessionServiceImpl(private val movieSessionRepository: MovieSessionRepository) : MovieSessionService {
     override fun findAvailableSessions(
-            movieId: Long,
-            date: LocalDate
+        movieId: Long,
+        date: LocalDate
     ): List<MovieSession> {
-        return movieSessionRepository.findAvailableSessions(movieId, date).filterNotNull()
+        return movieSessionRepository.findAvailableSessions(movieId, date)
     }
 
     override fun add(session: MovieSession): MovieSession {

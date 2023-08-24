@@ -17,11 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-        val userDetailsService: UserDetailsService,
-        val jwtTokenFilter: JwtTokenFilter,
-        val passwordEncoder: PasswordEncoder) {
+    val userDetailsService: UserDetailsService,
+    val jwtTokenFilter: JwtTokenFilter,
+    val passwordEncoder: PasswordEncoder
+) {
     @Bean
-    fun authenticationProvider() : AuthenticationProvider {
+    fun authenticationProvider(): AuthenticationProvider {
         val authenticationProvider = DaoAuthenticationProvider()
         authenticationProvider.setUserDetailsService(userDetailsService)
         authenticationProvider.setPasswordEncoder(passwordEncoder)
@@ -29,34 +30,42 @@ class SecurityConfig(
     }
 
     @Bean
-    internal fun filterChain(http : HttpSecurity) : SecurityFilterChain {
+    internal fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests{
-                it.requestMatchers(HttpMethod.POST,
-                        "/register",
-                        "/login").permitAll()
-                it.requestMatchers(HttpMethod.GET,
-                        "/cinema-halls",
-                        "/movies",
-                        "/movie-sessions/available").authenticated()
-                it.requestMatchers(HttpMethod.POST,
-                        "/cinema-halls",
-                        "/movies",
-                        "/movie-sessions").hasRole("USER")
-                it.requestMatchers(HttpMethod.GET,
-                        "/orders",
-                        "/shopping-carts/by-user",
-                        "/users/by-email").hasRole("USER")
+            .authorizeHttpRequests {
+                it.requestMatchers(
+                    HttpMethod.POST,
+                    "/register",
+                    "/login"
+                ).permitAll()
+                it.requestMatchers(
+                    HttpMethod.GET,
+                    "/cinema-halls",
+                    "/movies",
+                    "/movie-sessions/available"
+                ).authenticated()
+                it.requestMatchers(
+                    HttpMethod.POST,
+                    "/cinema-halls",
+                    "/movies",
+                    "/movie-sessions"
+                ).hasRole("USER")
+                it.requestMatchers(
+                    HttpMethod.GET,
+                    "/orders",
+                    "/shopping-carts/by-user",
+                    "/users/by-email"
+                ).hasRole("USER")
                 it.requestMatchers(HttpMethod.PUT, "/movie-sessions/{id}").hasRole("USER")
                 it.requestMatchers(HttpMethod.DELETE, "/movie-sessions/{id}").hasRole("USER")
                 it.requestMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER")
                 it.requestMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER")
             }
             .authenticationProvider(authenticationProvider())
-            .csrf{it.disable()}
-            .httpBasic{it.disable()}
-            .headers{ it.frameOptions().disable()}
+            .csrf { it.disable() }
+            .httpBasic { it.disable() }
+            .headers { it.frameOptions().disable() }
             .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }

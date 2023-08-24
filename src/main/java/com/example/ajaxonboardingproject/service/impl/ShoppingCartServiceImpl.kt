@@ -11,15 +11,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class ShoppingCartServiceImpl(
-        private val shoppingCartRepository: ShoppingCartRepository,
-        private val ticketRepository: TicketRepository) : ShoppingCartService {
+    private val shoppingCartRepository: ShoppingCartRepository,
+    private val ticketRepository: TicketRepository
+) : ShoppingCartService {
     override fun addSession(
-            movieSession: MovieSession,
-            user: User
+        movieSession: MovieSession,
+        user: User
     ) {
         val ticket = Ticket(
-                movieSession = movieSession,
-                user = user)
+            movieSession = movieSession,
+            user = user
+        )
         val shoppingCart = shoppingCartRepository.findByUser(user)
         ticketRepository.save(ticket)
         shoppingCart.tickets.add(ticket)
@@ -32,8 +34,9 @@ class ShoppingCartServiceImpl(
 
     override fun registerNewShoppingCart(user: User) {
         val shoppingCart = ShoppingCart(
-                user = user,
-                tickets = mutableListOf())
+            user = user,
+            tickets = mutableListOf()
+        )
         shoppingCartRepository.save(shoppingCart)
     }
 

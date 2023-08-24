@@ -13,19 +13,21 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "users")
 data class User(
-        var email : String,
-        var password : String,
-        @ManyToMany(fetch = FetchType.LAZY)
-        @JoinTable(name = "users_roles",
-                joinColumns = [JoinColumn(name = "user_id")],
-                inverseJoinColumns = [JoinColumn(name = "role_id")])
-        var roles : MutableSet<Role>,
+    var email: String,
+    var password: String,
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    var roles: MutableSet<Role>,
 ) {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        lateinit var id : java.lang.Long
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    lateinit var id: java.lang.Long
 
-        override fun toString(): String {
-                return "User(id=$id, email=$email, roles=$roles)"
-        }
+    override fun toString(): String {
+        return "User(id=$id, email=$email, roles=$roles)"
+    }
 }
