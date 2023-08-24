@@ -12,13 +12,12 @@ class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallReposito
     }
 
     override fun get(id: Long): CinemaHall {
-        return cinemaHallRepository.findById(id).orElseThrow{
+        return cinemaHallRepository.findById(id).orElseThrow {
             NoSuchElementException("Can't get cinema hall by id $id")
         }
     }
 
-    override fun getAll(): MutableList<CinemaHall> {
+    override fun getAll(): List<CinemaHall> {
         return cinemaHallRepository.findAll()
     }
-
 }

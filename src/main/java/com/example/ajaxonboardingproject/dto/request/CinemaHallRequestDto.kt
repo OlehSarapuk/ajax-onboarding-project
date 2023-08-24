@@ -4,5 +4,8 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Size
 
 data class CinemaHallRequestDto(
-        val capacity: @Min(10) Int,
-        val description: @Size(max = 200) String)
+    @field:Min(value = 10)
+    val capacity: Int,
+    @field:Size(max = 200)
+    val description: String
+)

@@ -7,17 +7,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class MovieMapper : RequestDtoMapper<MovieRequestDto, Movie>,
-        ResponseDtoMapper<MovieResponseDto, Movie> {
+    ResponseDtoMapper<MovieResponseDto, Movie> {
     override fun mapToModel(dto: MovieRequestDto): Movie {
         return Movie(
-                title = dto.title,
-                description = dto.description)
+            title = dto.title,
+            description = dto.description
+        )
     }
 
-    override fun mapToDto(model : Movie): MovieResponseDto {
-        return model.id?.let{ MovieResponseDto(
-                id = it,
-                title = model.title,
-                description = model.description)}!!
+    override fun mapToDto(model: Movie): MovieResponseDto {
+        return MovieResponseDto(
+            id = model.id,
+            title = model.title,
+            description = model.description
+        )
     }
 }

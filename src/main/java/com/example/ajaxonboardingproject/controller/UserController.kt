@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/users")
 data class UserController(
-        private val userService: UserService,
-        private val userResponseDtoMapper: ResponseDtoMapper<UserResponseDto, User>) {
+    private val userService: UserService,
+    private val userResponseDtoMapper: ResponseDtoMapper<UserResponseDto, User>
+) {
     @GetMapping("/by-email")
-    fun finByEmail (@RequestParam email : String) : UserResponseDto {
-        val user = userService.findByEmail(email).orElseThrow{NoSuchElementException("User with email $email not found")}
+    fun finByEmail(@RequestParam email: String): UserResponseDto {
+        val user: User = userService.findByEmail(email)
         return userResponseDtoMapper.mapToDto(user)
     }
 }

@@ -16,19 +16,22 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/movies")
 data class MovieController(
-        private val movieService: MovieService,
-        private val movieRequestDtoMapper : RequestDtoMapper<MovieRequestDto, Movie>,
-        private val movieResponseDtoMapper: ResponseDtoMapper<MovieResponseDto, Movie>) {
+    private val movieService: MovieService,
+    private val movieRequestDtoMapper: RequestDtoMapper<MovieRequestDto, Movie>,
+    private val movieResponseDtoMapper: ResponseDtoMapper<MovieResponseDto, Movie>
+) {
     @PostMapping
-    fun add(@RequestBody requestDto : @Valid MovieRequestDto) : MovieResponseDto {
-        val movie = movieService.add(movieRequestDtoMapper.mapToModel((requestDto)))
+    fun add(
+        @Valid @RequestBody requestDto: MovieRequestDto
+    ): MovieResponseDto {
+        val movie: Movie = movieService.add(movieRequestDtoMapper.mapToModel((requestDto)))
         return movieResponseDtoMapper.mapToDto(movie)
     }
 
     @GetMapping
-    fun getAll() : List<MovieResponseDto> {
+    fun getAll(): List<MovieResponseDto> {
         return movieService.getAll()
-                .map(movieResponseDtoMapper::mapToDto)
-                .toList()
+            .map(movieResponseDtoMapper::mapToDto)
+            .toList()
     }
 }

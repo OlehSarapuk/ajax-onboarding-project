@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service
 import java.util.NoSuchElementException
 
 @Service
-class RoleServiceImpl (private val roleRepository: RoleRepository) : RoleService {
-    override fun add(role : Role) : Role {
+class RoleServiceImpl(private val roleRepository: RoleRepository) : RoleService {
+    override fun add(role: Role): Role {
         return roleRepository.save(role)
     }
 
     override fun getByRoleName(roleName: String): Role {
         return roleRepository.findByName(Role.RoleName.valueOf(roleName))
-                .orElseThrow {NoSuchElementException("Can't ger role with name $roleName")}
+            ?: throw NoSuchElementException("Can't ger role with name $roleName")
     }
 }

@@ -7,18 +7,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class CinemaHallMapper : RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
-        ResponseDtoMapper<CinemaHallResponseDto, CinemaHall> {
-    override fun mapToModel(dto : CinemaHallRequestDto) : CinemaHall {
+    ResponseDtoMapper<CinemaHallResponseDto, CinemaHall> {
+    override fun mapToModel(dto: CinemaHallRequestDto): CinemaHall {
         return CinemaHall(
-                description = dto.description,
-                capacity = dto.capacity
+            description = dto.description,
+            capacity = dto.capacity
         )
     }
 
     override fun mapToDto(model: CinemaHall): CinemaHallResponseDto {
-        return model.id?.let { CinemaHallResponseDto(
-                id = it,
-                capacity = model.capacity,
-                description = model.description)}!!
+        return CinemaHallResponseDto(
+            id = model.id,
+            capacity = model.capacity,
+            description = model.description
+        )
     }
 }

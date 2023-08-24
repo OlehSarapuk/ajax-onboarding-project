@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.dto.response
 
 data class ShoppingCartResponseDto(
-        var userId : Long,
-        var ticketIds : List<Long>
+    var userId: java.lang.Long,
+    var ticketIds: List<java.lang.Long>
 )
