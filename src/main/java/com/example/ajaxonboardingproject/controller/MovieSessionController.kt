@@ -38,7 +38,7 @@ data class MovieSessionController(
 
     @GetMapping("/available")
     fun findAvailableSessions(
-        @RequestParam movieId: Long,
+        @RequestParam movieId: String,
         @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDate
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
@@ -58,5 +58,5 @@ data class MovieSessionController(
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long) = movieSessionService.delete(id)
+    fun delete(@PathVariable id: String) = movieSessionService.delete(id)
 }

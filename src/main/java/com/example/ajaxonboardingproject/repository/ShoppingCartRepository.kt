@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
 import org.springframework.data.mongodb.repository.MongoRepository
 
-interface ShoppingCartRepository : MongoRepository<ShoppingCart, Long> {
+interface ShoppingCartRepository : MongoRepository<ShoppingCart, String> {
 //    @EntityGraph(attributePaths = ["tickets", "user"])
 //    fun findByUser(user: User): ShoppingCart
 }

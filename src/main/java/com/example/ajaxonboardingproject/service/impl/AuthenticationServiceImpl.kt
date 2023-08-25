@@ -1,6 +1,7 @@
 package com.example.ajaxonboardingproject.service.impl
 
 import com.example.ajaxonboardingproject.exception.AuthenticationException
+import com.example.ajaxonboardingproject.model.Role
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.RoleService
@@ -22,7 +23,11 @@ class AuthenticationServiceImpl(
         email: String,
         password: String
     ): User {
-        val roles = mutableSetOf(roleService.getByRoleName("USER"))
+//        val roles = mutableSetOf(roleService.getByRoleName("USER"))
+        val role = Role (
+            Role.RoleName.USER
+        )
+        val roles = mutableSetOf(role)
         val user = User(
             email = email,
             password = password,

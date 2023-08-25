@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("tickets")
 data class Ticket(
-    @BsonProperty(value = "movie_session_id")
+    @BsonProperty(value = "movie_session")
     var movieSession: MovieSession,
 ) {
     @Id

@@ -27,7 +27,7 @@ data class ShoppingCartController(
     @PutMapping("/movie-sessions")
     fun addToCart(
         auth: Authentication,
-        @RequestParam movieSessionId: Long
+        @RequestParam movieSessionId: String
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username

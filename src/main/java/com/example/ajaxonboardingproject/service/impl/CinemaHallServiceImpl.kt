@@ -12,10 +12,9 @@ class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallReposito
     }
 
     override fun get(id: String): CinemaHall {
-//        return cinemaHallRepository.findById(id).orElseThrow {
-//            NoSuchElementException("Can't get cinema hall by id $id")
-//        }
-        return CinemaHall(0, "")
+        return cinemaHallRepository.findById(id).orElseThrow {
+            NoSuchElementException("Can't get cinema hall by id $id")
+        }
     }
 
     override fun getAll(): List<CinemaHall> {

@@ -16,7 +16,7 @@ class MovieServiceImpl(private val movieRepository: MovieRepository) : MovieServ
 //
 //
 //
-        return movieRepository.findById(1).orElseThrow {
+        return movieRepository.findById(id).orElseThrow {
             NoSuchElementException("Can't get movie by id $id")
         }
     }

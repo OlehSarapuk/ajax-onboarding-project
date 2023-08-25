@@ -6,6 +6,6 @@ data class MovieSessionResponseDto(
     var movieSessionId: String,
     var movieId: String,
     var movieTitle: String,
-    var cinemaHallId: Long,
+    var cinemaHallId: String,
     var showTime: LocalDateTime
 )

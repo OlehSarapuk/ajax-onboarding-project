@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 @Document("movie_sessions")
 class MovieSession(
     var movie: Movie,
-    @BsonProperty(value = "cinema_hall_id")
+    @BsonProperty(value = "cinema_hall")
     var cinemaHall: CinemaHall,
     @BsonProperty(value = "show_time")
     var showTime: LocalDateTime,

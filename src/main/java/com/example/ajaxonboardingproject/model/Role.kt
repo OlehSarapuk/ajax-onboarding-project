@@ -11,8 +11,6 @@ data class Role(
 //    @Enumerated(value = EnumType.STRING)
     var name: RoleName,
 ) {
-    @Id
-    lateinit var id: String
 
     enum class RoleName {
         ADMIN, USER
