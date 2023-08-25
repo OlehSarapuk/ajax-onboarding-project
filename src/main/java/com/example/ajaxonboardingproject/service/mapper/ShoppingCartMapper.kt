@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component
 class ShoppingCartMapper : ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCart> {
     override fun mapToDto(model: ShoppingCart): ShoppingCartResponseDto {
         return ShoppingCartResponseDto(
-            model.user.id.toLong(),
             model.tickets
-                .map { it.id.toLong() }
+                .map { it.id }
                 .toList()
         )
     }

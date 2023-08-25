@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.repository
 
 import com.example.ajaxonboardingproject.model.Movie
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.mongodb.repository.MongoRepository
 
-interface MovieRepository : JpaRepository<Movie, Long>
+interface MovieRepository : MongoRepository<Movie, Long>

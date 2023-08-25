@@ -1,29 +1,18 @@
 package com.example.ajaxonboardingproject.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import org.bson.codecs.pojo.annotations.BsonProperty
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
-@Entity
-@Table(name = "movie_sessions")
+@Document("movie_sessions")
 class MovieSession(
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
     var movie: Movie,
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_hall_id")
+    @BsonProperty(value = "cinema_hall_id")
     var cinemaHall: CinemaHall,
-    @Column(name = "show_time")
+    @BsonProperty(value = "show_time")
     var showTime: LocalDateTime,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    lateinit var id: java.lang.Long
+    lateinit var id: String
 }

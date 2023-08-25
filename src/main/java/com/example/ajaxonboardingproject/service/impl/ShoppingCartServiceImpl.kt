@@ -18,26 +18,24 @@ class ShoppingCartServiceImpl(
         movieSession: MovieSession,
         user: User
     ) {
-        val ticket = Ticket(
-            movieSession = movieSession,
-            user = user
-        )
-        val shoppingCart = shoppingCartRepository.findByUser(user)
+        val ticket = Ticket(movieSession = movieSession)
+//        val shoppingCart = shoppingCartRepository.findByUser(user)
+        val shoppingCart = ShoppingCart(mutableListOf())
         ticketRepository.save(ticket)
         shoppingCart.tickets.add(ticket)
         shoppingCartRepository.save(shoppingCart)
     }
 
     override fun getByUser(user: User): ShoppingCart {
-        return shoppingCartRepository.findByUser(user)
+//        return shoppingCartRepository.findByUser(user)
+        return ShoppingCart(mutableListOf())
     }
 
-    override fun registerNewShoppingCart(user: User) {
+    override fun registerNewShoppingCart(): ShoppingCart {
         val shoppingCart = ShoppingCart(
-            user = user,
             tickets = mutableListOf()
         )
-        shoppingCartRepository.save(shoppingCart)
+        return shoppingCartRepository.save(shoppingCart)
     }
 
     override fun clear(shoppingCart: ShoppingCart) {

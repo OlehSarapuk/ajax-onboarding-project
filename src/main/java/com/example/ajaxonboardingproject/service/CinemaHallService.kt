@@ -5,7 +5,7 @@ import com.example.ajaxonboardingproject.model.CinemaHall
 interface CinemaHallService {
     fun add(cinemaHall: CinemaHall): CinemaHall
 
-    fun get(id: Long): CinemaHall
+    fun get(id: String): CinemaHall
 
     fun getAll(): List<CinemaHall>
 }

@@ -23,10 +23,10 @@ class MovieSessionMapper(
 
     override fun mapToDto(model: MovieSession): MovieSessionResponseDto {
         return MovieSessionResponseDto(
-            movieSessionId = model.id.toLong(),
+            movieSessionId = model.id,
             cinemaHallId = model.cinemaHall.id.toLong(),
             movieTitle = model.movie.title,
-            movieId = model.movie.id.toLong(),
+            movieId = model.movie.id,
             showTime = model.showTime
         )
     }

@@ -17,7 +17,7 @@ class MovieMapper : RequestDtoMapper<MovieRequestDto, Movie>,
 
     override fun mapToDto(model: Movie): MovieResponseDto {
         return MovieResponseDto(
-            id = model.id.toLong(),
+            id = model.id,
             title = model.title,
             description = model.description
         )

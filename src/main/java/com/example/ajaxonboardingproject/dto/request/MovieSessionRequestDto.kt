@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 
 data class MovieSessionRequestDto(
     @field:Min(0)
-    val movieId: Long,
+    val movieId: String,
     @field:Min(0)
-    val cinemaHallId: Long,
+    val cinemaHallId: String,
     @field:NotNull
     val showTime: LocalDateTime
 )

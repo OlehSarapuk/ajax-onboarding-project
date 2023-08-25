@@ -12,8 +12,11 @@ class MovieServiceImpl(private val movieRepository: MovieRepository) : MovieServ
         return movieRepository.save(movie)
     }
 
-    override fun get(id: Long): Movie {
-        return movieRepository.findById(id).orElseThrow {
+    override fun get(id: String): Movie {
+//
+//
+//
+        return movieRepository.findById(1).orElseThrow {
             NoSuchElementException("Can't get movie by id $id")
         }
     }

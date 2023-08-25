@@ -9,7 +9,7 @@ interface ShoppingCartService {
 
     fun getByUser(user: User): ShoppingCart
 
-    fun registerNewShoppingCart(user: User)
+    fun registerNewShoppingCart(): ShoppingCart
 
     fun clear(shoppingCart: ShoppingCart)
 }

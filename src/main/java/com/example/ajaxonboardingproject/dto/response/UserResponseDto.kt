@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.dto.response
 
 data class UserResponseDto(
-    var id: Long,
+    var id: String,
     var email: String
 )

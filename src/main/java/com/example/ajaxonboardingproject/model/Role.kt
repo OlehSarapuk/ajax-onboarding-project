@@ -1,26 +1,18 @@
 package com.example.ajaxonboardingproject.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Entity
-@Table(name = "roles")
+@Document("roles")
 data class Role(
-    @Column(unique = true)
+//    @Column(unique = true)
     @JsonProperty("name")
-    @Enumerated(value = EnumType.STRING)
+//    @Enumerated(value = EnumType.STRING)
     var name: RoleName,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    lateinit var id: java.lang.Long
+    lateinit var id: String
 
     enum class RoleName {
         ADMIN, USER

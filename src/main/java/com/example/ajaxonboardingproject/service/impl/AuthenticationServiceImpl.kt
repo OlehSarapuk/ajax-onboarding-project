@@ -6,9 +6,9 @@ import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.RoleService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
-import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthenticationServiceImpl(
@@ -26,10 +26,10 @@ class AuthenticationServiceImpl(
         val user = User(
             email = email,
             password = password,
-            roles = roles
+            roles = roles,
+            shoppingCart = shoppingCartService.registerNewShoppingCart()
         )
         userService.add(user)
-        shoppingCartService.registerNewShoppingCart(user)
         return user
     }
 
