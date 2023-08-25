@@ -19,7 +19,7 @@ class ShoppingCartServiceImpl(
         user: User
     ) {
         val ticket = Ticket(movieSession = movieSession)
-//        val shoppingCart = shoppingCartRepository.findByUser(user)
+//      val shoppingCart = shoppingCartRepository.findByUser(user)
         val shoppingCart = ShoppingCart(mutableListOf())
         ticketRepository.save(ticket)
         shoppingCart.tickets.add(ticket)

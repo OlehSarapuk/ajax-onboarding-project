@@ -5,7 +5,6 @@ import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import kotlin.NoSuchElementException
 
 @Service
 class UserServiceImpl(

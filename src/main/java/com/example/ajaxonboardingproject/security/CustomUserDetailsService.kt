@@ -2,7 +2,6 @@ package com.example.ajaxonboardingproject.security
 
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.UserService
-import org.springframework.security.core.userdetails.User.UserBuilder
 import org.springframework.security.core.userdetails.User.withUsername
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

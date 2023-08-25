@@ -1,7 +1,6 @@
 package com.example.ajaxonboardingproject.service
 
 import com.example.ajaxonboardingproject.model.MovieSession
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface MovieSessionService {

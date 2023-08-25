@@ -1,13 +1,9 @@
 package com.example.ajaxonboardingproject.service.impl
 
-import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.model.MovieSession
-import com.example.ajaxonboardingproject.repository.MovieRepository
 import com.example.ajaxonboardingproject.repository.MovieSessionRepository
-import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
