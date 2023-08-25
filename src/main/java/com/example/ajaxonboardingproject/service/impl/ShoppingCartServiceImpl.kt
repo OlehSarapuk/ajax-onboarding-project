@@ -6,12 +6,14 @@ import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
 import com.example.ajaxonboardingproject.repository.TicketRepository
+import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import org.springframework.stereotype.Service
 
 @Service
 class ShoppingCartServiceImpl(
     private val shoppingCartRepository: ShoppingCartRepository,
+    private val userRepository: UserRepository,
     private val ticketRepository: TicketRepository
 ) : ShoppingCartService {
     override fun addSession(
@@ -19,16 +21,17 @@ class ShoppingCartServiceImpl(
         user: User
     ) {
         val ticket = Ticket(movieSession = movieSession)
-//      val shoppingCart = shoppingCartRepository.findByUser(user)
-        val shoppingCart = ShoppingCart(mutableListOf())
+        val userFromDb: User= userRepository.findById(user.id).orElseThrow { NoSuchElementException("Can't get user with id ${user.id}")}
+        val shoppingCart = userFromDb.shoppingCart
         ticketRepository.save(ticket)
         shoppingCart.tickets.add(ticket)
-        shoppingCartRepository.save(shoppingCart)
+        user.shoppingCart = shoppingCart
+        userRepository.save(user)
     }
 
     override fun getByUser(user: User): ShoppingCart {
-//        return shoppingCartRepository.findByUser(user)
-        return ShoppingCart(mutableListOf())
+        val userFromDb: User= userRepository.findById(user.id).orElseThrow { NoSuchElementException("Can't get user with id ${user.id}")}
+        return userFromDb.shoppingCart
     }
 
     override fun registerNewShoppingCart(): ShoppingCart {
