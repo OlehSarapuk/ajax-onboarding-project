@@ -19,7 +19,7 @@ class UserServiceImpl(
 
     override fun get(id: String): User {
         //
-        return userRepository.findById(id).orElseThrow{
+        return userRepository.findById(id).orElseThrow {
             NoSuchElementException("User with id $id not found")
         }
     }

@@ -4,7 +4,6 @@ import com.example.ajaxonboardingproject.exception.AuthenticationException
 import com.example.ajaxonboardingproject.model.Role
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.AuthenticationService
-import com.example.ajaxonboardingproject.service.RoleService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AuthenticationServiceImpl(
     private val userService: UserService,
-    private val roleService: RoleService,
     private val shoppingCartService: ShoppingCartService,
     private val passwordEncoder: PasswordEncoder
 ) : AuthenticationService {
@@ -24,7 +22,7 @@ class AuthenticationServiceImpl(
         password: String
     ): User {
 //        val roles = mutableSetOf(roleService.getByRoleName("USER"))
-        val role = Role (
+        val role = Role(
             Role.RoleName.USER
         )
         val roles = mutableSetOf(role)

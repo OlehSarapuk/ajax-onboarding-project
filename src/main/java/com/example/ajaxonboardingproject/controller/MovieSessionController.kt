@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/movie-sessions")
@@ -39,7 +40,7 @@ data class MovieSessionController(
     @GetMapping("/available")
     fun findAvailableSessions(
         @RequestParam movieId: String,
-        @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDate
+        @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDateTime
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)

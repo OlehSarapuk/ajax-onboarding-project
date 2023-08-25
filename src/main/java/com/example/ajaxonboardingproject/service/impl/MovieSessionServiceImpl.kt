@@ -13,14 +13,12 @@ import java.time.LocalDateTime
 @Service
 class MovieSessionServiceImpl(
     private val movieSessionRepository: MovieSessionRepository,
-    private val movieService: MovieService
 ) : MovieSessionService {
     override fun findAvailableSessions(
         movieId: String,
-        date: LocalDate
+        date: LocalDateTime
     ): List<MovieSession> {
-        val movie: Movie = movieService.get(movieId)
-        return movieSessionRepository.findByMovieAndShowTime(movie, date)
+        return movieSessionRepository.findByMovieIdAndShowTimeAfter(movieId, date)
     }
 
     override fun add(session: MovieSession): MovieSession {

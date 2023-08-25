@@ -7,6 +7,6 @@ interface UserRepository : MongoRepository<User, String> {
 //    @Query("from User u join fetch u.roles where u.id = :id")
 //    fun findById(id: String): User?
 
-//    @Query("from User u join fetch u.roles where u.email = :email")
+    //    @Query("from User u join fetch u.roles where u.email = :email")
     fun findByEmail(email: String): User?
 }
