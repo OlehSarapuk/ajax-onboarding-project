@@ -33,7 +33,7 @@ data class ShoppingCartController(
         val email: String = details.username
         val user: User = userService.findByEmail(email)
         val movieSession: MovieSession = movieSessionService.get(movieSessionId)
-        shoppingCartService.addSession(movieSession, user)
+        shoppingCartService.addSession(movieSession, user.id)
     }
 
     @GetMapping("/by-user")
@@ -41,6 +41,6 @@ data class ShoppingCartController(
         val details = auth.principal as UserDetails
         val email: String = details.username
         val user: User = userService.findByEmail(email)
-        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getByUser(user))
+        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getByUser(user.id))
     }
 }

@@ -18,19 +18,17 @@ class ShoppingCartServiceImpl(
 ) : ShoppingCartService {
     override fun addSession(
         movieSession: MovieSession,
-        user: User
+        userId: String
     ) {
         val ticket = Ticket(movieSession = movieSession)
-        val userFromDb: User= userRepository.findById(user.id).orElseThrow { NoSuchElementException("Can't get user with id ${user.id}")}
-        val shoppingCart = userFromDb.shoppingCart
         ticketRepository.save(ticket)
-        shoppingCart.tickets.add(ticket)
-        user.shoppingCart = shoppingCart
+        val user = getUserFromDb(userId)
+        user.shoppingCart.tickets.add(ticket)
         userRepository.save(user)
     }
 
-    override fun getByUser(user: User): ShoppingCart {
-        val userFromDb: User= userRepository.findById(user.id).orElseThrow { NoSuchElementException("Can't get user with id ${user.id}")}
+    override fun getByUser(userId: String): ShoppingCart {
+        val userFromDb: User = getUserFromDb(userId)
         return userFromDb.shoppingCart
     }
 
@@ -44,5 +42,9 @@ class ShoppingCartServiceImpl(
     override fun clear(shoppingCart: ShoppingCart) {
         shoppingCart.tickets = mutableListOf()
         shoppingCartRepository.save(shoppingCart)
+    }
+
+    fun getUserFromDb(id: String): User {
+        return userRepository.findById(id).orElseThrow { NoSuchElementException("Can't get user with id $id") }
     }
 }
