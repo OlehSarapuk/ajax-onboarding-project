@@ -14,7 +14,7 @@ class CustomUserDetailsService(private val userService: UserService) : UserDetai
         val user: User = userService.findByEmail(username)
         return withUsername(username).apply {
             password(user.password)
-            roles(*user.roles.map { it.name.toString() }.toTypedArray())
+            roles(*user.roles.map { it.name }.toTypedArray())
         }.build()
     }
 }

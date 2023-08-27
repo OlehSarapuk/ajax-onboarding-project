@@ -22,9 +22,7 @@ class AuthenticationServiceImpl(
         password: String
     ): User {
 //        val roles = mutableSetOf(roleService.getByRoleName("USER"))
-        val role = Role(
-            Role.RoleName.USER
-        )
+        val role = Role.USER
         val roles = mutableSetOf(role)
         val user = User(
             email = email,

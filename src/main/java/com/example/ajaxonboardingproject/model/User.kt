@@ -17,3 +17,7 @@ data class User(
         return "User(id=$id, email=$email, roles=$roles)"
     }
 }
+
+enum class Role {
+    ADMIN, USER
+}
