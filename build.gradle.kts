@@ -13,14 +13,13 @@ repositories {
 }
 
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-data-mongodb:3.1.2")
-    api("org.springframework.boot:spring-boot-starter-security:3.1.2")
-    api("org.springframework.boot:spring-boot-starter-web:3.1.2")
-    api("io.jsonwebtoken:jjwt:0.9.1")
-    api("org.springframework.boot:spring-boot-starter-validation:3.1.2")
-    api("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
-    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
-    api("javax.xml.bind:jaxb-api:2.3.1")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.2")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.1.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("org.springframework.security:spring-security-test:6.1.2")
