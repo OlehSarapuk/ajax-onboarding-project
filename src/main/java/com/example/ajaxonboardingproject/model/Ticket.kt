@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document("tickets")
 data class Ticket(
     @BsonProperty(value = "movie_session")
-    var movieSession: MovieSession,
+    val movieSession: MovieSession,
 ) {
     @Id
     lateinit var id: String

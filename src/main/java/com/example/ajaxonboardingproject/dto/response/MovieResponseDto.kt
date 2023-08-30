@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.dto.response
 
 data class MovieResponseDto(
-    var id: String,
-    var title: String,
-    var description: String
+    val id: String,
+    val title: String,
+    val description: String
 )

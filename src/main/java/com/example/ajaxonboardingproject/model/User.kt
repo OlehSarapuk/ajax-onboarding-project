@@ -5,10 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("users")
 data class User(
-    var email: String,
+    val email: String,
     var password: String,
-    var roles: MutableSet<Role>,
-    var shoppingCart: ShoppingCart
+    val roles: MutableSet<Role>,
+    val shoppingCart: ShoppingCart
 ) {
     @Id
     lateinit var id: String

@@ -5,8 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("cinema_halls")
 data class CinemaHall(
-    var capacity: Int,
-    var description: String,
+    val capacity: Int,
+    val description: String,
 ) {
     @Id
     lateinit var id: String

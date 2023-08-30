@@ -7,11 +7,10 @@ import java.time.LocalDateTime
 
 @Document("movie_sessions")
 class MovieSession(
-    var movie: Movie,
+    val movie: Movie,
     @BsonProperty(value = "cinema_hall")
-    var cinemaHall: CinemaHall,
-    @BsonProperty(value = "show_time")
-    var showTime: LocalDateTime,
+    val cinemaHall: CinemaHall,
+    val showTime: LocalDateTime,
 ) {
     @Id
     lateinit var id: String

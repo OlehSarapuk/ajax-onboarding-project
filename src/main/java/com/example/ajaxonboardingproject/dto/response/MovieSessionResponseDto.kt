@@ -3,9 +3,9 @@ package com.example.ajaxonboardingproject.dto.response
 import java.time.LocalDateTime
 
 data class MovieSessionResponseDto(
-    var movieSessionId: String,
-    var movieId: String,
-    var movieTitle: String,
-    var cinemaHallId: String,
-    var showTime: LocalDateTime
+    val movieSessionId: String,
+    val movieId: String,
+    val movieTitle: String,
+    val cinemaHallId: String,
+    val showTime: LocalDateTime
 )
