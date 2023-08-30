@@ -4,7 +4,6 @@ import com.example.ajaxonboardingproject.exception.InvalidJwtAuthenticationExcep
 import com.example.ajaxonboardingproject.model.Role
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
-import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.annotation.PostConstruct
@@ -69,13 +68,9 @@ class JwtTokenProvider(
     }
 
     fun validateToken(token: String): Boolean {
-        try {
+        runCatching {
             val claims: Jws<Claims> = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
             return claims.body.expiration.after(Date())
-        } catch (e: JwtException) {
-            throw InvalidJwtAuthenticationException("Expired or invalid JWT token", e)
-        } catch (e: IllegalArgumentException) {
-            throw InvalidJwtAuthenticationException("Expired or invalid JWT token", e)
-        }
+        }.getOrElse { throw InvalidJwtAuthenticationException("Expired or invalid JWT token", it) }
     }
 }
