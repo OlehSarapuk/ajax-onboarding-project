@@ -68,9 +68,9 @@ class JwtTokenProvider(
     }
 
     fun validateToken(token: String): Boolean {
-        runCatching {
+        return runCatching {
             val claims: Jws<Claims> = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
-            return claims.body.expiration.after(Date())
+            claims.body.expiration.after(Date())
         }.getOrElse { throw InvalidJwtAuthenticationException("Expired or invalid JWT token", it) }
     }
 }
