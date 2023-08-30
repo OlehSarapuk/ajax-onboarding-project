@@ -21,8 +21,7 @@ class AuthenticationServiceImpl(
         email: String,
         password: String
     ): User {
-        val role = Role.USER
-        val roles = mutableSetOf(role)
+        val roles = mutableSetOf(Role.USER)
         val user = User(
             email = email,
             password = password,
