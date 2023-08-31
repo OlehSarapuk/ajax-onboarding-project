@@ -15,11 +15,3 @@ services:
     env_file: ./.env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
-    environment:
-      SPRING_APPLICATION_JSON: '{
-                "spring.data.mongodb.database" : "test",
-                "spring.data.mongodb.host" : "mongo",
-                "spring.data.mongodb.port" : "27017",
-                "security.jwt.token.secret_key" : "SECRET",
-                "security.jwt.token.expire_length" : "3700000"
-              }'
