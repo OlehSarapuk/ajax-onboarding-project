@@ -1,16 +1,16 @@
 package com.example.ajaxonboardingproject.service
 
 import com.example.ajaxonboardingproject.model.MovieSession
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface MovieSessionService {
-    fun findAvailableSessions(movieId: Long, date: LocalDate): List<MovieSession>
+    fun findAvailableSessions(movieId: String, date: LocalDateTime): List<MovieSession>
 
     fun add(session: MovieSession): MovieSession
 
-    fun get(id: Long): MovieSession
+    fun get(id: String): MovieSession
 
     fun update(movieSession: MovieSession): MovieSession
 
-    fun delete(id: Long)
+    fun delete(id: String)
 }

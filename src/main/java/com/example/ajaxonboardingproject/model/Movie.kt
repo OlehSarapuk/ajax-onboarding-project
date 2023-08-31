@@ -1,18 +1,13 @@
 package com.example.ajaxonboardingproject.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Entity
-@Table(name = "movies")
+@Document("movies")
 data class Movie(
-    var title: String,
-    var description: String,
+    val title: String,
+    val description: String,
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    lateinit var id: java.lang.Long
+    lateinit var id: String
 }

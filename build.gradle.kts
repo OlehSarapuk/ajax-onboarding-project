@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.2")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
@@ -21,7 +21,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
-    runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("org.springframework.security:spring-security-test:6.1.2")
 }

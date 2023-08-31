@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
-class CustomGlobalExceptionHandler {
+internal class CustomGlobalExceptionHandler {
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
-    private fun handleException(
+    fun handleException(
         ex: MethodArgumentNotValidException
     ): ResponseEntity<Map<String, String>> {
         val errors: Map<String, String> = ex.bindingResult.fieldErrors

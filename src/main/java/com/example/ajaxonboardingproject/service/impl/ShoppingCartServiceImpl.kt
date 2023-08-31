@@ -6,42 +6,45 @@ import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
 import com.example.ajaxonboardingproject.repository.TicketRepository
+import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import org.springframework.stereotype.Service
 
 @Service
 class ShoppingCartServiceImpl(
     private val shoppingCartRepository: ShoppingCartRepository,
+    private val userRepository: UserRepository,
     private val ticketRepository: TicketRepository
 ) : ShoppingCartService {
     override fun addSession(
         movieSession: MovieSession,
-        user: User
+        userId: String
     ) {
-        val ticket = Ticket(
-            movieSession = movieSession,
-            user = user
-        )
-        val shoppingCart = shoppingCartRepository.findByUser(user)
+        val ticket = Ticket(movieSession = movieSession)
         ticketRepository.save(ticket)
-        shoppingCart.tickets.add(ticket)
-        shoppingCartRepository.save(shoppingCart)
+        val user = getUserFromDb(userId)
+        user.shoppingCart.tickets.add(ticket)
+        userRepository.save(user)
     }
 
-    override fun getByUser(user: User): ShoppingCart {
-        return shoppingCartRepository.findByUser(user)
+    override fun getByUser(userId: String): ShoppingCart {
+        val userFromDb: User = getUserFromDb(userId)
+        return userFromDb.shoppingCart
     }
 
-    override fun registerNewShoppingCart(user: User) {
+    override fun registerNewShoppingCart(): ShoppingCart {
         val shoppingCart = ShoppingCart(
-            user = user,
             tickets = mutableListOf()
         )
-        shoppingCartRepository.save(shoppingCart)
+        return shoppingCartRepository.save(shoppingCart)
     }
 
     override fun clear(shoppingCart: ShoppingCart) {
         shoppingCart.tickets = mutableListOf()
         shoppingCartRepository.save(shoppingCart)
+    }
+
+    fun getUserFromDb(id: String): User {
+        return userRepository.findById(id).orElseThrow { NoSuchElementException("Can't get user with id $id") }
     }
 }

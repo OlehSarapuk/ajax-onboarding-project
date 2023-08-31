@@ -4,22 +4,24 @@ import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.repository.MovieSessionRepository
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import org.springframework.stereotype.Service
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
-class MovieSessionServiceImpl(private val movieSessionRepository: MovieSessionRepository) : MovieSessionService {
+class MovieSessionServiceImpl(
+    private val movieSessionRepository: MovieSessionRepository,
+) : MovieSessionService {
     override fun findAvailableSessions(
-        movieId: Long,
-        date: LocalDate
+        movieId: String,
+        date: LocalDateTime
     ): List<MovieSession> {
-        return movieSessionRepository.findAvailableSessions(movieId, date)
+        return movieSessionRepository.findByMovieIdAndShowTimeAfter(movieId, date)
     }
 
     override fun add(session: MovieSession): MovieSession {
         return movieSessionRepository.save(session)
     }
 
-    override fun get(id: Long): MovieSession {
+    override fun get(id: String): MovieSession {
         return movieSessionRepository.findById(id).orElseThrow {
             NoSuchElementException("Session with id $id not found")
         }
@@ -29,7 +31,7 @@ class MovieSessionServiceImpl(private val movieSessionRepository: MovieSessionRe
         return movieSessionRepository.save(movieSession)
     }
 
-    override fun delete(id: Long) {
+    override fun delete(id: String) {
         movieSessionRepository.deleteById(id)
     }
 }

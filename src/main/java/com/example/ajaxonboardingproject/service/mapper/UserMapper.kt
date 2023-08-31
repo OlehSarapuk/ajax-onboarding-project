@@ -12,5 +12,4 @@ class UserMapper : ResponseDtoMapper<UserResponseDto, User> {
             email = model.email
         )
     }
-
 }

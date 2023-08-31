@@ -2,11 +2,10 @@ package com.example.ajaxonboardingproject.security.jwt
 
 import com.example.ajaxonboardingproject.exception.InvalidJwtAuthenticationException
 import com.example.ajaxonboardingproject.model.Role
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
@@ -15,8 +14,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
-import java.util.Base64
-import java.util.Date
+import java.util.*
 
 @Component
 class JwtTokenProvider(
@@ -70,13 +68,9 @@ class JwtTokenProvider(
     }
 
     fun validateToken(token: String): Boolean {
-        try {
+        return runCatching {
             val claims: Jws<Claims> = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
-            return claims.body.expiration.after(Date())
-        } catch (e: JwtException) {
-            throw InvalidJwtAuthenticationException("Expired or invalid JWT token", e)
-        } catch (e: IllegalArgumentException) {
-            throw InvalidJwtAuthenticationException("Expired or invalid JWT token", e)
-        }
+            claims.body.expiration.after(Date())
+        }.getOrElse { throw InvalidJwtAuthenticationException("Expired or invalid JWT token", it) }
     }
 }

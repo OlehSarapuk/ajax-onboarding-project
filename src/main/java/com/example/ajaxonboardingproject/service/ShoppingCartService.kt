@@ -2,14 +2,13 @@ package com.example.ajaxonboardingproject.service
 
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.model.ShoppingCart
-import com.example.ajaxonboardingproject.model.User
 
 interface ShoppingCartService {
-    fun addSession(movieSession: MovieSession, user: User)
+    fun addSession(movieSession: MovieSession, userId: String)
 
-    fun getByUser(user: User): ShoppingCart
+    fun getByUser(userId: String): ShoppingCart
 
-    fun registerNewShoppingCart(user: User)
+    fun registerNewShoppingCart(): ShoppingCart
 
     fun clear(shoppingCart: ShoppingCart)
 }

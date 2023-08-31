@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/movie-sessions")
@@ -38,8 +38,8 @@ data class MovieSessionController(
 
     @GetMapping("/available")
     fun findAvailableSessions(
-        @RequestParam movieId: Long,
-        @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDate
+        @RequestParam movieId: String,
+        @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDateTime
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)
@@ -48,7 +48,7 @@ data class MovieSessionController(
 
     @PutMapping("/{id}")
     fun update(
-        @PathVariable id: java.lang.Long,
+        @PathVariable id: String,
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): MovieSessionResponseDto {
         val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
@@ -58,5 +58,5 @@ data class MovieSessionController(
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long) = movieSessionService.delete(id)
+    fun delete(@PathVariable id: String) = movieSessionService.delete(id)
 }
