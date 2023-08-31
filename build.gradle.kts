@@ -41,3 +41,7 @@ tasks.withType<Javadoc> {
 kotlin {
     jvmToolchain(17)
 }
+
+noArg {
+    annotation("org.springframework.web.bind.annotation.RestController")
+}
