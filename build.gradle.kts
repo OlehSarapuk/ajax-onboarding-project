@@ -1,11 +1,12 @@
 plugins {
-    `java-library`
     kotlin("jvm") version "1.9.0"
-    kotlin("plugin.allopen") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.10"
-    kotlin("plugin.noarg") version "1.9.10"
-    kotlin("plugin.jpa") version "1.9.10"
+    kotlin("plugin.allopen") version "1.9.0"
+    kotlin("plugin.spring") version "1.9.0"
+    kotlin("plugin.noarg") version "1.9.0"
+    kotlin("plugin.jpa") version "1.9.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
+    id("org.springframework.boot") version "3.1.2"
+    id("io.spring.dependency-management") version "1.1.2"
 }
 
 repositories {
@@ -28,15 +29,6 @@ dependencies {
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 description = "ajax-onboarding-project"
-java.sourceCompatibility = JavaVersion.VERSION_17
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Javadoc> {
-    options.encoding = "UTF-8"
-}
 
 kotlin {
     jvmToolchain(17)
