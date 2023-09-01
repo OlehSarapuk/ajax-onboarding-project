@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
-const val MAX_MEMORY_USAGE: Long = 1
+const val MAX_MEMORY_USAGE: Long = 100000
 
 @Component
 @Suppress("SpreadOperator")

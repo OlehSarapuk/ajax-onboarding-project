@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - ${MONGO_LOCAL_PORT}:${MONGO_DOCKER_PORT}
+  app:
+    depends_on:
+      - mongo
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file: ./.env
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
