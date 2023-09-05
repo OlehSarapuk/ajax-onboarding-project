@@ -22,9 +22,8 @@ class MovieSessionServiceImpl(
     }
 
     override fun get(id: String): MovieSession {
-        return movieSessionRepository.findById(id).orElseThrow {
-            NoSuchElementException("Session with id $id not found")
-        }
+        return movieSessionRepository.findById(id)
+            ?: throw NoSuchElementException("Session with id $id not found")
     }
 
     override fun update(movieSession: MovieSession): MovieSession {
@@ -32,6 +31,7 @@ class MovieSessionServiceImpl(
     }
 
     override fun delete(id: String) {
-        movieSessionRepository.deleteById(id)
+        val movieSession = get(id)
+        movieSessionRepository.delete(movieSession)
     }
 }

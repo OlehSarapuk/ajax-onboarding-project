@@ -17,9 +17,7 @@ class UserServiceImpl(
     }
 
     override fun get(id: String): User {
-        return userRepository.findById(id).orElseThrow {
-            NoSuchElementException("User with id $id not found")
-        }
+        return userRepository.findById(id) ?: throw NoSuchElementException("User with id $id not found")
     }
 
     override fun findByEmail(email: String): User {

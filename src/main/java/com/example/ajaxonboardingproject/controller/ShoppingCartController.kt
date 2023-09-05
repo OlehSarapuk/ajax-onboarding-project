@@ -41,6 +41,6 @@ data class ShoppingCartController(
         val details = auth.principal as UserDetails
         val email: String = details.username
         val user: User = userService.findByEmail(email)
-        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getByUser(user.id))
+        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getShoppingCartByUser(user.id))
     }
 }

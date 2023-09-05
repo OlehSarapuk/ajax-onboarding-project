@@ -27,9 +27,9 @@ class ShoppingCartServiceImpl(
         userRepository.save(user)
     }
 
-    override fun getByUser(userId: String): ShoppingCart {
-        val userFromDb: User = getUserFromDb(userId)
-        return userFromDb.shoppingCart
+    override fun getShoppingCartByUser(userId: String): ShoppingCart {
+        return userRepository.findShoppingCartByUserId(userId)
+            ?: throw NoSuchElementException("Can't get shopping cart for user with id $userId")
     }
 
     override fun registerNewShoppingCart(): ShoppingCart {
@@ -45,6 +45,7 @@ class ShoppingCartServiceImpl(
     }
 
     fun getUserFromDb(id: String): User {
-        return userRepository.findById(id).orElseThrow { NoSuchElementException("Can't get user with id $id") }
+        return userRepository.findById(id)
+            ?: throw NoSuchElementException("Can't get user with id $id")
     }
 }

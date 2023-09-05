@@ -6,7 +6,7 @@ import com.example.ajaxonboardingproject.model.ShoppingCart
 interface ShoppingCartService {
     fun addSession(movieSession: MovieSession, userId: String)
 
-    fun getByUser(userId: String): ShoppingCart
+    fun getShoppingCartByUser(userId: String): ShoppingCart
 
     fun registerNewShoppingCart(): ShoppingCart
 
