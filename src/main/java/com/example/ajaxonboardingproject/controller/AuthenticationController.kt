@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class AuthenticationController(
     private val authenticationService: AuthenticationService,
     private val userDtoResponseMapper: ResponseDtoMapper<UserResponseDto, User>,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
 ) {
     @PostMapping("/register")
     fun register(

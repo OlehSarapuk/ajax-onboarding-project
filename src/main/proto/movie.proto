@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Movie{
+    string title = 2;
+    string description = 3;
+}

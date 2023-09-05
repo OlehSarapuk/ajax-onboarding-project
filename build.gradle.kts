@@ -6,6 +6,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("org.springframework.boot") version "3.1.2"
     id("io.spring.dependency-management") version "1.1.2"
+    id("com.google.protobuf") version "0.9.4"
 }
 
 repositories {
@@ -20,6 +21,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
+    implementation("io.nats:jnats:2.16.14")
+    implementation("com.google.protobuf:protobuf-java:3.24.2")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("org.springframework.security:spring-security-test:6.1.2")
