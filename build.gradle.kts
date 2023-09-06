@@ -39,3 +39,7 @@ kotlin {
 noArg {
     annotation("org.springframework.web.bind.annotation.RestController")
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}

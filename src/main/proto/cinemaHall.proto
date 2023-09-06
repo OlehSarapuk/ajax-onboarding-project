@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message CinemaHall{
+  int32 capacity = 1;
+  string description = 2;
+}
