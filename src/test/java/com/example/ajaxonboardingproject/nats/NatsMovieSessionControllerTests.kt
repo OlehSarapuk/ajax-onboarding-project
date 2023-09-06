@@ -27,7 +27,10 @@ class NatsMovieSessionControllerTests {
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val proto = movieSessionConverter.movieSessionToProto(movieSession)
-        val future = natsConnection.requestWithTimeout("movieSession.add", proto.toByteArray(), Duration.ofMillis(100000))
+        val future = natsConnection.requestWithTimeout(
+            "movieSession.add",
+            proto.toByteArray(),
+            Duration.ofMillis(100000))
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
         assert(proto == reply)
     }
@@ -39,7 +42,10 @@ class NatsMovieSessionControllerTests {
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val proto = movieSessionConverter.movieSessionToProto(movieSession)
-        val future = natsConnection.requestWithTimeout("movieSession.update.${movieSessionFromDB.id}", proto.toByteArray(), Duration.ofMillis(100000))
+        val future = natsConnection.requestWithTimeout(
+            "movieSession.update.${movieSessionFromDB.id}",
+            proto.toByteArray(),
+            Duration.ofMillis(100000))
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
         assert(proto == reply)
     }

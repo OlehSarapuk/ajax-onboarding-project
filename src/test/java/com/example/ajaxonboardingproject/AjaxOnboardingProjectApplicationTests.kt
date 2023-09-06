@@ -5,7 +5,10 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class AjaxOnboardingProjectApplicationTests {
+
     @Test
-    fun contextLoads() {
+    fun contextLoads(){
+        assert(true)
     }
+    
 }

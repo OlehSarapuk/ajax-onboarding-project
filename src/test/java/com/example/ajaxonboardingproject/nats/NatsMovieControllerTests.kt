@@ -31,6 +31,7 @@ class NatsMovieControllerTests {
     }
 
     @Test
+    @Suppress("EmptyCatchBlock", "SwallowedException")
     fun getAllMoviesTestOk() {
         val protos = movieRepository.findAll().
         map { movieConverter.movieToProto(it) }
@@ -39,10 +40,9 @@ class NatsMovieControllerTests {
         val result = mutableListOf<Any>()
         try {
             while (true) {
-                result.add(objectInputStream.readObject())
+                result.add(objectInputStream.readObject());
             }
-        } catch (e: EOFException) {
-            assert(protos == result)
-        }
+        } catch (e: EOFException) {}
+        assert(protos == result)
     }
 }

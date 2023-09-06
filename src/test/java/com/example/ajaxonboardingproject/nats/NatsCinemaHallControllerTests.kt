@@ -31,6 +31,7 @@ class NatsCinemaHallControllerTests {
     }
 
     @Test
+    @Suppress("EmptyCatchBlock", "SwallowedException")
     fun getAllCinemaHallsTestOk() {
         val protos = cinemaHallRepository.findAll().
         map { cinemaHallConverter.cinemaHallToProto(it) }
@@ -41,8 +42,7 @@ class NatsCinemaHallControllerTests {
             while (true) {
                 result.add(objectInputStream.readObject());
             }
-        } catch (e: EOFException) {
-            assert(protos == result)
-        }
+        } catch (e: EOFException) {}
+        assert(protos == result)
     }
 }

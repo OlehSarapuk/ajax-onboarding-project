@@ -8,6 +8,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 
+private const val MILLISECONDS_PER_SECOND = 1000
+
 @Component
 class MovieSessionConverter(
     private val movieConverter: MovieConverter,
@@ -37,7 +39,7 @@ class MovieSessionConverter(
         dateTime: LocalDateTime
     ):Timestamp {
         return Timestamp.newBuilder()
-            .setSeconds(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() / 1000)
+            .setSeconds(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() / MILLISECONDS_PER_SECOND)
             .setNanos(dateTime.nano)
             .build()
     }
