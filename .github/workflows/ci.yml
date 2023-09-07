@@ -3,7 +3,7 @@ name: Java with Gradle CI
 on:
   push:
     branches:
-      - '*'
+      - 'main'
   pull_request:
     branches:
       - '*'
