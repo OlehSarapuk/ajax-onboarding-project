@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
-const val MAX_BYTES_PAYLOAD_SIZE: Long = 10
+const val MAX_BYTES_PAYLOAD_SIZE: Long = 100
 
 @Component
 @Suppress("SpreadOperator")
@@ -30,7 +30,7 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
             enhancer.setCallback(MethodInterceptor { _, method, args, _ ->
                 val payloadSize = 0
                 if (payloadSize > MAX_BYTES_PAYLOAD_SIZE) {
-                    throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Memory usage is too high")
+                    throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Payload byte size is too high")
                 }
                 method.invoke(bean, *args)
             })
