@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import java.io.ByteArrayOutputStream
+import java.io.ObjectOutputStream
 
 const val MAX_BYTES_PAYLOAD_SIZE: Long = 100
 
@@ -28,7 +30,13 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
             val enhancer = Enhancer()
             enhancer.setSuperclass(originalBeanClass)
             enhancer.setCallback(MethodInterceptor { _, method, args, _ ->
-                val payloadSize = 0
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
+                args.map { objectOutputStream.writeObject(it) }
+                objectOutputStream.flush()
+                val payloadSize = byteArrayOutputStream.size()
+                objectOutputStream.close()
+                byteArrayOutputStream.close()
                 if (payloadSize > MAX_BYTES_PAYLOAD_SIZE) {
                     throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Payload byte size is too high")
                 }
