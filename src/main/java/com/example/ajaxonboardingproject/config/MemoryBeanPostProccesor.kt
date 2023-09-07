@@ -30,13 +30,13 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
             val enhancer = Enhancer()
             enhancer.setSuperclass(originalBeanClass)
             enhancer.setCallback(MethodInterceptor { _, method, args, _ ->
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
-                args.map { objectOutputStream.writeObject(it) }
-                objectOutputStream.flush()
-                val payloadSize = byteArrayOutputStream.size()
-                objectOutputStream.close()
-                byteArrayOutputStream.close()
+                val payloadSize = ByteArrayOutputStream().use { byteArrayOutputStream ->
+                    ObjectOutputStream(byteArrayOutputStream).use { objectOutputStream ->
+                        args.forEach { objectOutputStream.writeObject(it) }
+                        objectOutputStream.flush()
+                        byteArrayOutputStream.size()
+                    }
+                }
                 if (payloadSize > MAX_BYTES_PAYLOAD_SIZE) {
                     throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Payload byte size is too high")
                 }
