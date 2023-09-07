@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
-const val MAX_MEMORY_USAGE: Long = 100000
+const val MAX_BYTES_PAYLOAD_SIZE: Long = 10
 
 @Component
 @Suppress("SpreadOperator")
@@ -28,20 +28,15 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
             val enhancer = Enhancer()
             enhancer.setSuperclass(originalBeanClass)
             enhancer.setCallback(MethodInterceptor { _, method, args, _ ->
-                val before = computeUsedMemory()
-                val result = method.invoke(bean, *args)
-                val after = computeUsedMemory()
-                if ((after - before) > MAX_MEMORY_USAGE) {
+                val payloadSize = 0
+                if (payloadSize > MAX_BYTES_PAYLOAD_SIZE) {
                     throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Memory usage is too high")
                 }
-                result
+                method.invoke(bean, *args)
             })
             return enhancer.create()
 
         }
         return bean
     }
-
-    private fun computeUsedMemory() =
-        Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
 }
