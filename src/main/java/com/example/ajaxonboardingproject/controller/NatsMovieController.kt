@@ -39,6 +39,7 @@ class NatsMovieGetAllController(
     override val parser: Parser<MovieOuterClass.Movie> =
         MovieOuterClass.Movie.parser()
 
+    @Suppress("UnusedParameter")
     fun generateReplyForNatsRequest(
         message: Message
     ): ByteArray {

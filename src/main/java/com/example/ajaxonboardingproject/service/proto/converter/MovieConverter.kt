@@ -17,8 +17,7 @@ class MovieConverter {
 
     fun protoToMovie(
         movieProto: MovieOuterClass.Movie
-    )
-            : Movie {
+    ): Movie {
         return Movie(
             title = movieProto.title,
             description = movieProto.description

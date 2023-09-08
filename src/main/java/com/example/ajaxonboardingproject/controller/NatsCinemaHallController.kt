@@ -39,6 +39,7 @@ class NatsCinemaHallGetAllController(
     override val parser: Parser<CinemaHallOuterClass.CinemaHall> =
         CinemaHallOuterClass.CinemaHall.parser()
 
+    @Suppress("UnusedParameter")
     fun generateReplyForNatsRequest(
         message: Message
     ): ByteArray {

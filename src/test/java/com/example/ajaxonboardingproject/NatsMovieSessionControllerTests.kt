@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.nats
+package com.example.ajaxonboardingproject
 
 import MovieSessionOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall

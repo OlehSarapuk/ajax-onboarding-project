@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.nats
+package com.example.ajaxonboardingproject
 
 import ListOfMoviesOuterClass
 import MovieOuterClass
