@@ -1,5 +1,6 @@
 package com.example.ajaxonboardingproject.nats
 
+import MovieSessionOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.model.MovieSession
@@ -17,8 +18,10 @@ import java.time.LocalDateTime
 class NatsMovieSessionControllerTests {
     @Autowired
     lateinit var natsConnection: Connection
+
     @Autowired
     lateinit var movieSessionConverter: MovieSessionConverter
+
     @Autowired
     lateinit var movieSessionRepository: MovieSessionRepository
 
@@ -31,7 +34,8 @@ class NatsMovieSessionControllerTests {
         val future = natsConnection.requestWithTimeout(
             "movieSession.add",
             proto.toByteArray(),
-            Duration.ofMillis(100000))
+            Duration.ofMillis(100000)
+        )
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
         Assertions.assertEquals(proto, reply)
     }
@@ -46,7 +50,8 @@ class NatsMovieSessionControllerTests {
         val future = natsConnection.requestWithTimeout(
             "movieSession.update.${movieSessionFromDB.id}",
             proto.toByteArray(),
-            Duration.ofMillis(100000))
+            Duration.ofMillis(100000)
+        )
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
         Assertions.assertEquals(proto, reply)
     }
@@ -59,8 +64,11 @@ class NatsMovieSessionControllerTests {
         movieSessionRepository.save(movieSession)
         val before = movieSessionRepository.findAll().size
         val movieSessionFromDB = movieSessionRepository.findAll().first()
-        val future = natsConnection.request("movieSession.delete.${movieSessionFromDB.id}", "".toByteArray())
-        val reply = future.get().data
+        val future = natsConnection.requestWithTimeout(
+            "movieSession.delete.${movieSessionFromDB.id}",
+            null,
+            Duration.ofMillis(100000))
+        future.get().data
         val after = movieSessionRepository.findAll().size
         Assertions.assertEquals(before - 1, after)
     }

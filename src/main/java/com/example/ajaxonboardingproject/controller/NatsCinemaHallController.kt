@@ -1,56 +1,47 @@
 package com.example.ajaxonboardingproject.controller
 
+import CinemaHallOuterClass
+import ListOfCinemaHallsOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
+import com.google.protobuf.Parser
 import io.nats.client.Connection
-import jakarta.annotation.PostConstruct
+import io.nats.client.Message
 import org.springframework.stereotype.Component
 
 @Component
 class NatsCinemaHallAddController(
-    private val connection: Connection,
     private val converter: CinemaHallConverter,
-    private val service: CinemaHallService
-) {
-    @PostConstruct
-    fun listenToNatsSubject() {
-        val subject = "cinemaHall.add"
-        connection.subscribe(subject)
-        val dispatcher = connection.createDispatcher { message ->
-            val receivedMessage = CinemaHallOuterClass.CinemaHall.parseFrom(message.data)
-            val response = add(receivedMessage)
-            connection.publish(message.replyTo, response.toByteArray())
-        }
-        dispatcher.subscribe(subject)
-    }
+    private val service: CinemaHallService,
+    override val connection: Connection
+) : NatsController<CinemaHallOuterClass.CinemaHall> {
+    override val subject: String = "cinemaHall.add"
+    override val parser: Parser<CinemaHallOuterClass.CinemaHall> =
+        CinemaHallOuterClass.CinemaHall.parser()
 
-    fun add(
-        requestProto: CinemaHallOuterClass.CinemaHall
-    ): CinemaHallOuterClass.CinemaHall {
+    fun generateReplyForNatsRequest(
+        message: Message
+    ): ByteArray {
+        val requestProto = parser.parseFrom(message.data)
         val cinemaHall: CinemaHall = service.add(converter.protoToCinemaHall(requestProto))
-        return converter.cinemaHallToProto(cinemaHall)
+        return converter.cinemaHallToProto(cinemaHall).toByteArray()
     }
 }
 
 @Component
 class NatsCinemaHallGetAllController(
-    private val connection: Connection,
     private val converter: CinemaHallConverter,
-    private val service: CinemaHallService
-) {
-    @PostConstruct
-    fun listenToNatsSubject() {
-        val subject = "cinemaHall.getAll"
-        connection.subscribe(subject)
-        val dispatcher = connection.createDispatcher { message ->
-            val response = getAllCinemaHalls()
-            connection.publish(message.replyTo, response.toByteArray())
-        }
-        dispatcher.subscribe(subject)
-    }
+    private val service: CinemaHallService,
+    override val connection: Connection
+) : NatsController<CinemaHallOuterClass.CinemaHall> {
+    override val subject: String = "cinemaHall.getAll"
+    override val parser: Parser<CinemaHallOuterClass.CinemaHall> =
+        CinemaHallOuterClass.CinemaHall.parser()
 
-    fun getAllCinemaHalls(): ListOfCinemaHallsOuterClass.ListOfCinemaHalls {
+    fun generateReplyForNatsRequest(
+        message: Message
+    ): ByteArray {
         val cinemaHalls = service.getAll()
             .map { converter.cinemaHallToProto(it) }
             .toList()
@@ -58,5 +49,6 @@ class NatsCinemaHallGetAllController(
             .newBuilder()
             .addAllCinemaHalls(cinemaHalls)
             .build()
+            .toByteArray()
     }
 }

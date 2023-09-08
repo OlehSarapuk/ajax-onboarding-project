@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
+import CinemaHallOuterClass
+import ListOfCinemaHallsOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
@@ -14,8 +16,10 @@ import java.time.Duration
 class NatsCinemaHallControllerTests {
     @Autowired
     lateinit var natsConnection: Connection
+
     @Autowired
     lateinit var cinemaHallConverter: CinemaHallConverter
+
     @Autowired
     lateinit var cinemaHallRepository: CinemaHallRepository
 
@@ -36,7 +40,7 @@ class NatsCinemaHallControllerTests {
             .newBuilder()
             .addAllCinemaHalls(protos)
             .build()
-        val future = natsConnection.requestWithTimeout("cinemaHall.getAll", "".toByteArray(), Duration.ofMillis(100000))
+        val future = natsConnection.requestWithTimeout("cinemaHall.getAll", null, Duration.ofMillis(100000))
         val result = ListOfCinemaHallsOuterClass.ListOfCinemaHalls.parseFrom(future.get().data)
         Assertions.assertEquals(expected, result)
     }

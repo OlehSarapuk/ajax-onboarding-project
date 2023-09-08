@@ -1,63 +1,54 @@
 package com.example.ajaxonboardingproject.controller
 
+import ListOfMoviesOuterClass
 import MovieOuterClass
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
+import com.google.protobuf.Parser
 import io.nats.client.Connection
-import jakarta.annotation.PostConstruct
+import io.nats.client.Message
 import org.springframework.stereotype.Component
 
 @Component
 class NatsMovieAddController(
-    private val connection: Connection,
+    private val service: MovieService,
     private val converter: MovieConverter,
-    private val service: MovieService
-) {
-    @PostConstruct
-    fun listenToNatsSubject() {
-        val subject = "movie.add"
-        connection.subscribe(subject)
-        val dispatcher = connection.createDispatcher { message ->
-            val receivedMessage = MovieOuterClass.Movie.parseFrom(message.data)
-            val response = add(receivedMessage)
-            connection.publish(message.replyTo, response.toByteArray())
-        }
-        dispatcher.subscribe(subject)
-    }
+    override val connection: Connection
+) : NatsController<MovieOuterClass.Movie> {
+    override val subject: String = "movie.add"
+    override val parser: Parser<MovieOuterClass.Movie> =
+        MovieOuterClass.Movie.parser()
 
-    fun add(
-        requestProto: MovieOuterClass.Movie
-    ): MovieOuterClass.Movie {
+    fun generateReplyForNatsRequest(
+        message: Message
+    ): ByteArray {
+        val requestProto = parser.parseFrom(message.data)
         val movie: Movie = service.add(converter.protoToMovie(requestProto))
-        return converter.movieToProto(movie)
+        return converter.movieToProto(movie).toByteArray()
     }
 }
 
 @Component
 class NatsMovieGetAllController(
-    private val connection: Connection,
     private val converter: MovieConverter,
-    private val service: MovieService
-) {
-    @PostConstruct
-    fun listenToNatsSubject() {
-        val subject = "movie.getAll"
-        connection.subscribe(subject)
-        val dispatcher = connection.createDispatcher { message ->
-            val response = getAllMovies()
-            connection.publish(message.replyTo, response.toByteArray())
-        }
-        dispatcher.subscribe(subject)
-    }
+    private val service: MovieService,
+    override val connection: Connection
+) : NatsController<MovieOuterClass.Movie> {
+    override val subject: String = "movie.getAll"
+    override val parser: Parser<MovieOuterClass.Movie> =
+        MovieOuterClass.Movie.parser()
 
-    fun getAllMovies(): ListOfMoviesOuterClass.ListOfMovies {
-         val listOfProto = service.getAll()
-             .map { converter.movieToProto(it) }
-             .toList()
+    fun generateReplyForNatsRequest(
+        message: Message
+    ): ByteArray {
+        val listOfProto = service.getAll()
+            .map { converter.movieToProto(it) }
+            .toList()
         return ListOfMoviesOuterClass.ListOfMovies
             .newBuilder()
             .addAllMovies(listOfProto)
             .build()
+            .toByteArray()
     }
 }

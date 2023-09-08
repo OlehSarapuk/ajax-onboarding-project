@@ -1,5 +1,6 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
+import MovieSessionOuterClass
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.google.protobuf.Timestamp
 import org.springframework.stereotype.Component
@@ -37,7 +38,7 @@ class MovieSessionConverter(
 
     private fun localDateTimeToTimestamp(
         dateTime: LocalDateTime
-    ):Timestamp {
+    ): Timestamp {
         return Timestamp.newBuilder()
             .setSeconds(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() / MILLISECONDS_PER_SECOND)
             .setNanos(dateTime.nano)

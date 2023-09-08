@@ -5,7 +5,7 @@ import "cinemaHall.proto";
 import "movie.proto";
 
 message MovieSession {
-   .Movie movie = 1;
-   .CinemaHall cinemaHall = 2;
-   google.protobuf.Timestamp showTime = 3;
+  .Movie movie = 1;
+  .CinemaHall cinemaHall = 2;
+  google.protobuf.Timestamp showTime = 3;
 }
