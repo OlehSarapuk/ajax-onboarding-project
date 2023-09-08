@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import java.io.ByteArrayOutputStream
+import java.io.ObjectOutputStream
 
-const val MAX_MEMORY_USAGE: Long = 100000
+const val MAX_BYTES_PAYLOAD_SIZE: Long = 10000
 
 @Component
 @Suppress("SpreadOperator")
@@ -28,13 +30,11 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
             val enhancer = Enhancer()
             enhancer.setSuperclass(originalBeanClass)
             enhancer.setCallback(MethodInterceptor { _, method, args, _ ->
-                val before = computeUsedMemory()
-                val result = method.invoke(bean, *args)
-                val after = computeUsedMemory()
-                if ((after - before) > MAX_MEMORY_USAGE) {
-                    throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Memory usage is too high")
+                val payloadSize = measurePayloadSizeInBytes(args)
+                if (payloadSize > MAX_BYTES_PAYLOAD_SIZE) {
+                    throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Payload byte size is too high")
                 }
-                result
+                method.invoke(bean, *args)
             })
             return enhancer.create()
 
@@ -42,6 +42,15 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
         return bean
     }
 
-    private fun computeUsedMemory() =
-        Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
+    fun measurePayloadSizeInBytes(
+        args: Array<Any>)
+    :Int {
+        ByteArrayOutputStream().use { byteArrayOutputStream ->
+            ObjectOutputStream(byteArrayOutputStream).use { objectOutputStream ->
+                args.forEach { objectOutputStream.writeObject(it) }
+                objectOutputStream.flush()
+                return byteArrayOutputStream.size()
+            }
+        }
+    }
 }
