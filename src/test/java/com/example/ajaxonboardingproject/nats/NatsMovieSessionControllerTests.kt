@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.repository.MovieSessionRepository
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter
 import io.nats.client.Connection
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,7 +33,7 @@ class NatsMovieSessionControllerTests {
             proto.toByteArray(),
             Duration.ofMillis(100000))
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
-        assert(proto == reply)
+        Assertions.assertEquals(proto, reply)
     }
 
     @Test
@@ -47,7 +48,7 @@ class NatsMovieSessionControllerTests {
             proto.toByteArray(),
             Duration.ofMillis(100000))
         val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
-        assert(proto == reply)
+        Assertions.assertEquals(proto, reply)
     }
 
     @Test
@@ -61,6 +62,6 @@ class NatsMovieSessionControllerTests {
         val future = natsConnection.request("movieSession.delete.${movieSessionFromDB.id}", "".toByteArray())
         val reply = future.get().data
         val after = movieSessionRepository.findAll().size
-        assert(before - 1 == after)
+        Assertions.assertEquals(before - 1, after)
     }
 }
