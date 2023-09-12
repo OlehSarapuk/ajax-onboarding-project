@@ -1,0 +1,50 @@
+
+ë
+cinemaHall.proto"J
+
+CinemaHall
+capacity (Rcapacity 
+description (	Rdescription"A
+CinemaHallResponse+
+
+cinemaHall (2.CinemaHallR
+cinemaHall"@
+CinemaHallRequest+
+
+cinemaHall (2.CinemaHallR
+cinemaHallbproto3
+w
+listOfCinemaHalls.protocinemaHall.proto"B
+ListOfCinemaHalls-
+cinemaHalls (2.CinemaHallRcinemaHallsbproto3
+³
+movie.proto"?
+Movie
+title (	Rtitle 
+description (	Rdescription"-
+MovieResponse
+movie (2.MovieRmovie",
+MovieRequest
+movie (2.MovieRmoviebproto3
+Y
+listOfMovies.protomovie.proto".
+ListOfMovies
+movies (2.MovieRmoviesbproto3
+ÿ
+google/protobuf/timestamp.protogoogle.protobuf";
+	Timestamp
+seconds (Rseconds
+nanos (RnanosB…
+com.google.protobufBTimestampProtoPZ2google.golang.org/protobuf/types/known/timestamppbø¢GPBªGoogle.Protobuf.WellKnownTypesbproto3
+…
+movieSession.protogoogle/protobuf/timestamp.protocinemaHall.protomovie.proto"‘
+MovieSession
+movie (2.MovieRmovie+
+
+cinemaHall (2.CinemaHallR
+cinemaHall6
+showTime (2.google.protobuf.TimestampRshowTime"I
+MovieSessionResponse1
+movieSession (2.MovieSessionRmovieSession"H
+MovieSessionRequest1
+movieSession (2.MovieSessionRmovieSessionbproto3

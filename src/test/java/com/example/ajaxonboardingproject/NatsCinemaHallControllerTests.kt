@@ -26,19 +26,21 @@ class NatsCinemaHallControllerTests {
     @Test
     fun addCinemaHallTestOk() {
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val proto = cinemaHallConverter.cinemaHallToProto(cinemaHall)
-        val future = natsConnection.requestWithTimeout("cinemaHall.add", proto.toByteArray(), Duration.ofMillis(100000))
-        val reply = CinemaHallOuterClass.CinemaHall.parseFrom(future.get().data)
-        Assertions.assertEquals(proto, reply)
+        val request = CinemaHallOuterClass.CinemaHallRequest.newBuilder()
+            .setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall))
+            .build()
+        val future = natsConnection.requestWithTimeout("cinemaHall.add", request.toByteArray(), Duration.ofMillis(100000))
+        val reply = CinemaHallOuterClass.CinemaHallResponse.parseFrom(future.get().data)
+        Assertions.assertEquals(request.cinemaHall, reply.cinemaHall)
     }
 
     @Test
     fun getAllCinemaHallsTestOk() {
-        val protos = cinemaHallRepository.findAll()
+        val protoFromDb = cinemaHallRepository.findAll()
             .map { cinemaHallConverter.cinemaHallToProto(it) }
         val expected = ListOfCinemaHallsOuterClass.ListOfCinemaHalls
             .newBuilder()
-            .addAllCinemaHalls(protos)
+            .addAllCinemaHalls(protoFromDb)
             .build()
         val future = natsConnection.requestWithTimeout("cinemaHall.getAll", null, Duration.ofMillis(100000))
         val result = ListOfCinemaHallsOuterClass.ListOfCinemaHalls.parseFrom(future.get().data)

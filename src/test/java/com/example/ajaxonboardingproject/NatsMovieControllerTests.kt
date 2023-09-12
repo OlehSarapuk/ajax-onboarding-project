@@ -26,19 +26,21 @@ class NatsMovieControllerTests {
     @Test
     fun addMovieTestOk() {
         val movie = Movie(title = "proto TITLE", description = "grate one")
-        val proto = movieConverter.movieToProto(movie)
-        val future = natsConnection.requestWithTimeout("movie.add", proto.toByteArray(), Duration.ofMillis(100000))
-        val reply = MovieOuterClass.Movie.parseFrom(future.get().data)
-        Assertions.assertEquals(proto, reply)
+        val request = MovieOuterClass.MovieRequest.newBuilder()
+            .setMovie(movieConverter.movieToProto(movie))
+            .build()
+        val future = natsConnection.requestWithTimeout("movie.add", request.toByteArray(), Duration.ofMillis(100000))
+        val reply = MovieOuterClass.MovieResponse.parseFrom(future.get().data)
+        Assertions.assertEquals(request.movie, reply.movie)
     }
 
     @Test
     fun getAllMoviesTestOk() {
-        val protos = movieRepository.findAll()
+        val protoFromDb = movieRepository.findAll()
             .map { movieConverter.movieToProto(it) }
         val expected = ListOfMoviesOuterClass.ListOfMovies
             .newBuilder()
-            .addAllMovies(protos)
+            .addAllMovies(protoFromDb)
             .build()
         val future = natsConnection.requestWithTimeout("movie.getAll", null, Duration.ofMillis(100000))
         val result = ListOfMoviesOuterClass.ListOfMovies.parseFrom(future.get().data)

@@ -9,3 +9,11 @@ message MovieSession {
   .CinemaHall cinemaHall = 2;
   google.protobuf.Timestamp showTime = 3;
 }
+
+message MovieSessionResponse {
+  MovieSession movieSession = 1;
+}
+
+message MovieSessionRequest {
+  MovieSession movieSession = 1;
+}

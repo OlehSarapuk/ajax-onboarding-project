@@ -30,14 +30,16 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val proto = movieSessionConverter.movieSessionToProto(movieSession)
+        val request = MovieSessionOuterClass.MovieSessionRequest.newBuilder()
+            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+            .build()
         val future = natsConnection.requestWithTimeout(
             "movieSession.add",
-            proto.toByteArray(),
+            request.toByteArray(),
             Duration.ofMillis(100000)
         )
-        val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
-        Assertions.assertEquals(proto, reply)
+        val reply = MovieSessionOuterClass.MovieSessionResponse.parseFrom(future.get().data)
+        Assertions.assertEquals(request.movieSession, reply.movieSession)
     }
 
     @Test
@@ -46,14 +48,16 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val proto = movieSessionConverter.movieSessionToProto(movieSession)
+        val request = MovieSessionOuterClass.MovieSessionRequest.newBuilder()
+            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+            .build()
         val future = natsConnection.requestWithTimeout(
             "movieSession.update.${movieSessionFromDB.id}",
-            proto.toByteArray(),
+            request.toByteArray(),
             Duration.ofMillis(100000)
         )
-        val reply = MovieSessionOuterClass.MovieSession.parseFrom(future.get().data)
-        Assertions.assertEquals(proto, reply)
+        val reply = MovieSessionOuterClass.MovieSessionResponse.parseFrom(future.get().data)
+        Assertions.assertEquals(request.movieSession, reply.movieSession)
     }
 
     @Test
@@ -70,6 +74,6 @@ class NatsMovieSessionControllerTests {
             Duration.ofMillis(100000))
         future.get().data
         val after = movieSessionRepository.findAll().size
-        Assertions.assertEquals(before - 1, after)
+        Assertions.assertEquals((before - 1), after)
     }
 }

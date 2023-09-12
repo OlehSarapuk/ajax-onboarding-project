@@ -4,3 +4,11 @@ message Movie{
   string title = 1;
   string description = 2;
 }
+
+message MovieResponse {
+  Movie movie = 1;
+}
+
+message MovieRequest {
+  Movie movie = 1;
+}

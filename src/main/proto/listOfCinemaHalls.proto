@@ -2,6 +2,6 @@ syntax = "proto3";
 
 import "cinemaHall.proto";
 
-message ListOfCinemaHalls{
+message ListOfCinemaHalls {
   repeated CinemaHall cinemaHalls = 1;
 }

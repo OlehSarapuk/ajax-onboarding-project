@@ -1,6 +1,14 @@
 syntax = "proto3";
 
-message CinemaHall{
+message CinemaHall {
   int32 capacity = 1;
   string description = 2;
+}
+
+message CinemaHallResponse {
+  CinemaHall cinemaHall = 1;
+}
+
+message CinemaHallRequest {
+  CinemaHall cinemaHall = 1;
 }

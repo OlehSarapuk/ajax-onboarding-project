@@ -1,20 +1,15 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import MovieSessionOuterClass
+import MovieSessionOuterClass.MovieSessionResponse
+import MovieSessionOuterClass.MovieSessionRequest
 import com.example.ajaxonboardingproject.model.MovieSession
-import com.google.protobuf.Timestamp
 import org.springframework.stereotype.Component
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-
-private const val MILLISECONDS_PER_SECOND = 1000
 
 @Component
 class MovieSessionConverter(
     private val movieConverter: MovieConverter,
-    private val cinemaHallConverter: CinemaHallConverter
+    private val cinemaHallConverter: CinemaHallConverter,
+    private val localDateTimeConverter: LocalDateTimeConverter
 ) {
     fun movieSessionToProto(
         movieSession: MovieSession
@@ -22,7 +17,7 @@ class MovieSessionConverter(
         return MovieSessionOuterClass.MovieSession.newBuilder()
             .setMovie(movieConverter.movieToProto(movieSession.movie))
             .setCinemaHall(cinemaHallConverter.cinemaHallToProto(movieSession.cinemaHall))
-            .setShowTime(localDateTimeToTimestamp(movieSession.showTime))
+            .setShowTime(localDateTimeConverter.localDateTimeToTimestamp(movieSession.showTime))
             .build()
     }
 
@@ -32,23 +27,25 @@ class MovieSessionConverter(
         return MovieSession(
             movie = movieConverter.protoToMovie(movieSessionProto.movie),
             cinemaHall = cinemaHallConverter.protoToCinemaHall(movieSessionProto.cinemaHall),
-            showTime = timestampToLocalDateTime(movieSessionProto.showTime)
+            showTime = localDateTimeConverter.timestampToLocalDateTime(movieSessionProto.showTime)
         )
     }
 
-    private fun localDateTimeToTimestamp(
-        dateTime: LocalDateTime
-    ): Timestamp {
-        return Timestamp.newBuilder()
-            .setSeconds(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() / MILLISECONDS_PER_SECOND)
-            .setNanos(dateTime.nano)
+    fun movieSessionToProtoResponse(
+        movieSession: MovieSession
+    ): MovieSessionResponse {
+        return MovieSessionResponse.newBuilder()
+            .setMovieSession(movieSessionToProto(movieSession))
             .build()
     }
 
-    private fun timestampToLocalDateTime(
-        timestamp: Timestamp
-    ): LocalDateTime {
-        val instant = Instant.ofEpochSecond(timestamp.seconds, timestamp.nanos.toLong())
-        return instant.atZone(ZoneId.of("UTC")).toLocalDateTime()
+    fun protoRequestToMovieSession(
+        movieSessionProto: MovieSessionRequest
+    ): MovieSession {
+        return MovieSession(
+            movie = movieConverter.protoToMovie(movieSessionProto.movieSession.movie),
+            cinemaHall = cinemaHallConverter.protoToCinemaHall(movieSessionProto.movieSession.cinemaHall),
+            showTime = localDateTimeConverter.timestampToLocalDateTime(movieSessionProto.movieSession.showTime)
+        )
     }
 }

@@ -1,4 +1,5 @@
 plugins {
+    idea
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.allopen") version "1.9.0"
     kotlin("plugin.spring") version "1.9.0"
@@ -23,6 +24,7 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("io.nats:jnats:2.16.14")
     implementation("com.google.protobuf:protobuf-java:3.24.2")
+    implementation("com.google.protobuf:protobuf-java-util:3.20.1")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("org.springframework.security:spring-security-test:6.1.2")
@@ -38,6 +40,37 @@ kotlin {
 
 noArg {
     annotation("org.springframework.web.bind.annotation.RestController")
+}
+
+object GeneratedFileDir {
+    const val base = "/src/generated"
+    const val java = "/main/java"
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.20.1"
+    }
+
+    generateProtoTasks {
+        all().configureEach {
+            generateDescriptorSet = true
+            descriptorSetOptions.includeImports = true
+        }
+    }
+    generatedFilesBaseDir = "$projectDir${GeneratedFileDir.base}"
+}
+
+idea {
+    module {
+        sourceDirs = sourceDirs + file("${protobuf.generatedFilesBaseDir}${GeneratedFileDir.java}")
+    }
+}
+
+tasks {
+    clean {
+        delete(protobuf.generatedFilesBaseDir)
+    }
 }
 
 tasks.withType<Test> {
