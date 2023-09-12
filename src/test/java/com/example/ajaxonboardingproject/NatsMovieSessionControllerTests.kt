@@ -1,6 +1,5 @@
 package com.example.ajaxonboardingproject
 
-import MovieSessionOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.model.MovieSession

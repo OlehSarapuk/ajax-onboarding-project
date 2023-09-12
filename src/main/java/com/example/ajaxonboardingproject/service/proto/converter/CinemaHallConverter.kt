@@ -1,7 +1,8 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import CinemaHallOuterClass.CinemaHallResponse
-import CinemaHallOuterClass.CinemaHallRequest
+import com.example.ajaxonboardingproject.CinemaHallOuterClass
+import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
+import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
 import com.example.ajaxonboardingproject.model.CinemaHall
 import org.springframework.stereotype.Component
 

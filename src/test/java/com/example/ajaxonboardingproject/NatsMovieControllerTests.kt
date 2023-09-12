@@ -1,7 +1,5 @@
 package com.example.ajaxonboardingproject
 
-import ListOfMoviesOuterClass
-import MovieOuterClass
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.repository.MovieRepository
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter

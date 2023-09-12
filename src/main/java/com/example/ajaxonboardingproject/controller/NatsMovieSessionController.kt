@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.controller
 
-import MovieSessionOuterClass.MovieSessionResponse
-import MovieSessionOuterClass.MovieSessionRequest
+import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionResponse
+import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionRequest
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter

@@ -1,8 +1,8 @@
 package com.example.ajaxonboardingproject.controller
 
-import ListOfMoviesOuterClass.ListOfMovies
-import MovieOuterClass.MovieResponse
-import MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.ListOfMoviesOuterClass.ListOfMovies
+import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
+import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter

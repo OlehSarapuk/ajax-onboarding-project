@@ -1,7 +1,8 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import MovieOuterClass.MovieResponse
-import MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.MovieOuterClass
+import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
+import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
 import com.example.ajaxonboardingproject.model.Movie
 import org.springframework.stereotype.Component
 

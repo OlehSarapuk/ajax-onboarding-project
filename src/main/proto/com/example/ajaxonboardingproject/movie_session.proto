@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.example.ajaxonboardingproject;
+
+import "google/protobuf/timestamp.proto";
+import "com/example/ajaxonboardingproject/cinema_hall.proto";
+import "com/example/ajaxonboardingproject/movie.proto";
+
+message MovieSession {
+  Movie movie = 1;
+  CinemaHall cinema_hall = 2;
+  google.protobuf.Timestamp show_time = 3;
+}
+
+message MovieSessionResponse {
+  MovieSession movieSession = 1;
+}
+
+message MovieSessionRequest {
+  MovieSession movieSession = 1;
+}

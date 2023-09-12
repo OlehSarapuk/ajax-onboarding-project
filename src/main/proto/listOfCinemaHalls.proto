@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-import "cinemaHall.proto";
-
-message ListOfCinemaHalls {
-  repeated CinemaHall cinemaHalls = 1;
-}

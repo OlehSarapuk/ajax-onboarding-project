@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-message Movie{
+package com.example.ajaxonboardingproject;
+
+message Movie {
   string title = 1;
   string description = 2;
 }

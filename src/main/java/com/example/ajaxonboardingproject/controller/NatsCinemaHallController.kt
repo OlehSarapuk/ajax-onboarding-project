@@ -1,8 +1,8 @@
 package com.example.ajaxonboardingproject.controller
 
-import CinemaHallOuterClass.CinemaHallResponse
-import CinemaHallOuterClass.CinemaHallRequest
-import ListOfCinemaHallsOuterClass.ListOfCinemaHalls
+import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
+import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
+import com.example.ajaxonboardingproject.ListOfCinemaHallsOuterClass.ListOfCinemaHalls
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter

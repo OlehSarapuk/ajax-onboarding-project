@@ -1,7 +1,5 @@
 package com.example.ajaxonboardingproject
 
-import CinemaHallOuterClass
-import ListOfCinemaHallsOuterClass
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
@@ -29,7 +27,8 @@ class NatsCinemaHallControllerTests {
         val request = CinemaHallOuterClass.CinemaHallRequest.newBuilder()
             .setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall))
             .build()
-        val future = natsConnection.requestWithTimeout("cinemaHall.add", request.toByteArray(), Duration.ofMillis(100000))
+        val future = natsConnection
+            .requestWithTimeout("cinemaHall.add", request.toByteArray(), Duration.ofMillis(100000))
         val reply = CinemaHallOuterClass.CinemaHallResponse.parseFrom(future.get().data)
         Assertions.assertEquals(request.cinemaHall, reply.cinemaHall)
     }

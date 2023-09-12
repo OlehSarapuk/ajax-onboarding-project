@@ -1,14 +1,16 @@
 syntax = "proto3";
 
+package com.example.ajaxonboardingproject;
+
 message CinemaHall {
   int32 capacity = 1;
   string description = 2;
 }
 
 message CinemaHallResponse {
-  CinemaHall cinemaHall = 1;
+  CinemaHall cinema_hall = 1;
 }
 
 message CinemaHallRequest {
-  CinemaHall cinemaHall = 1;
+  CinemaHall cinema_hall = 1;
 }

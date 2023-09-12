@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-import "movie.proto";
-
-message ListOfMovies {
-  repeated Movie movies = 1;
-}
