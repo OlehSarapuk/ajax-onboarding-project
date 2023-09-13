@@ -23,10 +23,10 @@ class ShoppingCartServiceImpl(
     ) {
         val ticket = Ticket(movieSession = movieSession)
         ticketRepository.save(ticket)
-        lateinit var user: User
-        getUserFromDb(userId).map { user = it }
-        user.shoppingCart.tickets.add(ticket)
-        userRepository.save(user)
+        getUserFromDb(userId)
+            .doOnNext { it.shoppingCart.tickets.add(ticket) }
+            .doOnNext { userRepository.save(it) }
+            .subscribe()
     }
 
     override fun getShoppingCartByUser(userId: String): Mono<ShoppingCart> {
