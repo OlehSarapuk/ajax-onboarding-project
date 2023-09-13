@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 class NatsListenerBeanPostProcessor : BeanPostProcessor {
     override fun postProcessBeforeInitialization(bean: Any, beanName: String): Any? {
         if (bean is NatsController<*, *>) {
-            bean.connection.subscribe(bean.subject)
             val dispatcher = bean.connection.createDispatcher { message ->
                 val response = bean.handle(message)
                 bean.connection.publish(message.replyTo, response.toByteArray())
