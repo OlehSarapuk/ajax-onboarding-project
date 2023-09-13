@@ -17,15 +17,13 @@ class MovieSessionMapper(
     override fun mapToModel(dto: MovieSessionRequestDto): MovieSession {
         val movieMono = movieService.get(dto.movieId)
         val cinemaHallMono = cinemaHallService.get(dto.cinemaHallId)
-        lateinit var movieSession: MovieSession
-        Mono.zip(movieMono, cinemaHallMono) { movie, cinemaHall ->
+        return Mono.zip(movieMono, cinemaHallMono) { movie, cinemaHall ->
             MovieSession(
                 movie = movie,
                 cinemaHall = cinemaHall,
                 showTime = dto.showTime
             )
-        }.subscribe{movieSession = it}
-        return movieSession
+        }.block()!!
     }
 
     override fun mapToDto(model: MovieSession): MovieSessionResponseDto {

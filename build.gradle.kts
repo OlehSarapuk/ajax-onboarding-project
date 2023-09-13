@@ -16,7 +16,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.2")
-    implementation("org.springframework.boot:spring-boot-starter-webflux:3.1.2")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
