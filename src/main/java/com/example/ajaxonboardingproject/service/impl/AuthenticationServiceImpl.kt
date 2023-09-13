@@ -2,7 +2,6 @@ package com.example.ajaxonboardingproject.service.impl
 
 import com.example.ajaxonboardingproject.exception.AuthenticationException
 import com.example.ajaxonboardingproject.model.Role
-import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
@@ -24,15 +23,15 @@ class AuthenticationServiceImpl(
         password: String
     ): Mono<User> {
         val roles = mutableSetOf(Role.USER)
-        lateinit var shoppingCart: ShoppingCart
-        shoppingCartService.registerNewShoppingCart().map { shoppingCart = it }
-        val user = User(
-            email = email,
-            password = password,
-            roles = roles,
-            shoppingCart = shoppingCart
-        )
-        return userService.add(user)
+        return shoppingCartService.registerNewShoppingCart()
+            .flatMap {shoppingCart -> userService.add(
+                User(
+                    email = email,
+                    password = password,
+                    roles = roles,
+                    shoppingCart = shoppingCart
+                )
+            )}
     }
 
     override fun login(
