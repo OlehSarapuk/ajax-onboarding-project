@@ -17,7 +17,7 @@ data class UserController(
 ) {
     @GetMapping("/by-email")
     fun finByEmail(@RequestParam email: String): UserResponseDto {
-        val user: User = userService.findByEmail(email)
+        val user: User = userService.findByEmail(email).block()!!
         return userResponseDtoMapper.mapToDto(user)
     }
 }

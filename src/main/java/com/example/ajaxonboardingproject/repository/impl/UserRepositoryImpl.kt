@@ -1,35 +1,38 @@
-package com.example.ajaxonboardingproject.repository
+package com.example.ajaxonboardingproject.repository.impl
 
 import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
-import org.springframework.data.mongodb.core.MongoTemplate
+import com.example.ajaxonboardingproject.repository.UserRepository
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Mono
 
 @Repository
-class UserRepositoryImplementation(
-    private val mongoTemplate: MongoTemplate
+class UserRepositoryImpl(
+    private val mongoTemplate: ReactiveMongoTemplate
 ): UserRepository {
-    override fun findByEmail(email: String): User? {
+    override fun findByEmail(email: String): Mono<User> {
         val query = Query()
             .addCriteria(Criteria.where("email").`is`(email))
         return mongoTemplate.findOne(query, User::class.java)
     }
 
-    override fun findShoppingCartByUserId(id: String): ShoppingCart? {
+    override fun findShoppingCartByUserId(id: String): Mono<ShoppingCart> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
-        return mongoTemplate.findOne(query, User::class.java)?.shoppingCart
+        return mongoTemplate.findOne(query, User::class.java)
+            .map { it.shoppingCart }
     }
 
-    override fun findById(id: String): User? {
+    override fun findById(id: String): Mono<User> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
         return mongoTemplate.findOne(query, User::class.java)
     }
 
-    override fun save(user: User): User {
+    override fun save(user: User): Mono<User> {
         return mongoTemplate.save(user)
     }
 }

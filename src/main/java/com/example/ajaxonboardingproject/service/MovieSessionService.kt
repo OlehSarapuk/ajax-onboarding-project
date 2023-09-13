@@ -1,16 +1,19 @@
 package com.example.ajaxonboardingproject.service
 
 import com.example.ajaxonboardingproject.model.MovieSession
+import com.mongodb.client.result.DeleteResult
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
 interface MovieSessionService {
-    fun findAvailableSessions(movieId: String, date: LocalDateTime): List<MovieSession>
+    fun findAvailableSessions(movieId: String, date: LocalDateTime): Flux<MovieSession>
 
-    fun add(session: MovieSession): MovieSession
+    fun add(session: MovieSession): Mono<MovieSession>
 
-    fun get(id: String): MovieSession
+    fun get(id: String): Mono<MovieSession>
 
-    fun update(movieSession: MovieSession): MovieSession
+    fun update(movieSession: MovieSession): Mono<MovieSession>
 
-    fun delete(id: String)
+    fun delete(id: String): Mono<DeleteResult>
 }

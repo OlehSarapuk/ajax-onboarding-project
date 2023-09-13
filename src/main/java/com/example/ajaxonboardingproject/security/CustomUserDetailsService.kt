@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 class CustomUserDetailsService(private val userService: UserService) : UserDetailsService {
     @Suppress("SpreadOperator")
     override fun loadUserByUsername(username: String): UserDetails {
-        val user: User = userService.findByEmail(username)
+        val user: User = userService.findByEmail(username).block()!!
         return withUsername(username).apply {
             password(user.password)
             roles(*user.roles.map { it.name }.toTypedArray())

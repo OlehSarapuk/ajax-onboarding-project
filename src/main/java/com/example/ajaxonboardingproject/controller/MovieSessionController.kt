@@ -43,7 +43,7 @@ data class MovieSessionController(
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)
-            .toList()
+            .collectList().block()!!
     }
 
     @PutMapping("/{id}")

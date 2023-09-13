@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.2")
     implementation("io.jsonwebtoken:jjwt:0.9.1")

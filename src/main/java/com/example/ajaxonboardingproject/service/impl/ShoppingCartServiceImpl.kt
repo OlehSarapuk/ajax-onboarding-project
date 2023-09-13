@@ -9,6 +9,7 @@ import com.example.ajaxonboardingproject.repository.TicketRepository
 import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 
 @Service
 class ShoppingCartServiceImpl(
@@ -22,17 +23,17 @@ class ShoppingCartServiceImpl(
     ) {
         val ticket = Ticket(movieSession = movieSession)
         ticketRepository.save(ticket)
-        val user = getUserFromDb(userId)
+        lateinit var user: User
+        getUserFromDb(userId).map { user = it }
         user.shoppingCart.tickets.add(ticket)
         userRepository.save(user)
     }
 
-    override fun getShoppingCartByUser(userId: String): ShoppingCart {
+    override fun getShoppingCartByUser(userId: String): Mono<ShoppingCart> {
         return userRepository.findShoppingCartByUserId(userId)
-            ?: throw NoSuchElementException("Can't get shopping cart for user with id $userId")
     }
 
-    override fun registerNewShoppingCart(): ShoppingCart {
+    override fun registerNewShoppingCart(): Mono<ShoppingCart> {
         val shoppingCart = ShoppingCart(
             tickets = mutableListOf()
         )
@@ -44,8 +45,7 @@ class ShoppingCartServiceImpl(
         shoppingCartRepository.save(shoppingCart)
     }
 
-    fun getUserFromDb(id: String): User {
+    fun getUserFromDb(id: String): Mono<User> {
         return userRepository.findById(id)
-            ?: throw NoSuchElementException("Can't get user with id $id")
     }
 }

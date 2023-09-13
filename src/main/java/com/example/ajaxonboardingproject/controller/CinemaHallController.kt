@@ -24,7 +24,7 @@ data class CinemaHallController(
     fun add(
         @Valid @RequestBody requestDto: CinemaHallRequestDto
     ): CinemaHallResponseDto {
-        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto))
+        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto)).block()!!
         return cinemaHallResponseDtoMapper.mapToDto(cinemaHall)
     }
 
@@ -32,6 +32,6 @@ data class CinemaHallController(
     fun getAll(): List<CinemaHallResponseDto> {
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
-            .toList()
+            .collectList().block()!!
     }
 }

@@ -1,6 +1,8 @@
 package com.example.ajaxonboardingproject.repository
 
 import com.example.ajaxonboardingproject.model.Ticket
-import org.springframework.data.mongodb.repository.MongoRepository
+import reactor.core.publisher.Mono
 
-interface TicketRepository : MongoRepository<Ticket, String>
+interface TicketRepository {
+    fun save(ticket: Ticket): Mono<Ticket>
+}

@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.MovieService
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class MovieSessionMapper(
@@ -14,11 +15,17 @@ class MovieSessionMapper(
 ) : RequestDtoMapper<MovieSessionRequestDto, MovieSession>,
     ResponseDtoMapper<MovieSessionResponseDto, MovieSession> {
     override fun mapToModel(dto: MovieSessionRequestDto): MovieSession {
-        return MovieSession(
-            movie = movieService.get(dto.movieId),
-            cinemaHall = cinemaHallService.get(dto.cinemaHallId),
-            showTime = dto.showTime
-        )
+        val movieMono = movieService.get(dto.movieId)
+        val cinemaHallMono = cinemaHallService.get(dto.cinemaHallId)
+        lateinit var movieSession: MovieSession
+        Mono.zip(movieMono, cinemaHallMono) { movie, cinemaHall ->
+            MovieSession(
+                movie = movie,
+                cinemaHall = cinemaHall,
+                showTime = dto.showTime
+            )
+        }.subscribe{movieSession = it}
+        return movieSession
     }
 
     override fun mapToDto(model: MovieSession): MovieSessionResponseDto {

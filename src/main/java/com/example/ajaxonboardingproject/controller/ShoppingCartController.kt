@@ -31,8 +31,8 @@ data class ShoppingCartController(
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username
-        val user: User = userService.findByEmail(email)
-        val movieSession: MovieSession = movieSessionService.get(movieSessionId)
+        val user: User = userService.findByEmail(email).block()!!
+        val movieSession: MovieSession = movieSessionService.get(movieSessionId).block()!!
         shoppingCartService.addSession(movieSession, user.id)
     }
 
@@ -40,7 +40,7 @@ data class ShoppingCartController(
     fun getByUser(auth: Authentication): ShoppingCartResponseDto {
         val details = auth.principal as UserDetails
         val email: String = details.username
-        val user: User = userService.findByEmail(email)
-        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getShoppingCartByUser(user.id))
+        val user: User = userService.findByEmail(email).block()!!
+        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getShoppingCartByUser(user.id).block()!!)
     }
 }
