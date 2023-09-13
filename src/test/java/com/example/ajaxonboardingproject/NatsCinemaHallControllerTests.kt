@@ -1,10 +1,11 @@
 package com.example.ajaxonboardingproject
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
 import io.nats.client.Connection
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -23,26 +24,38 @@ class NatsCinemaHallControllerTests {
 
     @Test
     fun addCinemaHallTestOk() {
+        //Given
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val request = CinemaHallOuterClass.CinemaHallRequest.newBuilder()
+        val expected = CinemaHallOuterClass.CinemaHallRequest.newBuilder()
             .setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall))
             .build()
+        //When
         val future = natsConnection
-            .requestWithTimeout("cinemaHall.add", request.toByteArray(), Duration.ofMillis(100000))
-        val reply = CinemaHallOuterClass.CinemaHallResponse.parseFrom(future.get().data)
-        Assertions.assertEquals(request.cinemaHall, reply.cinemaHall)
+            .requestWithTimeout(
+                NatsSubject.ADD_NEW_CINEMA_HALL_SUBJECT,
+                expected.toByteArray(),
+                Duration.ofMillis(100000))
+        //Then
+        val actual = CinemaHallOuterClass.CinemaHallResponse.parseFrom(future.get().data)
+        assertThat(expected.cinemaHall).isEqualTo(actual.cinemaHall)
     }
 
     @Test
     fun getAllCinemaHallsTestOk() {
+        //Given
         val protoFromDb = cinemaHallRepository.findAll()
             .map { cinemaHallConverter.cinemaHallToProto(it) }
         val expected = ListOfCinemaHallsOuterClass.ListOfCinemaHalls
             .newBuilder()
             .addAllCinemaHalls(protoFromDb)
             .build()
-        val future = natsConnection.requestWithTimeout("cinemaHall.getAll", null, Duration.ofMillis(100000))
-        val result = ListOfCinemaHallsOuterClass.ListOfCinemaHalls.parseFrom(future.get().data)
-        Assertions.assertEquals(expected, result)
+        //When
+        val future = natsConnection.requestWithTimeout(
+            NatsSubject.FIND_ALL_CINEMA_HALLS_SUBJECT,
+            null,
+            Duration.ofMillis(100000))
+        //Then
+        val actual = ListOfCinemaHallsOuterClass.ListOfCinemaHalls.parseFrom(future.get().data)
+        assertThat(expected).isEqualTo(actual)
     }
 }

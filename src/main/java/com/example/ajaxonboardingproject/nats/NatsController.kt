@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.controller
+package com.example.ajaxonboardingproject.nats
 
 import com.google.protobuf.GeneratedMessageV3
 import com.google.protobuf.Parser

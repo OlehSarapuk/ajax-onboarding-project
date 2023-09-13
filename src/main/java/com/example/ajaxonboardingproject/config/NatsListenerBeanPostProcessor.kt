@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.config
 
-import com.example.ajaxonboardingproject.controller.NatsController
+import com.example.ajaxonboardingproject.nats.NatsController
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
 

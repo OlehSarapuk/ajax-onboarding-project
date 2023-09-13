@@ -1,8 +1,8 @@
-package com.example.ajaxonboardingproject.controller
+package com.example.ajaxonboardingproject.nats
 
 import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
 import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
-import com.example.ajaxonboardingproject.ListOfCinemaHallsOuterClass.ListOfCinemaHalls
+import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
@@ -16,7 +16,7 @@ class NatsCinemaHallAddController(
     private val service: CinemaHallService,
     override val connection: Connection
 ) : NatsController<CinemaHallRequest, CinemaHallResponse> {
-    override val subject: String = "cinemaHall.add"
+    override val subject: String = NatsSubject.ADD_NEW_CINEMA_HALL_SUBJECT
     override val parser: Parser<CinemaHallRequest> =
         CinemaHallRequest.parser()
 
@@ -25,29 +25,5 @@ class NatsCinemaHallAddController(
     ): CinemaHallResponse {
         val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request))
         return converter.cinemaHallToProtoResponse(cinemaHall)
-    }
-}
-
-@Component
-class NatsCinemaHallGetAllController(
-    private val converter: CinemaHallConverter,
-    private val service: CinemaHallService,
-    override val connection: Connection
-) : NatsController<CinemaHallRequest, ListOfCinemaHalls> {
-    override val subject: String = "cinemaHall.getAll"
-    override val parser: Parser<CinemaHallRequest> =
-        CinemaHallRequest.parser()
-
-    @Suppress("UnusedParameter")
-    override fun generateReplyForNatsRequest(
-        request: CinemaHallRequest
-    ): ListOfCinemaHalls {
-        val cinemaHalls = service.getAll()
-            .map { converter.cinemaHallToProto(it) }
-            .toList()
-        return ListOfCinemaHalls
-            .newBuilder()
-            .addAllCinemaHalls(cinemaHalls)
-            .build()
     }
 }
