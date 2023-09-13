@@ -22,10 +22,11 @@ class ShoppingCartServiceImpl(
         userId: String
     ) {
         val ticket = Ticket(movieSession = movieSession)
-        ticketRepository.save(ticket)
         getUserFromDb(userId)
-            .doOnNext { it.shoppingCart.tickets.add(ticket) }
-            .doOnNext { userRepository.save(it) }
+            .flatMap {
+                it.shoppingCart.tickets.add(ticket)
+                userRepository.save(it)
+            }
             .subscribe()
     }
 
