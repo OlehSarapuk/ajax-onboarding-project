@@ -1,5 +1,5 @@
 
-÷
+ï¿½
 3com/example/ajaxonboardingproject/cinema_hall.proto!com.example.ajaxonboardingproject"J
 
 CinemaHall
@@ -11,31 +11,32 @@ cinemaHall"c
 CinemaHallRequestN
 cinema_hall (2-.com.example.ajaxonboardingproject.CinemaHallR
 cinemaHallbproto3
-…
+ï¿½
 <com/example/ajaxonboardingproject/list_of_cinema_halls.proto!com.example.ajaxonboardingproject3com/example/ajaxonboardingproject/cinema_hall.proto"e
 ListOfCinemaHallsP
 cinema_halls (2-.com.example.ajaxonboardingproject.CinemaHallRcinemaHallsbproto3
-¼
+ï¿½
 -com/example/ajaxonboardingproject/movie.proto!com.example.ajaxonboardingproject"?
 Movie
 title (	Rtitle 
 description (	Rdescription"O
-MovieResponse>
+
+MovieResponse>
 movie (2(.com.example.ajaxonboardingproject.MovieRmovie"N
 MovieRequest>
 movie (2(.com.example.ajaxonboardingproject.MovieRmoviebproto3
-ä
+ï¿½
 6com/example/ajaxonboardingproject/list_of_movies.proto!com.example.ajaxonboardingproject-com/example/ajaxonboardingproject/movie.proto"P
 ListOfMovies@
 movies (2(.com.example.ajaxonboardingproject.MovieRmoviesbproto3
-ÿ
+ï¿½
 google/protobuf/timestamp.protogoogle.protobuf";
 	Timestamp
 seconds (Rseconds
-nanos (RnanosB…
-com.google.protobufBTimestampProtoPZ2google.golang.org/protobuf/types/known/timestamppbø¢GPBªGoogle.Protobuf.WellKnownTypesbproto3
-š
-5com/example/ajaxonboardingproject/movie_session.proto!com.example.ajaxonboardingprojectgoogle/protobuf/timestamp.proto3com/example/ajaxonboardingproject/cinema_hall.proto-com/example/ajaxonboardingproject/movie.proto"×
+nanos (RnanosBï¿½
+com.google.protobufBTimestampProtoPZ2google.golang.org/protobuf/types/known/timestamppbï¿½ï¿½GPBï¿½Google.Protobuf.WellKnownTypesbproto3
+ï¿½
+5com/example/ajaxonboardingproject/movie_session.proto!com.example.ajaxonboardingprojectgoogle/protobuf/timestamp.proto3com/example/ajaxonboardingproject/cinema_hall.proto-com/example/ajaxonboardingproject/movie.proto"ï¿½
 MovieSession>
 movie (2(.com.example.ajaxonboardingproject.MovieRmovieN
 cinema_hall (2-.com.example.ajaxonboardingproject.CinemaHallR
