@@ -4,6 +4,7 @@ import com.example.ajaxonboardingproject.lib.ValidEmail
 import jakarta.validation.constraints.Size
 import java.io.Serializable
 
+@Suppress("SerialVersionUIDInSerializableClass")
 data class UserRegistrationRequestDto(
     @field:ValidEmail()
     val email: String,
