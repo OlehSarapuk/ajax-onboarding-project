@@ -5,5 +5,5 @@ package com.example.ajaxonboardingproject;
 import "com/example/ajaxonboardingproject/movie.proto";
 
 message ListOfMovies {
-  repeated com.example.ajaxonboardingproject.Movie movies = 1;
+  repeated Movie movies = 1;
 }

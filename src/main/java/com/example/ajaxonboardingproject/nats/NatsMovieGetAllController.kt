@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.nats
 
 import com.example.ajaxonboardingproject.ListOfMoviesOuterClass
 import com.example.ajaxonboardingproject.MovieOuterClass
+import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
 import com.google.protobuf.Parser

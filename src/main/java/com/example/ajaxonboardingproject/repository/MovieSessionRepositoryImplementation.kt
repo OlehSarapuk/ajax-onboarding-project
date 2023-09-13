@@ -31,4 +31,8 @@ class MovieSessionRepositoryImplementation(
     override fun delete(movieSession: MovieSession) {
         mongoTemplate.remove(movieSession)
     }
+
+    override fun findAll(): List<MovieSession> {
+        return mongoTemplate.findAll(MovieSession::class.java)
+    }
 }

@@ -13,10 +13,6 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java-util:3.20.1")
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-description = "nats-api"
-
 kotlin {
     jvmToolchain(17)
 }
