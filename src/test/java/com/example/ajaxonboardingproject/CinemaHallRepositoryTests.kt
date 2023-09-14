@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import org.junit.jupiter.api.BeforeEach
