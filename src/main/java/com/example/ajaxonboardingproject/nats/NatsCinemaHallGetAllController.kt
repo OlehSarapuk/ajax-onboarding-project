@@ -15,7 +15,9 @@ class NatsCinemaHallGetAllController(
     private val service: CinemaHallService,
     override val connection: Connection
 ) : NatsController<CinemaHallOuterClass.CinemaHallRequest, ListOfCinemaHallsOuterClass.ListOfCinemaHalls> {
+
     override val subject: String = NatsSubject.FIND_ALL_CINEMA_HALLS_SUBJECT
+
     override val parser: Parser<CinemaHallOuterClass.CinemaHallRequest> =
         CinemaHallOuterClass.CinemaHallRequest.parser()
 

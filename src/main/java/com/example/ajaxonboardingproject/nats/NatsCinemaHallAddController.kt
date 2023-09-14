@@ -16,7 +16,9 @@ class NatsCinemaHallAddController(
     private val service: CinemaHallService,
     override val connection: Connection
 ) : NatsController<CinemaHallRequest, CinemaHallResponse> {
+
     override val subject: String = NatsSubject.ADD_NEW_CINEMA_HALL_SUBJECT
+
     override val parser: Parser<CinemaHallRequest> =
         CinemaHallRequest.parser()
 

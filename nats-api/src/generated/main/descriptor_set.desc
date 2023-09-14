@@ -1,48 +1,0 @@
-
-�
-3com/example/ajaxonboardingproject/cinema_hall.proto!com.example.ajaxonboardingproject"J
-
-CinemaHall
-capacity (Rcapacity 
-description (	Rdescription"d
-CinemaHallResponseN
-cinema_hall (2-.com.example.ajaxonboardingproject.CinemaHallR
-cinemaHall"c
-CinemaHallRequestN
-cinema_hall (2-.com.example.ajaxonboardingproject.CinemaHallR
-cinemaHallbproto3
-�
-<com/example/ajaxonboardingproject/list_of_cinema_halls.proto!com.example.ajaxonboardingproject3com/example/ajaxonboardingproject/cinema_hall.proto"e
-ListOfCinemaHallsP
-cinema_halls (2-.com.example.ajaxonboardingproject.CinemaHallRcinemaHallsbproto3
-�
--com/example/ajaxonboardingproject/movie.proto!com.example.ajaxonboardingproject"?
-Movie
-title (	Rtitle 
-description (	Rdescription"O
-
-MovieResponse>
-movie (2(.com.example.ajaxonboardingproject.MovieRmovie"N
-MovieRequest>
-movie (2(.com.example.ajaxonboardingproject.MovieRmoviebproto3
-�
-6com/example/ajaxonboardingproject/list_of_movies.proto!com.example.ajaxonboardingproject-com/example/ajaxonboardingproject/movie.proto"P
-ListOfMovies@
-movies (2(.com.example.ajaxonboardingproject.MovieRmoviesbproto3
-�
-google/protobuf/timestamp.protogoogle.protobuf";
-	Timestamp
-seconds (Rseconds
-nanos (RnanosB�
-com.google.protobufBTimestampProtoPZ2google.golang.org/protobuf/types/known/timestamppb��GPB�Google.Protobuf.WellKnownTypesbproto3
-�
-5com/example/ajaxonboardingproject/movie_session.proto!com.example.ajaxonboardingprojectgoogle/protobuf/timestamp.proto3com/example/ajaxonboardingproject/cinema_hall.proto-com/example/ajaxonboardingproject/movie.proto"�
-MovieSession>
-movie (2(.com.example.ajaxonboardingproject.MovieRmovieN
-cinema_hall (2-.com.example.ajaxonboardingproject.CinemaHallR
-cinemaHall7
-	show_time (2.google.protobuf.TimestampRshowTime"k
-MovieSessionResponseS
-movieSession (2/.com.example.ajaxonboardingproject.MovieSessionRmovieSession"j
-MovieSessionRequestS
-movieSession (2/.com.example.ajaxonboardingproject.MovieSessionRmovieSessionbproto3

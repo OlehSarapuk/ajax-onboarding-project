@@ -16,7 +16,9 @@ class NatsMovieAddController(
     private val converter: MovieConverter,
     override val connection: Connection
 ) : NatsController<MovieRequest, MovieResponse> {
+
     override val subject: String = NatsSubject.ADD_NEW_MOVIE_SUBJECT
+
     override val parser: Parser<MovieRequest> =
         MovieRequest.parser()
 
