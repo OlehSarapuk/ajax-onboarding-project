@@ -44,8 +44,7 @@ class MemoryCheckBeanPostProcessor : BeanPostProcessor {
 
     fun measurePayloadSizeInBytes(
         args: Array<Any>
-    )
-            : Int {
+    ): Int {
         ByteArrayOutputStream().use { byteArrayOutputStream ->
             ObjectOutputStream(byteArrayOutputStream).use { objectOutputStream ->
                 args.forEach { objectOutputStream.writeObject(it) }

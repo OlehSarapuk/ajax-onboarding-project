@@ -6,7 +6,6 @@ import com.example.ajaxonboardingproject.service.CinemaHallService
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallRepository) : CinemaHallService {

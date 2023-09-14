@@ -10,4 +10,4 @@ data class CinemaHallRequestDto(
     val capacity: Int,
     @field:Size(max = 200)
     val description: String
-) : Serializable
+): Serializable

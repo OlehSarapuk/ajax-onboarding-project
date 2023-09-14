@@ -10,4 +10,4 @@ data class MovieRequestDto(
     val title: String,
     @field:Size(max = 200)
     val description: String
-) : Serializable
+): Serializable

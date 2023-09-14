@@ -11,4 +11,4 @@ data class UserRegistrationRequestDto(
     @field:Size(min = 8, max = 40)
     val password: String,
     val repeatPassword: String
-) : Serializable
+): Serializable
