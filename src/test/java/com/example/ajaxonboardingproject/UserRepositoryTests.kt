@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.model.MovieSession
@@ -7,14 +9,11 @@ import com.example.ajaxonboardingproject.model.Role
 import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
-import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import com.example.ajaxonboardingproject.repository.UserRepository
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 import java.time.LocalDateTime
@@ -32,21 +31,23 @@ class UserRepositoryTests {
     @Test
     fun saveUserToDbTestOk() {
         //Given
-        val user = User(
+        val expected = User(
             email = "bob@gmail.com",
             password = "bob1234",
             roles = mutableSetOf(Role.USER),
             shoppingCart = ShoppingCart()
         )
         //When
-        val actual: Mono<User> = userRepository.save(user)
+        val actual: Mono<User> = userRepository.save(expected)
         //Then
-        val expected = actual.flatMap {
-            userRepository.findById(it.id)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get user by id ${it.id}")))
-        }
         StepVerifier.create(actual)
-            .expectNext(expected.block()!!)
+            .expectNextMatches {
+                assertThat(expected.email).isEqualTo(it.email)
+                assertThat(expected.password).isEqualTo(it.password)
+                assertThat(expected.roles).isEqualTo(it.roles)
+                assertThat(expected.shoppingCart).isEqualTo(it.shoppingCart)
+                true
+            }
             .verifyComplete()
     }
 
@@ -59,15 +60,12 @@ class UserRepositoryTests {
             roles = mutableSetOf(Role.USER),
             shoppingCart = ShoppingCart()
         )
-        val expected: Mono<User> = userRepository.save(user)
+        val expected: User = userRepository.save(user).block()!!
         //When
-        val actual: Mono<User> = expected.flatMap {
-            userRepository.findById(it.id)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get user by id ${it.id}")))
-        }
+        val actual: Mono<User> = userRepository.findById(expected.id)
         //Then
         StepVerifier.create(actual)
-            .expectNext(expected.block()!!)
+            .expectNext(expected)
             .verifyComplete()
     }
 
@@ -80,15 +78,12 @@ class UserRepositoryTests {
             roles = mutableSetOf(Role.USER),
             shoppingCart = ShoppingCart()
         )
-        val expected: Mono<User> = userRepository.save(user)
+        val expected: User = userRepository.save(user).block()!!
         //When
-        val actual: Mono<User> = expected.flatMap {
-            userRepository.findByEmail(it.email)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get user by email ${it.email}")))
-        }
+        val actual: Mono<User> = userRepository.findByEmail(expected.email)
         //Then
         StepVerifier.create(actual)
-            .expectNext(expected.block()!!)
+            .expectNext(expected)
             .verifyComplete()
     }
 
@@ -108,24 +103,18 @@ class UserRepositoryTests {
             roles = mutableSetOf(Role.USER),
             shoppingCart = shoppingCart
         )
-        val userMono: Mono<User> = userRepository.save(user)
+        val userMono: User = userRepository.save(user).block()!!
         //When
-        val actual: Mono<ShoppingCart> = userMono.flatMap {
-            userRepository.findShoppingCartByUserId(it.id)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get shopping cart by user id ${it.id}")))
-        }
+        val actual: Mono<ShoppingCart> = userRepository.findShoppingCartByUserId(userMono.id)
         //Then
         StepVerifier.create(actual)
             .expectNextMatches {
-                Assertions.assertTrue(
-                    it.tickets[0].movieSession.movie == shoppingCart.tickets[0].movieSession.movie
-                )
-                Assertions.assertTrue(
-                    it.tickets[0].movieSession.cinemaHall == shoppingCart.tickets[0].movieSession.cinemaHall
-                )
-                Assertions.assertTrue(
-                    it.tickets[0].movieSession.showTime == shoppingCart.tickets[0].movieSession.showTime
-                )
+                assertThat(it.tickets[0].movieSession.movie)
+                    .isEqualTo(shoppingCart.tickets[0].movieSession.movie)
+                assertThat(it.tickets[0].movieSession.cinemaHall)
+                    .isEqualTo(shoppingCart.tickets[0].movieSession.cinemaHall)
+                assertThat(it.tickets[0].movieSession.showTime)
+                    .isEqualTo(shoppingCart.tickets[0].movieSession.showTime)
                 true
             }
             .verifyComplete()

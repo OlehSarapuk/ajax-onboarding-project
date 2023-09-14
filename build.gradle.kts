@@ -23,6 +23,7 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("io.projectreactor:reactor-test:3.5.10")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.27.0")
 }
 
 group = "com.example"

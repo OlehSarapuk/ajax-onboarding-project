@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import org.junit.jupiter.api.BeforeEach
@@ -23,16 +25,16 @@ class CinemaHallRepositoryTests {
     @Test
     fun saveCinemaHallToDbTestOk() {
         //Given
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
+        val expected = CinemaHall(capacity = 100, description = "grate one")
         //When
-        val actual: Mono<CinemaHall> = cinemaHallRepository.save(cinemaHall)
+        val actual: Mono<CinemaHall> = cinemaHallRepository.save(expected)
         //Then
-        val expected = actual.flatMap {
-            cinemaHallRepository.findById(it.id)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get cinema hall by id ${it.id}")))
-        }
         StepVerifier.create(actual)
-            .expectNext(expected.block()!!)
+            .expectNextMatches {
+                assertThat(expected.capacity).isEqualTo(it.capacity)
+                assertThat(expected.description).isEqualTo(it.description)
+                true
+            }
             .verifyComplete()
     }
 
@@ -40,15 +42,12 @@ class CinemaHallRepositoryTests {
     fun findCinemaHallByIdFromDBTestOk() {
         //Given
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val expected: Mono<CinemaHall> = cinemaHallRepository.save(cinemaHall)
+        val expected: CinemaHall = cinemaHallRepository.save(cinemaHall).block()!!
         //When
-        val actual: Mono<CinemaHall> = expected.flatMap {
-            cinemaHallRepository.findById(it.id)
-                .switchIfEmpty(Mono.error(NoSuchElementException("can't get cinema hall by id ${it.id}")))
-        }
+        val actual: Mono<CinemaHall> = cinemaHallRepository.findById(expected.id)
         //Then
         StepVerifier.create(actual)
-            .expectNext(expected.block()!!)
+            .expectNext(expected)
             .verifyComplete()
     }
 
