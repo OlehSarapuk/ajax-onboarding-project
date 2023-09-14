@@ -56,14 +56,14 @@ class CinemaHallRepositoryTests {
         // Given
         val cinemaHall1 = CinemaHall(capacity = 100, description = "great one")
         val cinemaHall2 = CinemaHall(capacity = 150, description = "awesome one")
-        val expectedCinemaHall1 = cinemaHallRepository.save(cinemaHall1)
-        val expectedCinemaHall2 = cinemaHallRepository.save(cinemaHall2)
+        val expectedCinemaHall1 = cinemaHallRepository.save(cinemaHall1).block()!!
+        val expectedCinemaHall2 = cinemaHallRepository.save(cinemaHall2).block()!!
         //When
         val actual: Flux<CinemaHall> = cinemaHallRepository.findAll()
         //Then
         StepVerifier.create(actual)
-            .expectNext(expectedCinemaHall1.block()!!)
-            .expectNext(expectedCinemaHall2.block()!!)
+            .expectNext(expectedCinemaHall1)
+            .expectNext(expectedCinemaHall2)
             .verifyComplete()
     }
 }
