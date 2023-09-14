@@ -30,11 +30,7 @@ class CinemaHallRepositoryTests {
         val actual: Mono<CinemaHall> = cinemaHallRepository.save(expected)
         //Then
         StepVerifier.create(actual)
-            .expectNextMatches {
-                assertThat(expected.capacity).isEqualTo(it.capacity)
-                assertThat(expected.description).isEqualTo(it.description)
-                true
-            }
+            .expectNext(expected)
             .verifyComplete()
     }
 
