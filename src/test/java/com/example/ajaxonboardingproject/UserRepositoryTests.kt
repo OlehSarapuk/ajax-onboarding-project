@@ -117,9 +117,15 @@ class UserRepositoryTests {
         //Then
         StepVerifier.create(actual)
             .expectNextMatches {
-                Assertions.assertTrue(it.tickets[0].movieSession.movie == shoppingCart.tickets[0].movieSession.movie)
-                Assertions.assertTrue(it.tickets[0].movieSession.cinemaHall == shoppingCart.tickets[0].movieSession.cinemaHall)
-                Assertions.assertTrue(it.tickets[0].movieSession.showTime == shoppingCart.tickets[0].movieSession.showTime)
+                Assertions.assertTrue(
+                    it.tickets[0].movieSession.movie == shoppingCart.tickets[0].movieSession.movie
+                )
+                Assertions.assertTrue(
+                    it.tickets[0].movieSession.cinemaHall == shoppingCart.tickets[0].movieSession.cinemaHall
+                )
+                Assertions.assertTrue(
+                    it.tickets[0].movieSession.showTime == shoppingCart.tickets[0].movieSession.showTime
+                )
                 true
             }
             .verifyComplete()
