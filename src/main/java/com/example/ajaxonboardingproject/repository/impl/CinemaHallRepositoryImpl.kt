@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.repository.impl
 
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.repository.CinemaHallRepository
+import com.mongodb.client.result.DeleteResult
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -25,5 +26,10 @@ class CinemaHallRepositoryImpl(
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
         return mongoTemplate.findOne(query, CinemaHall::class.java)
+    }
+
+    override fun deleteAll(): Mono<DeleteResult> {
+        val query = Query()
+        return mongoTemplate.remove(query, CinemaHall::class.java)
     }
 }

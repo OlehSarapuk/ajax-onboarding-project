@@ -1,8 +1,10 @@
 package com.example.ajaxonboardingproject.repository.impl
 
+import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.repository.UserRepository
+import com.mongodb.client.result.DeleteResult
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -34,5 +36,10 @@ class UserRepositoryImpl(
 
     override fun save(user: User): Mono<User> {
         return mongoTemplate.save(user)
+    }
+
+    override fun deleteAll(): Mono<DeleteResult> {
+        val query = Query()
+        return mongoTemplate.remove(query, User::class.java)
     }
 }

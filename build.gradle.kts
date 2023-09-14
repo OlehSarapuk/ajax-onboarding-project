@@ -22,7 +22,7 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
-    testImplementation("org.springframework.security:spring-security-test:6.1.2")
+    testImplementation("io.projectreactor:reactor-test:3.5.10")
 }
 
 group = "com.example"
@@ -35,4 +35,8 @@ kotlin {
 
 noArg {
     annotation("org.springframework.web.bind.annotation.RestController")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
