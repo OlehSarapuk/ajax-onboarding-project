@@ -91,10 +91,10 @@ class UserRepositoryTests {
         //Given
         val shoppingCart = ShoppingCart(
             mutableListOf(
-            Ticket(MovieSession(
-                Movie("movie", "awesome"),
-                CinemaHall(100, "awesome"),
-                LocalDateTime.of(2020, 3, 12, 10 , 5))))
+                Ticket(MovieSession(
+                    Movie("movie", "awesome"),
+                    CinemaHall(100, "awesome"),
+                    LocalDateTime.of(2020, 3, 12, 10 , 5))))
         )
         val user = User(
             email = "bob@gmail.com",

@@ -41,12 +41,11 @@ data class ShoppingCartController(
     }
 
     @GetMapping("/by-user")
-    fun getByUser(auth: Authentication): ShoppingCartResponseDto {
+    fun getByUser(auth: Authentication): Mono<ShoppingCartResponseDto> {
         val details = auth.principal as UserDetails
         val email: String = details.username
         return userService.findByEmail(email)
             .flatMap { shoppingCartService.getShoppingCartByUser(it.id) }
             .map { shoppingCartResponseDtoMapper.mapToDto(it) }
-            .block()!!
     }
 }
