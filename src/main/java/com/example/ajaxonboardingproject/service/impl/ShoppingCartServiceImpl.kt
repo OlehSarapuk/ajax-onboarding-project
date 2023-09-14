@@ -5,7 +5,6 @@ import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
-import com.example.ajaxonboardingproject.repository.TicketRepository
 import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import org.springframework.stereotype.Service
@@ -14,8 +13,7 @@ import reactor.core.publisher.Mono
 @Service
 class ShoppingCartServiceImpl(
     private val shoppingCartRepository: ShoppingCartRepository,
-    private val userRepository: UserRepository,
-    private val ticketRepository: TicketRepository
+    private val userRepository: UserRepository
 ) : ShoppingCartService {
     override fun addSession(
         movieSession: MovieSession,
