@@ -24,14 +24,16 @@ data class MovieController(
     fun add(
         @Valid @RequestBody requestDto: MovieRequestDto
     ): MovieResponseDto {
-        val movie: Movie = movieService.add(movieRequestDtoMapper.mapToModel(requestDto)).block()!!
-        return movieResponseDtoMapper.mapToDto(movie)
+        return movieService.add(movieRequestDtoMapper.mapToModel(requestDto))
+            .map { movieResponseDtoMapper.mapToDto(it) }
+            .block()!!
     }
 
     @GetMapping
     fun getAll(): List<MovieResponseDto> {
         return movieService.getAll()
             .map(movieResponseDtoMapper::mapToDto)
-            .collectList().block()!!
+            .collectList()
+            .block()!!
     }
 }

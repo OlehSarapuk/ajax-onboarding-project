@@ -24,14 +24,16 @@ data class CinemaHallController(
     fun add(
         @Valid @RequestBody requestDto: CinemaHallRequestDto
     ): CinemaHallResponseDto {
-        val cinemaHall: CinemaHall = cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto)).block()!!
-        return cinemaHallResponseDtoMapper.mapToDto(cinemaHall)
+        return cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto))
+            .map{ cinemaHallResponseDtoMapper.mapToDto(it) }
+            .block()!!
     }
 
     @GetMapping
     fun getAll(): List<CinemaHallResponseDto> {
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
-            .collectList().block()!!
+            .collectList()
+            .block()!!
     }
 }

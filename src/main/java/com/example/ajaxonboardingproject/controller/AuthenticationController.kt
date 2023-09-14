@@ -24,8 +24,10 @@ class AuthenticationController(
     fun register(
         @Valid @RequestBody requestDto: UserRegistrationRequestDto
     ): UserResponseDto {
-        val user: User = authenticationService.register(requestDto.email, requestDto.password).block()!!
-        return userDtoResponseMapper.mapToDto(user)
+        return authenticationService
+            .register(requestDto.email, requestDto.password)
+            .map { userDtoResponseMapper.mapToDto(it) }
+            .block()!!
     }
 
     @PostMapping("/login")

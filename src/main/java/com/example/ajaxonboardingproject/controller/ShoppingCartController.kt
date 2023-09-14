@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/shopping-carts")
@@ -31,16 +32,20 @@ data class ShoppingCartController(
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username
-        val user: User = userService.findByEmail(email).block()!!
-        val movieSession: MovieSession = movieSessionService.get(movieSessionId).block()!!
-        shoppingCartService.addSession(movieSession, user.id)
+        val user: Mono<User> = userService.findByEmail(email)
+        val movieSession: Mono<MovieSession> = movieSessionService.get(movieSessionId)
+        Mono.zip(user, movieSession){user, movieSession ->
+            shoppingCartService.addSession(movieSession, user.id)
+        }.subscribe()
     }
 
     @GetMapping("/by-user")
     fun getByUser(auth: Authentication): ShoppingCartResponseDto {
         val details = auth.principal as UserDetails
         val email: String = details.username
-        val user: User = userService.findByEmail(email).block()!!
-        return shoppingCartResponseDtoMapper.mapToDto(shoppingCartService.getShoppingCartByUser(user.id).block()!!)
+        return userService.findByEmail(email)
+            .flatMap { shoppingCartService.getShoppingCartByUser(it.id) }
+            .map { shoppingCartResponseDtoMapper.mapToDto(it) }
+            .block()!!
     }
 }
