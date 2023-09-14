@@ -12,9 +12,10 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  container-job:
 
     runs-on: ubuntu-latest
+    container: openjdk:17-jdk-buster
 
     services:
         mongo:
