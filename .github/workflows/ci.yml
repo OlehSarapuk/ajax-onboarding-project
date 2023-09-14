@@ -21,7 +21,7 @@ jobs:
       mongo:
         image: mongo:latest
         ports:
-          - ${{ env.MONGO_LOCAL_PORT }}:${{ env.MONGO_DOCKER_PORT }}
+          - 27017:27017
 
     steps:
       - name: Checkout
