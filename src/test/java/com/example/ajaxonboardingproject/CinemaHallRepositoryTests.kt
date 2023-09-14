@@ -63,7 +63,7 @@ class CinemaHallRepositoryTests {
         val actual: Flux<CinemaHall> = cinemaHallRepository.findAll()
         //Then
         StepVerifier.create(actual)
-            .expectNext(expectedCinemaHall1.block()!!)
+            .expectNext(expectedCinemaHall2.block()!!)
             .expectNext(expectedCinemaHall2.block()!!)
             .verifyComplete()
     }
