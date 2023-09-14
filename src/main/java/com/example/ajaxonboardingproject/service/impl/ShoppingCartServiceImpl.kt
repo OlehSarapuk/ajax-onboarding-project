@@ -30,6 +30,7 @@ class ShoppingCartServiceImpl(
 
     override fun getShoppingCartByUser(userId: String): Mono<ShoppingCart> {
         return userRepository.findShoppingCartByUserId(userId)
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get shopping cart for user with id $userId")))
     }
 
     override fun registerNewShoppingCart(): Mono<ShoppingCart> {
@@ -46,5 +47,6 @@ class ShoppingCartServiceImpl(
 
     fun getUserFromDb(id: String): Mono<User> {
         return userRepository.findById(id)
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get user with id $id")))
     }
 }

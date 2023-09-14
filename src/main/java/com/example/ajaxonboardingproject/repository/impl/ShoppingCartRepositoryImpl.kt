@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono
 @Repository
 class ShoppingCartRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
-): ShoppingCartRepository {
+) : ShoppingCartRepository {
     override fun save(shoppingCart: ShoppingCart): Mono<ShoppingCart> {
         return mongoTemplate.save(shoppingCart)
     }

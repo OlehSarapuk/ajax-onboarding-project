@@ -15,6 +15,7 @@ class MovieServiceImpl(private val movieRepository: MovieRepository) : MovieServ
 
     override fun get(id: String): Mono<Movie> {
         return movieRepository.findById(id)
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get movie by id $id")))
     }
 
     override fun getAll(): Flux<Movie> {

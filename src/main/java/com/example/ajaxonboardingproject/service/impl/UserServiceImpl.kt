@@ -19,10 +19,12 @@ class UserServiceImpl(
 
     override fun get(id: String): Mono<User> {
         return userRepository.findById(id)
+            .switchIfEmpty(Mono.error(NoSuchElementException("User with id $id not found")))
     }
 
     override fun findByEmail(email: String): Mono<User> {
         return userRepository.findByEmail(email)
+            .switchIfEmpty(Mono.error(NoSuchElementException("User with email $email not found")))
     }
 
 }

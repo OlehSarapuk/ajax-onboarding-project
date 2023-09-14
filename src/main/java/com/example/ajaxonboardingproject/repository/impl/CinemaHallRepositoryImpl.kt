@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 @Repository
 class CinemaHallRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
-): CinemaHallRepository {
+) : CinemaHallRepository {
     override fun save(cinemaHall: CinemaHall): Mono<CinemaHall> {
         return mongoTemplate.save(cinemaHall)
     }

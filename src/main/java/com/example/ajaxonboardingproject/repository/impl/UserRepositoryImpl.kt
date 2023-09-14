@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 @Repository
 class UserRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
-): UserRepository {
+) : UserRepository {
     override fun findByEmail(email: String): Mono<User> {
         val query = Query()
             .addCriteria(Criteria.where("email").`is`(email))

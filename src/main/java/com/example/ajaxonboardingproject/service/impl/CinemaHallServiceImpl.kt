@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.service.CinemaHallService
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 @Service
 class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallRepository) : CinemaHallService {
@@ -15,6 +16,7 @@ class CinemaHallServiceImpl(private val cinemaHallRepository: CinemaHallReposito
 
     override fun get(id: String): Mono<CinemaHall> {
         return cinemaHallRepository.findById(id)
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get cinema hall by id $id")))
     }
 
     override fun getAll(): Flux<CinemaHall> {

@@ -24,14 +24,16 @@ class AuthenticationServiceImpl(
     ): Mono<User> {
         val roles = mutableSetOf(Role.USER)
         return shoppingCartService.registerNewShoppingCart()
-            .flatMap {shoppingCart -> userService.add(
-                User(
-                    email = email,
-                    password = password,
-                    roles = roles,
-                    shoppingCart = shoppingCart
+            .flatMap { shoppingCart ->
+                userService.add(
+                    User(
+                        email = email,
+                        password = password,
+                        roles = roles,
+                        shoppingCart = shoppingCart
+                    )
                 )
-            )}
+            }
     }
 
     override fun login(

@@ -9,4 +9,4 @@ data class UserLoginRequestDto(
     val login: String,
     @field:NotBlank(message = "password can't be null or blank!")
     val password: String
-): Serializable
+) : Serializable

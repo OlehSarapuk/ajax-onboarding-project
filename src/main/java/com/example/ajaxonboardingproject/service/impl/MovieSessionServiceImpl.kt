@@ -26,6 +26,7 @@ class MovieSessionServiceImpl(
 
     override fun get(id: String): Mono<MovieSession> {
         return movieSessionRepository.findById(id)
+            .switchIfEmpty(Mono.error(NoSuchElementException("Session with id $id not found")))
     }
 
     override fun update(movieSession: MovieSession): Mono<MovieSession> {
