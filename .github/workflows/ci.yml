@@ -12,25 +12,17 @@ permissions:
   contents: read
 
 jobs:
-  container-job:
+  docker:
 
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: openjdk:17-jdk-buster
-
-    services:
-        mongo:
-          image: mongo:latest
-          ports:
-            - 27017:27017
-          options: >-
-            --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'"
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Start containers
+        run: docker run -d --name mongo -p 27017:27017 mongo:latest
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
