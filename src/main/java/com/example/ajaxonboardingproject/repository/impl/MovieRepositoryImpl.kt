@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono
 class MovieRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
 ) : MovieRepository {
+
     override fun save(movie: Movie): Mono<Movie> {
         return mongoTemplate.save(movie)
     }

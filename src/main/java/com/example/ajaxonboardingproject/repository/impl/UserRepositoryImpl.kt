@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono
 class UserRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
 ) : UserRepository {
+
     override fun findByEmail(email: String): Mono<User> {
         val query = Query()
             .addCriteria(Criteria.where("email").`is`(email))

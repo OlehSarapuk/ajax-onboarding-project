@@ -6,6 +6,7 @@ import com.mongodb.client.result.DeleteResult
 import reactor.core.publisher.Mono
 
 interface UserRepository {
+
     fun findByEmail(email: String): Mono<User>
 
     fun findShoppingCartByUserId(id: String): Mono<ShoppingCart>

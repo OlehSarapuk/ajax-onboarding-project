@@ -32,9 +32,10 @@ data class ShoppingCartController(
     ) {
         val details = auth.principal as UserDetails
         val email: String = details.username
-        val user: Mono<User> = userService.findByEmail(email)
-        val movieSession: Mono<MovieSession> = movieSessionService.get(movieSessionId)
-        Mono.zip(user, movieSession){user, movieSession ->
+        Mono.zip(
+            userService.findByEmail(email),
+            movieSessionService.get(movieSessionId)
+        ) { user, movieSession ->
             shoppingCartService.addSession(movieSession, user.id)
         }.subscribe()
     }

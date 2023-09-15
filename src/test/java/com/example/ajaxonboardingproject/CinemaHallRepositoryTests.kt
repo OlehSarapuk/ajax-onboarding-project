@@ -19,7 +19,7 @@ class CinemaHallRepositoryTests {
 
     @BeforeEach
     fun clearCollection() {
-        cinemaHallRepository.deleteAll().subscribe()
+        cinemaHallRepository.deleteAll().block()
     }
 
     @Test

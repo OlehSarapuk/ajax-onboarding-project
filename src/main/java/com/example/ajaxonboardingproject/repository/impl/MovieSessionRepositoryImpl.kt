@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 class MovieSessionRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
 ) : MovieSessionRepository {
+
     override fun findByMovieIdAndShowTimeAfter(id: String, date: LocalDateTime): Flux<MovieSession> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))

@@ -25,7 +25,7 @@ class UserRepositoryTests {
 
     @BeforeEach
     fun clearCollection() {
-        userRepository.deleteAll().subscribe()
+        userRepository.deleteAll().block()
     }
 
     @Test
@@ -41,12 +41,11 @@ class UserRepositoryTests {
         val actual: Mono<User> = userRepository.save(expected)
         //Then
         StepVerifier.create(actual)
-            .expectNextMatches {
+            .assertNext {
                 assertThat(expected.email).isEqualTo(it.email)
                 assertThat(expected.password).isEqualTo(it.password)
                 assertThat(expected.roles).isEqualTo(it.roles)
                 assertThat(expected.shoppingCart).isEqualTo(it.shoppingCart)
-                true
             }
             .verifyComplete()
     }
@@ -108,14 +107,13 @@ class UserRepositoryTests {
         val actual: Mono<ShoppingCart> = userRepository.findShoppingCartByUserId(userMono.id)
         //Then
         StepVerifier.create(actual)
-            .expectNextMatches {
+            .assertNext {
                 assertThat(it.tickets[0].movieSession.movie)
                     .isEqualTo(shoppingCart.tickets[0].movieSession.movie)
                 assertThat(it.tickets[0].movieSession.cinemaHall)
                     .isEqualTo(shoppingCart.tickets[0].movieSession.cinemaHall)
                 assertThat(it.tickets[0].movieSession.showTime)
                     .isEqualTo(shoppingCart.tickets[0].movieSession.showTime)
-                true
             }
             .verifyComplete()
     }

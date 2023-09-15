@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono
 class CinemaHallRepositoryImpl(
     private val mongoTemplate: ReactiveMongoTemplate
 ) : CinemaHallRepository {
+
     override fun save(cinemaHall: CinemaHall): Mono<CinemaHall> {
         return mongoTemplate.save(cinemaHall)
     }
