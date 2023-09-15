@@ -5,6 +5,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### PROTO ###
+nats-api/src/generated/
+
 ### STS ###
 .apt_generated
 .classpath

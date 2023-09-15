@@ -38,7 +38,7 @@ class SecurityConfig(
                     HttpMethod.POST,
                     "/register",
                     "/login"
-                ).permitAll()  
+                ).permitAll()
                 it.requestMatchers(
                     HttpMethod.GET,
                     "/cinema-halls",
@@ -65,7 +65,7 @@ class SecurityConfig(
             .authenticationProvider(authenticationProvider())
             .csrf { it.disable() }
             .httpBasic { it.disable() }
-            .headers { header -> header.frameOptions{it.disable()} }
+            .headers { header -> header.frameOptions { it.disable() } }
             .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }

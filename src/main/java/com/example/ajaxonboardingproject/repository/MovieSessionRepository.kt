@@ -11,4 +11,6 @@ interface MovieSessionRepository {
     fun findById(id: String): MovieSession?
 
     fun delete(movieSession: MovieSession)
+
+    fun findAll(): List<MovieSession>
 }

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package com.example.ajaxonboardingproject;
+
+import "com/example/ajaxonboardingproject/cinema_hall.proto";
+
+message ListOfCinemaHalls {
+  repeated CinemaHall cinema_halls = 1;
+}
