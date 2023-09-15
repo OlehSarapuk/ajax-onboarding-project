@@ -4,6 +4,7 @@ import com.example.ajaxonboardingproject.dto.request.UserLoginRequestDto
 import com.example.ajaxonboardingproject.dto.request.UserRegistrationRequestDto
 import com.example.ajaxonboardingproject.dto.response.UserResponseDto
 import com.example.ajaxonboardingproject.model.User
+import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 //import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
@@ -19,7 +20,7 @@ import reactor.core.publisher.Mono
 class AuthenticationController(
     private val authenticationService: AuthenticationService,
     private val userDtoResponseMapper: ResponseDtoMapper<UserResponseDto, User>,
-//    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
     @PostMapping("/register")
     fun register(
@@ -30,13 +31,12 @@ class AuthenticationController(
             .map { userDtoResponseMapper.mapToDto(it) }
     }
 
-//    @PostMapping("/login")
-//    fun login(
-//        @Valid @RequestBody requestDto: UserLoginRequestDto
-//    ): Mono<ResponseEntity<Pair<String, String>>> {
-//        val user: User = authenticationService.login(requestDto.login, requestDto.password).block()!!
-//        val token: String = jwtTokenProvider.createToken(user.email, user.roles)
-//        val response: ResponseEntity<Pair<String, String>> = ResponseEntity("token" to token, HttpStatus.OK)
-//        return Mono.just(response)
-//    }
+    @PostMapping("/login")
+    fun login(
+        @Valid @RequestBody requestDto: UserLoginRequestDto
+    ): Mono<ResponseEntity<Pair<String, String>>> {
+        return authenticationService.login(requestDto.login, requestDto.password)
+            .map { jwtTokenProvider.createToken(it.email, it.roles) }
+            .map { ResponseEntity("token" to it, HttpStatus.OK) }
+    }
 }

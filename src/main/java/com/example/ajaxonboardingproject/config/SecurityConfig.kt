@@ -1,51 +1,35 @@
 package com.example.ajaxonboardingproject.config
 
+import com.example.ajaxonboardingproject.security.jwt.JwtSecurityContextRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
-import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.ReactiveAuthenticationManager
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
-
 
 @Configuration
 @EnableWebFluxSecurity
 class SecurityConfig(
-    val userDetailsService: UserDetailsService,
-//    val jwtTokenFilter: JwtTokenFilter,
-    val passwordEncoder: PasswordEncoder
+    val userDetailsService: ReactiveUserDetailsService,
+    val passwordEncoder: PasswordEncoder,
+    val jwtSecurityContextRepository: JwtSecurityContextRepository
 ) {
     @Bean
-    fun authenticationProvider(): ReactiveAuthenticationManager {
-        val authenticationProvider = DaoAuthenticationProvider()
-        authenticationProvider.setUserDetailsService(userDetailsService)
-        authenticationProvider.setPasswordEncoder(passwordEncoder)
-        return authenticationProvider
+    fun authenticationManager(): ReactiveAuthenticationManager {
+        val authenticationManager = UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService)
+        authenticationManager.setPasswordEncoder(passwordEncoder)
+        return authenticationManager
     }
-
-//    @Bean
-//    fun springSecurityFilterChain(
-//        http: ServerHttpSecurity
-//    ): SecurityWebFilterChain {
-//        http
-//            .csrf { it.disable() }
-//            .authorizeExchange{
-//                it.anyExchange().permitAll()
-//            }
-//            .httpBasic{}
-//        return http.build()
-//    }
 
     @Bean
     internal fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
-//            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .securityContextRepository(jwtSecurityContextRepository)
             .authorizeExchange{
                 it.pathMatchers(
                     HttpMethod.POST,
@@ -57,7 +41,7 @@ class SecurityConfig(
                     "/cinema-halls",
                     "/movies",
                     "/movie-sessions/available"
-                ).authenticated()
+                ).hasRole("USER")
                 it.pathMatchers(
                     HttpMethod.POST,
                     "/cinema-halls",
@@ -75,15 +59,10 @@ class SecurityConfig(
                 it.pathMatchers(HttpMethod.POST, "/orders/complete").hasRole("USER")
                 it.pathMatchers(HttpMethod.PUT, "/shopping-carts/movie-sessions").hasRole("USER")
             }
-            .formLogin{ it.disable() }
-            .logout{ it.disable() }
-//            .authenticationProvider(authenticationProvider())
-            .authenticationManager(authenticationProvider())
+            .formLogin { it.disable() }
+            .logout { it.disable() }
             .csrf { it.disable() }
             .httpBasic { it.disable() }
-            .headers { header -> header.frameOptions{it.disable()} }
-            .addFilterBefore()
-//            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
 }
