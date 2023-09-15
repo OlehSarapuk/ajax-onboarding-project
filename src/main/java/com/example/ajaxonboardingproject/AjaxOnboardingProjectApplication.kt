@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.web.reactive.config.EnableWebFlux
 
 @EnableWebFlux
-@EnableWebFluxSecurity
 @SpringBootApplication
 class AjaxOnboardingProjectApplication
 
