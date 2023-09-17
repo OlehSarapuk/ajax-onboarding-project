@@ -16,7 +16,7 @@ class NatsMovieSessionUpdateController(
     override val connection: Connection
 ) : NatsController<MovieSessionOuterClass.MovieSessionRequest, MovieSessionOuterClass.MovieSessionResponse> {
 
-    override val subject: String = NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT
+    override var subject: String = NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT
 
     override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
         MovieSessionOuterClass.MovieSessionRequest.parser()
@@ -27,7 +27,7 @@ class NatsMovieSessionUpdateController(
         val movieSession: MovieSession = converter.protoRequestToMovieSession(request).apply {
             id = subject.substringAfterLast(".")
         }
-        service.update(movieSession)
-        return converter.movieSessionToProtoResponse(movieSession)
+        val updatedMovieSession = service.update(movieSession).block()!!
+        return converter.movieSessionToProtoResponse(updatedMovieSession)
     }
 }

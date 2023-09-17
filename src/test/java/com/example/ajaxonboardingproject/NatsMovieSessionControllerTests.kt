@@ -50,7 +50,7 @@ class NatsMovieSessionControllerTests {
     fun updateMovieSessionTestOk() {
         //Given
         val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movie = Movie(title = "proto TITLE", description = "grate one")
+        val movie = Movie(title = "AAAAAAAAAAAAAAa", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val expected = MovieSessionOuterClass.MovieSessionRequest.newBuilder()
