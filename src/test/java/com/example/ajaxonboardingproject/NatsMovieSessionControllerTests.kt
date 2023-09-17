@@ -49,7 +49,7 @@ class NatsMovieSessionControllerTests {
     @Test
     fun updateMovieSessionTestOk() {
         //Given
-        val movieSessionFromDB = movieSessionRepository.findAll().first()
+        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
@@ -73,9 +73,9 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        movieSessionRepository.save(movieSession)
-        val sizeOfDBBefore = movieSessionRepository.findAll().size
-        val movieSessionFromDB = movieSessionRepository.findAll().first()
+        movieSessionRepository.save(movieSession).block()
+        val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
+        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.DELETE_MOVIE_SESSION_SUBJECT.changeSubjectSuffixWithId(movieSessionFromDB.id),
@@ -84,7 +84,7 @@ class NatsMovieSessionControllerTests {
         )
         future.get().data
         //Then
-        val sizeOfDBAfter = movieSessionRepository.findAll().size
+        val sizeOfDBAfter = movieSessionRepository.findAll().collectList().block()!!.size
         assertThat(sizeOfDBBefore).isGreaterThan(sizeOfDBAfter)
     }
 }

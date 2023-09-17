@@ -25,7 +25,7 @@ class NatsMovieAddController(
     override fun generateReplyForNatsRequest(
         request: MovieRequest
     ): MovieResponse {
-        val movie: Movie = service.add(converter.protoRequestToMovie(request))
+        val movie: Movie = service.add(converter.protoRequestToMovie(request)).block()!!
         return converter.movieToProtoResponse(movie)
     }
 }

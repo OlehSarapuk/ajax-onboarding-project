@@ -16,5 +16,5 @@ interface MovieSessionRepository {
 
     fun delete(movieSession: MovieSession): Mono<DeleteResult>
 
-    fun findAll(): List<MovieSession>
+    fun findAll(): Flux<MovieSession>
 }

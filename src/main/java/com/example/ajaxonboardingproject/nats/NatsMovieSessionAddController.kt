@@ -26,7 +26,7 @@ class NatsMovieSessionAddController(
         request: MovieSessionRequest
     ): MovieSessionResponse {
         val movieSession: MovieSession =
-            service.add(converter.protoRequestToMovieSession(request))
+            service.add(converter.protoRequestToMovieSession(request)).block()!!
         return converter.movieSessionToProtoResponse(movieSession)
     }
 }

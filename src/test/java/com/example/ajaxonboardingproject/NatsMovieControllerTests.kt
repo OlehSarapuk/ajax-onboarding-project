@@ -44,6 +44,8 @@ class NatsMovieControllerTests {
         //Given
         val protoFromDb = movieRepository.findAll()
             .map { movieConverter.movieToProto(it) }
+            .collectList()
+            .block()
         val expected = ListOfMoviesOuterClass.ListOfMovies
             .newBuilder()
             .addAllMovies(protoFromDb)

@@ -27,6 +27,8 @@ class NatsMovieGetAllController(
     ): ListOfMoviesOuterClass.ListOfMovies {
         val listOfProto = service.getAll()
             .map { converter.movieToProto(it) }
+            .collectList()
+            .block()!!
             .toList()
         return ListOfMoviesOuterClass.ListOfMovies
             .newBuilder()

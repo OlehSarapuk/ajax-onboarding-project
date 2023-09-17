@@ -25,7 +25,7 @@ class NatsCinemaHallAddController(
     override fun generateReplyForNatsRequest(
         request: CinemaHallRequest
     ): CinemaHallResponse {
-        val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request))
+        val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request)).block()!!
         return converter.cinemaHallToProtoResponse(cinemaHall)
     }
 }

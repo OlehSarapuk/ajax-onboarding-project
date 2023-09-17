@@ -37,7 +37,7 @@ class MovieSessionRepositoryImpl(
         return mongoTemplate.remove(movieSession)
     }
 
-    override fun findAll(): List<MovieSession> {
+    override fun findAll(): Flux<MovieSession> {
         return mongoTemplate.findAll(MovieSession::class.java)
     }
 }

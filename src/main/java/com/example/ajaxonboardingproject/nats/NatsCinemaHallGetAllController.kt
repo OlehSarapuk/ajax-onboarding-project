@@ -27,6 +27,8 @@ class NatsCinemaHallGetAllController(
     ): ListOfCinemaHallsOuterClass.ListOfCinemaHalls {
         val cinemaHalls = service.getAll()
             .map { converter.cinemaHallToProto(it) }
+            .collectList()
+            .block()!!
             .toList()
         return ListOfCinemaHallsOuterClass.ListOfCinemaHalls
             .newBuilder()

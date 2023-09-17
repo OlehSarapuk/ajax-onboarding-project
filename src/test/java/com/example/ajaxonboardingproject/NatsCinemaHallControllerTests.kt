@@ -45,6 +45,8 @@ class NatsCinemaHallControllerTests {
         //Given
         val protoFromDb = cinemaHallRepository.findAll()
             .map { cinemaHallConverter.cinemaHallToProto(it) }
+            .collectList()
+            .block()
         val expected = ListOfCinemaHallsOuterClass.ListOfCinemaHalls
             .newBuilder()
             .addAllCinemaHalls(protoFromDb)

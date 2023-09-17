@@ -21,7 +21,7 @@ class NatsMovieSessionDeleteController(
     override fun generateReplyForNatsRequest(
         request: MovieSessionOuterClass.MovieSessionRequest
     ): MovieSessionOuterClass.MovieSessionResponse {
-        service.delete(subject.substringAfterLast("."))
+        service.delete(subject.substringAfterLast(".")).block()
         return MovieSessionOuterClass.MovieSessionResponse.newBuilder().build()
     }
 }
