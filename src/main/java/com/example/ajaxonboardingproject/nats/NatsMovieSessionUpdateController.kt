@@ -21,13 +21,15 @@ class NatsMovieSessionUpdateController(
     override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
         MovieSessionOuterClass.MovieSessionRequest.parser()
 
+    lateinit var id: String
+
     override fun generateReplyForNatsRequest(
         request: MovieSessionOuterClass.MovieSessionRequest
     ): MovieSessionOuterClass.MovieSessionResponse {
         val movieSession: MovieSession = converter.protoRequestToMovieSession(request).apply {
-            id = subject.substringAfterLast(".")
+            id = this@NatsMovieSessionUpdateController.id
         }
-        service.update(movieSession)
-        return converter.movieSessionToProtoResponse(movieSession)
+        val updatedMovieSession = service.update(movieSession).block()!!
+        return converter.movieSessionToProtoResponse(updatedMovieSession)
     }
 }

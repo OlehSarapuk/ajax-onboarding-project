@@ -18,10 +18,12 @@ class NatsMovieSessionDeleteController(
     override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
         MovieSessionOuterClass.MovieSessionRequest.parser()
 
+    lateinit var id: String
+
     override fun generateReplyForNatsRequest(
         request: MovieSessionOuterClass.MovieSessionRequest
     ): MovieSessionOuterClass.MovieSessionResponse {
-        service.delete(subject.substringAfterLast(".")).block()
+        service.delete(id).block()
         return MovieSessionOuterClass.MovieSessionResponse.newBuilder().build()
     }
 }
