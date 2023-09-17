@@ -21,8 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start containers
+      - name: Start mongo container
         run: docker run -d --name mongo -p 27017:27017 mongo:latest
+
+      - name: Start nats container
+        run: docker run -d --name nats -p 4222:4222 nats:latest
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
