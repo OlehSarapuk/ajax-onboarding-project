@@ -32,19 +32,18 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val request =
-            MovieSessionAddRequest.newBuilder()
-                .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
-                .build()
+        val expected = MovieSessionAddRequest.newBuilder()
+            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+            .build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.ADD_NEW_MOVIE_SESSION_SUBJECT,
-            request.toByteArray(),
+            expected.toByteArray(),
             Duration.ofMillis(100000)
         )
         //Then
-        val reply = MovieSessionResponse.parseFrom(future.get().data)
-        assertThat(request.movieSession).isEqualTo(reply.movieSession)
+        val actual = MovieSessionResponse.parseFrom(future.get().data)
+        assertThat(expected.movieSession).isEqualTo(actual.movieSession)
     }
 
     @Test
