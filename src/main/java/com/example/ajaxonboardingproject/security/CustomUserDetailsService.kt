@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono
 
 @Service
 class CustomUserDetailsService(private val userService: UserService) : ReactiveUserDetailsService {
+
+    @Suppress("SpreadOperator")
     override fun findByUsername(username: String): Mono<UserDetails> {
         return userService.findByEmail(username)
             .switchIfEmpty(Mono.error(NoSuchElementException("Can't get user with email: $username")))
