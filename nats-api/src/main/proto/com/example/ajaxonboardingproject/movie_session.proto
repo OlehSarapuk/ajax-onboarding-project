@@ -16,6 +16,15 @@ message MovieSessionResponse {
   MovieSession movieSession = 1;
 }
 
-message MovieSessionRequest {
+message MovieSessionAddRequest {
   MovieSession movieSession = 1;
+}
+
+message MovieSessionUpdateRequest {
+  string id = 1;
+  MovieSession movieSession = 2;
+}
+
+message MovieSessionDeleteRequest {
+  string id = 1;
 }

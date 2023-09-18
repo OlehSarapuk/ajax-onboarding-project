@@ -11,19 +11,17 @@ import org.springframework.stereotype.Component
 class NatsMovieSessionDeleteController(
     private val service: MovieSessionService,
     override val connection: Connection
-) : NatsController<MovieSessionOuterClass.MovieSessionRequest, MovieSessionOuterClass.MovieSessionResponse> {
+) : NatsController<MovieSessionOuterClass.MovieSessionDeleteRequest, MovieSessionOuterClass.MovieSessionResponse> {
 
     override val subject: String = NatsSubject.DELETE_MOVIE_SESSION_SUBJECT
 
-    override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
-        MovieSessionOuterClass.MovieSessionRequest.parser()
-
-    lateinit var id: String
+    override val parser: Parser<MovieSessionOuterClass.MovieSessionDeleteRequest> =
+        MovieSessionOuterClass.MovieSessionDeleteRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionOuterClass.MovieSessionRequest
+        request: MovieSessionOuterClass.MovieSessionDeleteRequest
     ): MovieSessionOuterClass.MovieSessionResponse {
-        service.delete(id).block()
+        service.delete(request.id).block()
         return MovieSessionOuterClass.MovieSessionResponse.newBuilder().build()
     }
 }

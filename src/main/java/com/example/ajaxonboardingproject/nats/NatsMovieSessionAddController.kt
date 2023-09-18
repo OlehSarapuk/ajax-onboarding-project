@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
+import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionAddRequest
 import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionResponse
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionRequest
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
@@ -15,18 +15,18 @@ class NatsMovieSessionAddController(
     private val service: MovieSessionService,
     private val converter: MovieSessionConverter,
     override val connection: Connection
-) : NatsController<MovieSessionRequest, MovieSessionResponse> {
+) : NatsController<MovieSessionAddRequest, MovieSessionResponse> {
 
     override val subject: String = NatsSubject.ADD_NEW_MOVIE_SESSION_SUBJECT
 
-    override val parser: Parser<MovieSessionRequest> =
-        MovieSessionRequest.parser()
+    override val parser: Parser<MovieSessionAddRequest> =
+        MovieSessionAddRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionRequest
+        request: MovieSessionAddRequest
     ): MovieSessionResponse {
         val movieSession: MovieSession =
-            service.add(converter.protoRequestToMovieSession(request)).block()!!
+            service.add(converter.protoToMovieSession(request.movieSession)).block()!!
         return converter.movieSessionToProtoResponse(movieSession)
     }
 }

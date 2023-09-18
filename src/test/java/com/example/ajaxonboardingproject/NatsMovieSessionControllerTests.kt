@@ -32,7 +32,7 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val request = MovieSessionOuterClass.MovieSessionRequest.newBuilder()
+        val request = MovieSessionOuterClass.MovieSessionAddRequest.newBuilder()
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
         //When
@@ -50,15 +50,16 @@ class NatsMovieSessionControllerTests {
     fun updateMovieSessionTestOk() {
         //Given
         val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movie = Movie(title = "AAAAAAAAAAAAAAa", description = "grate one")
+        val movie = Movie(title = "Nats", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val expected = MovieSessionOuterClass.MovieSessionRequest.newBuilder()
+        val expected = MovieSessionOuterClass.MovieSessionUpdateRequest.newBuilder()
+            .setId(movieSessionFromDB.id)
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
         //When
         val future = natsConnection.requestWithTimeout(
-            NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT.changeSubjectSuffixWithId(movieSessionFromDB.id),
+            NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT,
             expected.toByteArray(),
             Duration.ofMillis(100000)
         )
@@ -76,10 +77,13 @@ class NatsMovieSessionControllerTests {
         movieSessionRepository.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
         val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
+        val movieSessionRequest = MovieSessionOuterClass.MovieSessionUpdateRequest.newBuilder()
+            .setId(movieSessionFromDB.id)
+            .build()
         //When
         val future = natsConnection.requestWithTimeout(
-            NatsSubject.DELETE_MOVIE_SESSION_SUBJECT.changeSubjectSuffixWithId(movieSessionFromDB.id),
-            null,
+            NatsSubject.DELETE_MOVIE_SESSION_SUBJECT,
+            movieSessionRequest.toByteArray(),
             Duration.ofMillis(100000)
         )
         future.get().data
@@ -87,8 +91,4 @@ class NatsMovieSessionControllerTests {
         val sizeOfDBAfter = movieSessionRepository.findAll().collectList().block()!!.size
         assertThat(sizeOfDBBefore).isGreaterThan(sizeOfDBAfter)
     }
-}
-
-fun String.changeSubjectSuffixWithId(id: String): String {
-    return this.removeSuffix("*") + id
 }
