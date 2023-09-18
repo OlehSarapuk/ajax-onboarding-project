@@ -16,7 +16,7 @@ class NatsMovieGetAllController(
     override val connection: Connection
 ) : NatsController<MovieOuterClass.MovieRequest, ListOfMoviesOuterClass.ListOfMovies> {
 
-    override val subject: String = NatsSubject.FIND_ALL_MOVIES_SUBJECT
+    override var subject: String = NatsSubject.FIND_ALL_MOVIES_SUBJECT
 
     override val parser: Parser<MovieOuterClass.MovieRequest> =
         MovieOuterClass.MovieRequest.parser()

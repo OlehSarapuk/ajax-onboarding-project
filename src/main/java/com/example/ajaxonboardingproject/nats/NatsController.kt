@@ -7,7 +7,7 @@ import io.nats.client.Message
 
 interface NatsController<ReqT : GeneratedMessageV3, RespT: GeneratedMessageV3> {
 
-    val subject: String
+    var subject: String
 
     val connection: Connection
 
