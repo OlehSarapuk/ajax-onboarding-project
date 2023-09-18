@@ -16,7 +16,7 @@ class NatsMovieSessionUpdateController(
     override val connection: Connection
 ) : NatsController<MovieSessionOuterClass.MovieSessionRequest, MovieSessionOuterClass.MovieSessionResponse> {
 
-    override var subject: String = NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT
+    override val subject: String = NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT
 
     override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
         MovieSessionOuterClass.MovieSessionRequest.parser()

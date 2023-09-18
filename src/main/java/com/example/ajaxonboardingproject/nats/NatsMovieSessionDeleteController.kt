@@ -13,7 +13,7 @@ class NatsMovieSessionDeleteController(
     override val connection: Connection
 ) : NatsController<MovieSessionOuterClass.MovieSessionRequest, MovieSessionOuterClass.MovieSessionResponse> {
 
-    override var subject: String = NatsSubject.DELETE_MOVIE_SESSION_SUBJECT
+    override val subject: String = NatsSubject.DELETE_MOVIE_SESSION_SUBJECT
 
     override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
         MovieSessionOuterClass.MovieSessionRequest.parser()
