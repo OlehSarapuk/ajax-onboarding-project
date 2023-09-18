@@ -1,9 +1,7 @@
 package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.response.ShoppingCartResponseDto
-import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.model.ShoppingCart
-import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService

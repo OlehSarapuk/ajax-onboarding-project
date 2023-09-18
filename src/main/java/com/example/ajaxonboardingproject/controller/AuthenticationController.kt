@@ -5,7 +5,6 @@ import com.example.ajaxonboardingproject.dto.request.UserRegistrationRequestDto
 import com.example.ajaxonboardingproject.dto.response.UserResponseDto
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
-//import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
 import com.example.ajaxonboardingproject.service.AuthenticationService
 import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import jakarta.validation.Valid

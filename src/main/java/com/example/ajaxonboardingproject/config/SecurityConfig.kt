@@ -21,13 +21,16 @@ class SecurityConfig(
 ) {
     @Bean
     fun authenticationManager(): ReactiveAuthenticationManager {
-        val authenticationManager = UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService)
+        val authenticationManager =
+            UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService)
         authenticationManager.setPasswordEncoder(passwordEncoder)
         return authenticationManager
     }
 
     @Bean
-    internal fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+    internal fun springSecurityFilterChain(
+        http: ServerHttpSecurity
+    ): SecurityWebFilterChain {
         return http
             .securityContextRepository(jwtSecurityContextRepository)
             .authorizeExchange{
