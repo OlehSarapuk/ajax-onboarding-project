@@ -2,15 +2,17 @@ syntax = "proto3";
 
 package com.example.ajaxonboardingproject;
 
-message Movie {
+option java_multiple_files = true;
+
+message MovieProto {
   string title = 1;
   string description = 2;
 }
 
 message MovieResponse {
-  Movie movie = 1;
+  MovieProto movie = 1;
 }
 
 message MovieRequest {
-  Movie movie = 1;
+  MovieProto movie = 1;
 }

@@ -6,23 +6,25 @@ import "google/protobuf/timestamp.proto";
 import "com/example/ajaxonboardingproject/cinema_hall.proto";
 import "com/example/ajaxonboardingproject/movie.proto";
 
-message MovieSession {
-  Movie movie = 1;
-  CinemaHall cinema_hall = 2;
+option java_multiple_files = true;
+
+message MovieSessionProto {
+  MovieProto movie = 1;
+  CinemaHallProto cinema_hall = 2;
   google.protobuf.Timestamp show_time = 3;
 }
 
 message MovieSessionResponse {
-  MovieSession movieSession = 1;
+  MovieSessionProto movieSession = 1;
 }
 
 message MovieSessionAddRequest {
-  MovieSession movieSession = 1;
+  MovieSessionProto movieSession = 1;
 }
 
 message MovieSessionUpdateRequest {
   string id = 1;
-  MovieSession movieSession = 2;
+  MovieSessionProto movieSession = 2;
 }
 
 message MovieSessionDeleteRequest {

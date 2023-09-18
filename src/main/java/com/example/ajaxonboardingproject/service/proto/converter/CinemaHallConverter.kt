@@ -1,8 +1,8 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import com.example.ajaxonboardingproject.CinemaHallOuterClass
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
+import com.example.ajaxonboardingproject.CinemaHallProto
+import com.example.ajaxonboardingproject.CinemaHallRequest
+import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.model.CinemaHall
 import org.springframework.stereotype.Component
 
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component
 class CinemaHallConverter {
     fun cinemaHallToProto(
         cinemaHall: CinemaHall
-    ): CinemaHallOuterClass.CinemaHall {
-        return CinemaHallOuterClass.CinemaHall.newBuilder()
+    ): CinemaHallProto {
+        return CinemaHallProto.newBuilder()
             .setCapacity(cinemaHall.capacity)
             .setDescription(cinemaHall.description)
             .build()
     }
 
     fun protoToCinemaHall(
-        cinemaHallProto: CinemaHallOuterClass.CinemaHall
+        cinemaHallProto: CinemaHallProto
     ): CinemaHall {
         return CinemaHall(
             capacity = cinemaHallProto.capacity,
