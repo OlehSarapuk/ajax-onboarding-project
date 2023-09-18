@@ -4,15 +4,15 @@ package com.example.ajaxonboardingproject;
 
 option java_multiple_files = true;
 
-message MovieProto {
+message Movie {
   string title = 1;
   string description = 2;
 }
 
 message MovieResponse {
-  MovieProto movie = 1;
+  Movie movie = 1;
 }
 
 message MovieRequest {
-  MovieProto movie = 1;
+  Movie movie = 1;
 }

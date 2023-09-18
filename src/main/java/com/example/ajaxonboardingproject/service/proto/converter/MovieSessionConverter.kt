@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import com.example.ajaxonboardingproject.MovieSessionProto
+import com.example.ajaxonboardingproject.MovieSession as MovieSessionProto
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.model.MovieSession
 import org.springframework.stereotype.Component

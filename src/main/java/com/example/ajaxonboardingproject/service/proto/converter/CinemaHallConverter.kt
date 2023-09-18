@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import com.example.ajaxonboardingproject.CinemaHallProto
+import com.example.ajaxonboardingproject.CinemaHall as CinemaHallProto
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.model.CinemaHall

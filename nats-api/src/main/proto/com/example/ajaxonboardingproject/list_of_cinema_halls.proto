@@ -7,5 +7,5 @@ option java_multiple_files = true;
 import "com/example/ajaxonboardingproject/cinema_hall.proto";
 
 message ListOfCinemaHalls {
-  repeated CinemaHallProto cinema_halls = 1;
+  repeated CinemaHall cinema_halls = 1;
 }
