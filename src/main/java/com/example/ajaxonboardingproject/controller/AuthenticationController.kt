@@ -24,15 +24,17 @@ class AuthenticationController(
     fun register(
         @Valid @RequestBody requestDto: UserRegistrationRequestDto
     ): UserResponseDto {
-        val user: User = authenticationService.register(requestDto.email, requestDto.password)
-        return userDtoResponseMapper.mapToDto(user)
+        return authenticationService
+            .register(requestDto.email, requestDto.password)
+            .map { userDtoResponseMapper.mapToDto(it) }
+            .block()!!
     }
 
     @PostMapping("/login")
     fun login(
         @Valid @RequestBody requestDto: UserLoginRequestDto
     ): ResponseEntity<Any> {
-        val user: User = authenticationService.login(requestDto.login, requestDto.password)
+        val user: User = authenticationService.login(requestDto.login, requestDto.password).block()!!
         val token: String = jwtTokenProvider.createToken(user.email, user.roles)
         return ResponseEntity("token" to token, HttpStatus.OK)
     }

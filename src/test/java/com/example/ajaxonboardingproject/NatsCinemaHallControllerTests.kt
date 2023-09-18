@@ -26,7 +26,7 @@ class NatsCinemaHallControllerTests {
     fun addCinemaHallTestOk() {
         //Given
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val expected = CinemaHallOuterClass.CinemaHallRequest.newBuilder()
+        val expected = CinemaHallRequest.newBuilder()
             .setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall))
             .build()
         //When
@@ -36,7 +36,7 @@ class NatsCinemaHallControllerTests {
                 expected.toByteArray(),
                 Duration.ofMillis(100000))
         //Then
-        val actual = CinemaHallOuterClass.CinemaHallResponse.parseFrom(future.get().data)
+        val actual = CinemaHallResponse.parseFrom(future.get().data)
         assertThat(expected.cinemaHall).isEqualTo(actual.cinemaHall)
     }
 
@@ -45,7 +45,9 @@ class NatsCinemaHallControllerTests {
         //Given
         val protoFromDb = cinemaHallRepository.findAll()
             .map { cinemaHallConverter.cinemaHallToProto(it) }
-        val expected = ListOfCinemaHallsOuterClass.ListOfCinemaHalls
+            .collectList()
+            .block()
+        val expected = ListOfCinemaHalls
             .newBuilder()
             .addAllCinemaHalls(protoFromDb)
             .build()
@@ -55,7 +57,7 @@ class NatsCinemaHallControllerTests {
             null,
             Duration.ofMillis(100000))
         //Then
-        val actual = ListOfCinemaHallsOuterClass.ListOfCinemaHalls.parseFrom(future.get().data)
+        val actual = ListOfCinemaHalls.parseFrom(future.get().data)
         assertThat(expected).isEqualTo(actual)
     }
 }

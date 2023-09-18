@@ -5,34 +5,35 @@ import com.example.ajaxonboardingproject.model.ShoppingCart
 import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
-import com.example.ajaxonboardingproject.repository.TicketRepository
 import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 
 @Service
 class ShoppingCartServiceImpl(
     private val shoppingCartRepository: ShoppingCartRepository,
-    private val userRepository: UserRepository,
-    private val ticketRepository: TicketRepository
+    private val userRepository: UserRepository
 ) : ShoppingCartService {
     override fun addSession(
         movieSession: MovieSession,
         userId: String
     ) {
         val ticket = Ticket(movieSession = movieSession)
-        ticketRepository.save(ticket)
-        val user = getUserFromDb(userId)
-        user.shoppingCart.tickets.add(ticket)
-        userRepository.save(user)
+        getUserFromDb(userId)
+            .flatMap {
+                it.shoppingCart.tickets.add(ticket)
+                userRepository.save(it)
+            }
+            .subscribe()
     }
 
-    override fun getShoppingCartByUser(userId: String): ShoppingCart {
+    override fun getShoppingCartByUser(userId: String): Mono<ShoppingCart> {
         return userRepository.findShoppingCartByUserId(userId)
-            ?: throw NoSuchElementException("Can't get shopping cart for user with id $userId")
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get shopping cart for user with id $userId")))
     }
 
-    override fun registerNewShoppingCart(): ShoppingCart {
+    override fun registerNewShoppingCart(): Mono<ShoppingCart> {
         val shoppingCart = ShoppingCart(
             tickets = mutableListOf()
         )
@@ -44,8 +45,8 @@ class ShoppingCartServiceImpl(
         shoppingCartRepository.save(shoppingCart)
     }
 
-    fun getUserFromDb(id: String): User {
+    fun getUserFromDb(id: String): Mono<User> {
         return userRepository.findById(id)
-            ?: throw NoSuchElementException("Can't get user with id $id")
+            .switchIfEmpty(Mono.error(NoSuchElementException("Can't get user with id $id")))
     }
 }

@@ -6,6 +6,8 @@ import "google/protobuf/timestamp.proto";
 import "com/example/ajaxonboardingproject/cinema_hall.proto";
 import "com/example/ajaxonboardingproject/movie.proto";
 
+option java_multiple_files = true;
+
 message MovieSession {
   Movie movie = 1;
   CinemaHall cinema_hall = 2;
@@ -16,6 +18,15 @@ message MovieSessionResponse {
   MovieSession movieSession = 1;
 }
 
-message MovieSessionRequest {
+message MovieSessionAddRequest {
   MovieSession movieSession = 1;
+}
+
+message MovieSessionUpdateRequest {
+  string id = 1;
+  MovieSession movieSession = 2;
+}
+
+message MovieSessionDeleteRequest {
+  string id = 1;
 }

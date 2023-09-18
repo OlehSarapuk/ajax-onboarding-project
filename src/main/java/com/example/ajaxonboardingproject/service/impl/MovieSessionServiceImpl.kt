@@ -3,7 +3,10 @@ package com.example.ajaxonboardingproject.service.impl
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.repository.MovieSessionRepository
 import com.example.ajaxonboardingproject.service.MovieSessionService
+import com.mongodb.client.result.DeleteResult
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
 @Service
@@ -13,25 +16,24 @@ class MovieSessionServiceImpl(
     override fun findAvailableSessions(
         movieId: String,
         date: LocalDateTime
-    ): List<MovieSession> {
+    ): Flux<MovieSession> {
         return movieSessionRepository.findByMovieIdAndShowTimeAfter(movieId, date)
     }
 
-    override fun add(session: MovieSession): MovieSession {
+    override fun add(session: MovieSession): Mono<MovieSession> {
         return movieSessionRepository.save(session)
     }
 
-    override fun get(id: String): MovieSession {
+    override fun get(id: String): Mono<MovieSession> {
         return movieSessionRepository.findById(id)
-            ?: throw NoSuchElementException("Session with id $id not found")
+            .switchIfEmpty(Mono.error(NoSuchElementException("Session with id $id not found")))
     }
 
-    override fun update(movieSession: MovieSession): MovieSession {
+    override fun update(movieSession: MovieSession): Mono<MovieSession> {
         return movieSessionRepository.save(movieSession)
     }
 
-    override fun delete(id: String) {
-        val movieSession = get(id)
-        movieSessionRepository.delete(movieSession)
+    override fun delete(id: String): Mono<DeleteResult> {
+        return get(id).flatMap { movieSessionRepository.delete(it) }
     }
 }

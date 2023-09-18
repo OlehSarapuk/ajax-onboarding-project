@@ -1,8 +1,7 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import com.example.ajaxonboardingproject.MovieSessionOuterClass
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionResponse
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionRequest
+import com.example.ajaxonboardingproject.MovieSession as MovieSessionProto
+import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.model.MovieSession
 import org.springframework.stereotype.Component
 
@@ -14,8 +13,8 @@ class MovieSessionConverter(
 ) {
     fun movieSessionToProto(
         movieSession: MovieSession
-    ): MovieSessionOuterClass.MovieSession {
-        return MovieSessionOuterClass.MovieSession.newBuilder()
+    ): MovieSessionProto {
+        return MovieSessionProto.newBuilder()
             .setMovie(movieConverter.movieToProto(movieSession.movie))
             .setCinemaHall(cinemaHallConverter.cinemaHallToProto(movieSession.cinemaHall))
             .setShowTime(localDateTimeConverter.localDateTimeToTimestamp(movieSession.showTime))
@@ -23,7 +22,7 @@ class MovieSessionConverter(
     }
 
     fun protoToMovieSession(
-        movieSessionProto: MovieSessionOuterClass.MovieSession
+        movieSessionProto: MovieSessionProto
     ): MovieSession {
         return MovieSession(
             movie = movieConverter.protoToMovie(movieSessionProto.movie),
@@ -38,15 +37,5 @@ class MovieSessionConverter(
         return MovieSessionResponse.newBuilder()
             .setMovieSession(movieSessionToProto(movieSession))
             .build()
-    }
-
-    fun protoRequestToMovieSession(
-        movieSessionProto: MovieSessionRequest
-    ): MovieSession {
-        return MovieSession(
-            movie = movieConverter.protoToMovie(movieSessionProto.movieSession.movie),
-            cinemaHall = cinemaHallConverter.protoToCinemaHall(movieSessionProto.movieSession.cinemaHall),
-            showTime = localDateTimeConverter.timestampToLocalDateTime(movieSessionProto.movieSession.showTime)
-        )
     }
 }

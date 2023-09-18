@@ -1,6 +1,14 @@
 package com.example.ajaxonboardingproject.repository
 
 import com.example.ajaxonboardingproject.model.Movie
-import org.springframework.data.mongodb.repository.MongoRepository
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
-interface MovieRepository : MongoRepository<Movie, String>
+interface MovieRepository {
+
+    fun save(movie: Movie): Mono<Movie>
+
+    fun findAll(): Flux<Movie>
+
+    fun findById(id: String): Mono<Movie>
+}

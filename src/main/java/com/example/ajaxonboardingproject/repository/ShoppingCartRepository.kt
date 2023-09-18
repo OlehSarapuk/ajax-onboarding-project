@@ -1,6 +1,9 @@
 package com.example.ajaxonboardingproject.repository
 
 import com.example.ajaxonboardingproject.model.ShoppingCart
-import org.springframework.data.mongodb.repository.MongoRepository
+import reactor.core.publisher.Mono
 
-interface ShoppingCartRepository : MongoRepository<ShoppingCart, String>
+interface ShoppingCartRepository {
+
+    fun save(shoppingCart: ShoppingCart): Mono<ShoppingCart>
+}

@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject.dto.response
 
+import com.example.ajaxonboardingproject.model.Ticket
+
 data class ShoppingCartResponseDto(
-    val ticketIds: List<String>
+    val tickets: List<Ticket>
 )

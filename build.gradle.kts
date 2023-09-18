@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     implementation(project(":nats-api"))
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.1.2")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.2")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
@@ -28,8 +28,8 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java-util:3.20.1")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
-    testImplementation("org.springframework.security:spring-security-test:6.1.2")
-    testImplementation("com.willowtreeapps.assertk:assertk:0.26.1")
+    testImplementation("io.projectreactor:reactor-test:3.5.10")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.27.0")
 }
 
 group = "com.example"

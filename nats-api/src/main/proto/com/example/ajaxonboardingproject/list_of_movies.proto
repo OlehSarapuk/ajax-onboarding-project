@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package com.example.ajaxonboardingproject;
 
+option java_multiple_files = true;
+
 import "com/example/ajaxonboardingproject/movie.proto";
 
 message ListOfMovies {

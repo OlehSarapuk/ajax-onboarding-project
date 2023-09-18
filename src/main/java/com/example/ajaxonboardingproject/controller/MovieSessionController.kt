@@ -32,8 +32,9 @@ data class MovieSessionController(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): MovieSessionResponseDto {
         val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
-        movieSessionService.add(movieSession)
-        return movieSessionResponseDtoMapper.mapToDto(movieSession)
+        return movieSessionService.add(movieSession)
+            .map { movieSessionResponseDtoMapper.mapToDto(it) }
+            .block()!!
     }
 
     @GetMapping("/available")
@@ -43,7 +44,8 @@ data class MovieSessionController(
     ): List<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)
-            .toList()
+            .collectList()
+            .block()!!
     }
 
     @PutMapping("/{id}")
@@ -53,8 +55,9 @@ data class MovieSessionController(
     ): MovieSessionResponseDto {
         val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
         movieSession.id = id
-        movieSessionService.update(movieSession)
-        return movieSessionResponseDtoMapper.mapToDto(movieSession)
+        return movieSessionService.update(movieSession)
+            .map { movieSessionResponseDtoMapper.mapToDto(it) }
+            .block()!!
     }
 
     @DeleteMapping("/{id}")

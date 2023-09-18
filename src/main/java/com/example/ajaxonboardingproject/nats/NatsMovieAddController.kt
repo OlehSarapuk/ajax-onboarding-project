@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.MovieRequest
+import com.example.ajaxonboardingproject.MovieResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.service.MovieService
@@ -25,7 +25,7 @@ class NatsMovieAddController(
     override fun generateReplyForNatsRequest(
         request: MovieRequest
     ): MovieResponse {
-        val movie: Movie = service.add(converter.protoRequestToMovie(request))
+        val movie: Movie = service.add(converter.protoRequestToMovie(request)).block()!!
         return converter.movieToProtoResponse(movie)
     }
 }

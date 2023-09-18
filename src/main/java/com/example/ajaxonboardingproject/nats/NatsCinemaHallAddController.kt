@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
+import com.example.ajaxonboardingproject.CinemaHallRequest
+import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
@@ -25,7 +25,7 @@ class NatsCinemaHallAddController(
     override fun generateReplyForNatsRequest(
         request: CinemaHallRequest
     ): CinemaHallResponse {
-        val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request))
+        val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request)).block()!!
         return converter.cinemaHallToProtoResponse(cinemaHall)
     }
 }

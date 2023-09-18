@@ -9,7 +9,6 @@ class ShoppingCartMapper : ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCa
     override fun mapToDto(model: ShoppingCart): ShoppingCartResponseDto {
         return ShoppingCartResponseDto(
             model.tickets
-                .map { it.id }
                 .toList()
         )
     }

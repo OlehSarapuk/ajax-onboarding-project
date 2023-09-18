@@ -1,6 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.MovieSessionOuterClass
+import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
+import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.google.protobuf.Parser
@@ -11,17 +12,17 @@ import org.springframework.stereotype.Component
 class NatsMovieSessionDeleteController(
     private val service: MovieSessionService,
     override val connection: Connection
-) : NatsController<MovieSessionOuterClass.MovieSessionRequest, MovieSessionOuterClass.MovieSessionResponse> {
+) : NatsController<MovieSessionDeleteRequest, MovieSessionResponse> {
 
     override val subject: String = NatsSubject.DELETE_MOVIE_SESSION_SUBJECT
 
-    override val parser: Parser<MovieSessionOuterClass.MovieSessionRequest> =
-        MovieSessionOuterClass.MovieSessionRequest.parser()
+    override val parser: Parser<MovieSessionDeleteRequest> =
+        MovieSessionDeleteRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionOuterClass.MovieSessionRequest
-    ): MovieSessionOuterClass.MovieSessionResponse {
-        service.delete(subject.substringAfterLast("."))
-        return MovieSessionOuterClass.MovieSessionResponse.newBuilder().build()
+        request: MovieSessionDeleteRequest
+    ): MovieSessionResponse {
+        service.delete(request.id).block()
+        return MovieSessionResponse.newBuilder().build()
     }
 }

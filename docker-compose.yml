@@ -26,3 +26,5 @@ services:
     env_file: ./.env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
