@@ -9,6 +9,7 @@ import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieAddController(
@@ -24,8 +25,8 @@ class NatsMovieAddController(
 
     override fun generateReplyForNatsRequest(
         request: MovieRequest
-    ): MovieResponse {
-        val movie: Movie = service.add(converter.protoRequestToMovie(request)).block()!!
-        return converter.movieToProtoResponse(movie)
+    ): Mono<MovieResponse> {
+        return service.add(converter.protoRequestToMovie(request))
+            .map { converter.movieToProtoResponse(it) }
     }
 }

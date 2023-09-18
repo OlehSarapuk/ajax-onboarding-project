@@ -8,6 +8,7 @@ import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieGetAllController(
@@ -24,15 +25,13 @@ class NatsMovieGetAllController(
     @Suppress("UnusedParameter")
     override fun generateReplyForNatsRequest(
         request: MovieOuterClass.MovieRequest
-    ): ListOfMoviesOuterClass.ListOfMovies {
-        val listOfProto = service.getAll()
+    ): Mono<ListOfMoviesOuterClass.ListOfMovies> {
+        return service.getAll()
             .map { converter.movieToProto(it) }
             .collectList()
-            .block()!!
-            .toList()
-        return ListOfMoviesOuterClass.ListOfMovies
-            .newBuilder()
-            .addAllMovies(listOfProto)
-            .build()
+            .map { ListOfMoviesOuterClass.ListOfMovies
+                .newBuilder()
+                .addAllMovies(it)
+                .build() }
     }
 }

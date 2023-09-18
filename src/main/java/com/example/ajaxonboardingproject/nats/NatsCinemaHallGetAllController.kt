@@ -8,6 +8,7 @@ import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConve
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsCinemaHallGetAllController(
@@ -24,15 +25,13 @@ class NatsCinemaHallGetAllController(
     @Suppress("UnusedParameter")
     override fun generateReplyForNatsRequest(
         request: CinemaHallOuterClass.CinemaHallRequest
-    ): ListOfCinemaHallsOuterClass.ListOfCinemaHalls {
-        val cinemaHalls = service.getAll()
+    ): Mono<ListOfCinemaHallsOuterClass.ListOfCinemaHalls> {
+        return service.getAll()
             .map { converter.cinemaHallToProto(it) }
             .collectList()
-            .block()!!
-            .toList()
-        return ListOfCinemaHallsOuterClass.ListOfCinemaHalls
-            .newBuilder()
-            .addAllCinemaHalls(cinemaHalls)
-            .build()
+            .map { ListOfCinemaHallsOuterClass.ListOfCinemaHalls
+                .newBuilder()
+                .addAllCinemaHalls(it)
+                .build() }
     }
 }

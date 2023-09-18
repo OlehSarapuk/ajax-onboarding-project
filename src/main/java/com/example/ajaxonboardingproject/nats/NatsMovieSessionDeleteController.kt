@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieSessionDeleteController(
@@ -20,8 +21,8 @@ class NatsMovieSessionDeleteController(
 
     override fun generateReplyForNatsRequest(
         request: MovieSessionOuterClass.MovieSessionDeleteRequest
-    ): MovieSessionOuterClass.MovieSessionResponse {
+    ): Mono<MovieSessionOuterClass.MovieSessionResponse> {
         service.delete(request.id).block()
-        return MovieSessionOuterClass.MovieSessionResponse.newBuilder().build()
+        return Mono.just(MovieSessionOuterClass.MovieSessionResponse.newBuilder().build())
     }
 }
