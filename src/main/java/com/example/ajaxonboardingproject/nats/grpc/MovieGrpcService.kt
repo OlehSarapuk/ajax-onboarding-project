@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.nats.grpc
 
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.MovieRequest
+import com.example.ajaxonboardingproject.MovieResponse
 import com.example.ajaxonboardingproject.MovieServiceGrpc
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
@@ -18,7 +18,7 @@ class MovieGrpcService(
         request: MovieRequest,
         responseObserver: StreamObserver<MovieResponse>
     ) {
-        val movie = movieService.add(movieConverter.protoRequestToMovie(request))
+        val movie = movieService.add(movieConverter.protoRequestToMovie(request)).block()!!
         responseObserver.onNext(movieConverter.movieToProtoResponse(movie))
         responseObserver.onCompleted()
     }
@@ -29,6 +29,8 @@ class MovieGrpcService(
     ) {
         movieService.getAll()
             .map { movieConverter.movieToProtoResponse(it) }
+            .collectList()
+            .block()!!
             .forEach { responseObserver.onNext(it) }
         responseObserver.onCompleted()
     }

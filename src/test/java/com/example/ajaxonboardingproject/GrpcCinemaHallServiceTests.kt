@@ -2,8 +2,6 @@ package com.example.ajaxonboardingproject
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallRequest
-import com.example.ajaxonboardingproject.CinemaHallOuterClass.CinemaHallResponse
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
@@ -52,7 +50,7 @@ class GrpcCinemaHallServiceTests {
     @Test
     fun getAllCinemaHallsTestOk() {
         //Given
-        val expected = cinemaHallService.getAll()
+        val expected = cinemaHallService.getAll().collectList().block()!!
         //When
         val allCinemaHalls = stub.getAllCinemaHalls(CinemaHallRequest.newBuilder().build())
         //Then

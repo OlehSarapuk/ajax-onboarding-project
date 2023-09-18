@@ -1,8 +1,10 @@
 package com.example.ajaxonboardingproject.nats.grpc
 
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionResponse
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionRequest
+import com.example.ajaxonboardingproject.MovieSessionAddRequest
+import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
+import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.MovieSessionServiceGrpc
+import com.example.ajaxonboardingproject.MovieSessionUpdateRequest
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter
 import io.grpc.stub.StreamObserver
@@ -15,28 +17,30 @@ class MovieSessionGrpcService(
 ): MovieSessionServiceGrpc.MovieSessionServiceImplBase() {
 
     override fun addMovieSession(
-        request: MovieSessionRequest,
+        request: MovieSessionAddRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        val movieSession = movieSessionService.add(movieSessionConverter.protoRequestToMovieSession(request))
+        val movieSession =
+            movieSessionService.add(movieSessionConverter.protoToMovieSession(request.movieSession)).block()!!
         responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(movieSession))
         responseObserver.onCompleted()
     }
 
     override fun updateMovieSession(
-        request: MovieSessionRequest,
+        request: MovieSessionUpdateRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        val movieSession = movieSessionService.update(movieSessionConverter.protoRequestToMovieSession(request))
+        val movieSession =
+            movieSessionService.update(movieSessionConverter.protoToMovieSession(request.movieSession)).block()!!
         responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(movieSession))
         responseObserver.onCompleted()
     }
 
     override fun deleteMovieSession(
-        request: MovieSessionRequest,
+        request: MovieSessionDeleteRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        movieSessionService.delete(movieSessionConverter.protoRequestToMovieSession(request).id)
+        movieSessionService.delete(request.id).block()
         responseObserver.onNext(MovieSessionResponse.newBuilder().build())
         responseObserver.onCompleted()
     }
