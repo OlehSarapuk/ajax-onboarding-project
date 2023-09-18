@@ -6,6 +6,8 @@ import "google/protobuf/timestamp.proto";
 import "com/example/ajaxonboardingproject/cinema_hall.proto";
 import "com/example/ajaxonboardingproject/movie.proto";
 
+option java_multiple_files = true;
+
 message MovieSession {
   Movie movie = 1;
   CinemaHall cinema_hall = 2;

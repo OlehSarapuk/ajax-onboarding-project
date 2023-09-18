@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionAddRequest
-import com.example.ajaxonboardingproject.MovieSessionOuterClass.MovieSessionResponse
+import com.example.ajaxonboardingproject.MovieSessionAddRequest
+import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter

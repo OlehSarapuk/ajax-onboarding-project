@@ -26,7 +26,7 @@ class NatsMovieControllerTests {
     fun addMovieTestOk() {
         //Given
         val movie = Movie(title = "proto TITLE", description = "grate one")
-        val expected = MovieOuterClass.MovieRequest.newBuilder()
+        val expected = MovieRequest.newBuilder()
             .setMovie(movieConverter.movieToProto(movie))
             .build()
         //When
@@ -35,7 +35,7 @@ class NatsMovieControllerTests {
             expected.toByteArray(),
             Duration.ofMillis(100000))
         //Then
-        val actual = MovieOuterClass.MovieResponse.parseFrom(future.get().data)
+        val actual = MovieResponse.parseFrom(future.get().data)
         assertThat(expected.movie).isEqualTo(actual.movie)
     }
 
@@ -46,7 +46,7 @@ class NatsMovieControllerTests {
             .map { movieConverter.movieToProto(it) }
             .collectList()
             .block()
-        val expected = ListOfMoviesOuterClass.ListOfMovies
+        val expected = ListOfMovies
             .newBuilder()
             .addAllMovies(protoFromDb)
             .build()
@@ -56,7 +56,7 @@ class NatsMovieControllerTests {
             null,
             Duration.ofMillis(100000))
         //Then
-        val actual = ListOfMoviesOuterClass.ListOfMovies.parseFrom(future.get().data)
+        val actual = ListOfMovies.parseFrom(future.get().data)
         assertThat(expected).isEqualTo(actual)
     }
 }

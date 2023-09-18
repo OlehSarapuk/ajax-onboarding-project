@@ -1,8 +1,8 @@
 package com.example.ajaxonboardingproject.service.proto.converter
 
-import com.example.ajaxonboardingproject.MovieOuterClass
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.Movie as MovieProto
+import com.example.ajaxonboardingproject.MovieRequest
+import com.example.ajaxonboardingproject.MovieResponse
 import com.example.ajaxonboardingproject.model.Movie
 import org.springframework.stereotype.Component
 
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component
 class MovieConverter {
     fun movieToProto(
         movie: Movie
-    ): MovieOuterClass.Movie {
-        return MovieOuterClass.Movie.newBuilder()
+    ): MovieProto {
+        return MovieProto.newBuilder()
             .setTitle(movie.title)
             .setDescription(movie.description)
             .build()
     }
 
     fun protoToMovie(
-        movieProto: MovieOuterClass.Movie
+        movieProto: MovieProto
     ): Movie {
         return Movie(
             title = movieProto.title,

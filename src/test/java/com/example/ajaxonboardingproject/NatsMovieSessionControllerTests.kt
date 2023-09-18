@@ -32,7 +32,7 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val request = MovieSessionOuterClass.MovieSessionAddRequest.newBuilder()
+        val request = MovieSessionAddRequest.newBuilder()
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
         //When
@@ -42,7 +42,7 @@ class NatsMovieSessionControllerTests {
             Duration.ofMillis(100000)
         )
         //Then
-        val reply = MovieSessionOuterClass.MovieSessionResponse.parseFrom(future.get().data)
+        val reply = MovieSessionResponse.parseFrom(future.get().data)
         assertThat(request.movieSession).isEqualTo(reply.movieSession)
     }
 
@@ -53,7 +53,7 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "Nats", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val expected = MovieSessionOuterClass.MovieSessionUpdateRequest.newBuilder()
+        val expected =  MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
@@ -64,7 +64,7 @@ class NatsMovieSessionControllerTests {
             Duration.ofMillis(100000)
         )
         //Then
-        val actual = MovieSessionOuterClass.MovieSessionResponse.parseFrom(future.get().data)
+        val actual = MovieSessionResponse.parseFrom(future.get().data)
         assertThat(expected.movieSession).isEqualTo(actual.movieSession)
     }
 
@@ -77,7 +77,7 @@ class NatsMovieSessionControllerTests {
         movieSessionRepository.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
         val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movieSessionRequest = MovieSessionOuterClass.MovieSessionUpdateRequest.newBuilder()
+        val movieSessionRequest = MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
             .build()
         //When

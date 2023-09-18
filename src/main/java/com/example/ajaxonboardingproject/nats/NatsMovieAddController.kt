@@ -1,9 +1,8 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieResponse
-import com.example.ajaxonboardingproject.MovieOuterClass.MovieRequest
+import com.example.ajaxonboardingproject.MovieRequest
+import com.example.ajaxonboardingproject.MovieResponse
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
 import com.google.protobuf.Parser

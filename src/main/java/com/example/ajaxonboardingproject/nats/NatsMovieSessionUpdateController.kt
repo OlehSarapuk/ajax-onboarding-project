@@ -1,6 +1,7 @@
 package com.example.ajaxonboardingproject.nats
 
-import com.example.ajaxonboardingproject.MovieSessionOuterClass
+import com.example.ajaxonboardingproject.MovieSessionResponse
+import com.example.ajaxonboardingproject.MovieSessionUpdateRequest
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
@@ -15,16 +16,16 @@ class NatsMovieSessionUpdateController(
     private val service: MovieSessionService,
     private val converter: MovieSessionConverter,
     override val connection: Connection
-) : NatsController<MovieSessionOuterClass.MovieSessionUpdateRequest, MovieSessionOuterClass.MovieSessionResponse> {
+) : NatsController<MovieSessionUpdateRequest, MovieSessionResponse> {
 
     override val subject: String = NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT
 
-    override val parser: Parser<MovieSessionOuterClass.MovieSessionUpdateRequest> =
-        MovieSessionOuterClass.MovieSessionUpdateRequest.parser()
+    override val parser: Parser<MovieSessionUpdateRequest> =
+        MovieSessionUpdateRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionOuterClass.MovieSessionUpdateRequest
-    ): Mono<MovieSessionOuterClass.MovieSessionResponse> {
+        request: MovieSessionUpdateRequest
+    ): Mono<MovieSessionResponse> {
         val movieSession: MovieSession = converter.protoToMovieSession(request.movieSession).apply {
             id = request.id
         }
