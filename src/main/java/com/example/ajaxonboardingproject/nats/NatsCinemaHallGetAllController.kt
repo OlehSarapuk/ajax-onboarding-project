@@ -29,9 +29,6 @@ class NatsCinemaHallGetAllController(
         return service.getAll()
             .map { converter.cinemaHallToProto(it) }
             .collectList()
-            .map { ListOfCinemaHalls
-                .newBuilder()
-                .addAllCinemaHalls(it)
-                .build() }
+            .map { ListOfCinemaHalls.newBuilder().addAllCinemaHalls(it).build() }
     }
 }

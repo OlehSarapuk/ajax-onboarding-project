@@ -29,9 +29,6 @@ class NatsMovieGetAllController(
         return service.getAll()
             .map { converter.movieToProto(it) }
             .collectList()
-            .map { ListOfMovies
-                .newBuilder()
-                .addAllMovies(it)
-                .build() }
+            .map { ListOfMovies.newBuilder().addAllMovies(it).build() }
     }
 }

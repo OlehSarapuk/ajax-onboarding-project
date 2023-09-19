@@ -14,9 +14,11 @@ class CustomUserDetailsService(private val userService: UserService) : ReactiveU
     override fun findByUsername(username: String): Mono<UserDetails> {
         return userService.findByEmail(username)
             .switchIfEmpty(Mono.error(NoSuchElementException("Can't get user with email: $username")))
-            .map { withUsername(username).apply {
-            password(it.password)
-            roles(*it.roles.map { role ->  role.name }.toTypedArray())
-        }.build() }
+            .map {
+                withUsername(username).apply {
+                    password(it.password)
+                    roles(*it.roles.map { role ->  role.name }.toTypedArray()) }
+                    .build()
+            }
     }
 }

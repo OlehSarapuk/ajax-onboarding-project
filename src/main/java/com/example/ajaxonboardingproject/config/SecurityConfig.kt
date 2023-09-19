@@ -21,10 +21,9 @@ class SecurityConfig(
 ) {
     @Bean
     fun authenticationManager(): ReactiveAuthenticationManager {
-        val authenticationManager =
-            UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService)
-        authenticationManager.setPasswordEncoder(passwordEncoder)
-        return authenticationManager
+        return UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService).apply {
+            setPasswordEncoder(passwordEncoder)
+        }
     }
 
     @Bean

@@ -18,12 +18,11 @@ class JwtSecurityContextRepository(
     }
 
     override fun load(exchange: ServerWebExchange): Mono<SecurityContext> {
-        val token: String? = jwtTokenProvider.resolveToken(exchange.request as ServerHttpRequest)
-        return if (token != null && jwtTokenProvider.validateToken(token)) {
-            return jwtTokenProvider.getAuthentication(token)
-                .map { SecurityContextImpl(it) }
-        } else {
-            Mono.empty()
+        return Mono.fromSupplier {
+            jwtTokenProvider.resolveToken(exchange.request as ServerHttpRequest)
         }
+            .filter { it != null && jwtTokenProvider.validateToken(it) }
+            .flatMap { jwtTokenProvider.getAuthentication(it!!) }
+            .map { SecurityContextImpl(it) }
     }
 }

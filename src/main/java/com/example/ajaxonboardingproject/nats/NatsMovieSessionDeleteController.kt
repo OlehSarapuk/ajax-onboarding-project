@@ -24,6 +24,6 @@ class NatsMovieSessionDeleteController(
         request: MovieSessionDeleteRequest
     ): Mono<MovieSessionResponse> {
         service.delete(request.id).block()
-        return Mono.just(MovieSessionResponse.newBuilder().build())
+        return Mono.just(MovieSessionResponse.getDefaultInstance())
     }
 }

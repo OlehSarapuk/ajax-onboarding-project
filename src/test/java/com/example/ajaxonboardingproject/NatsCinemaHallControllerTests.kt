@@ -26,9 +26,8 @@ class NatsCinemaHallControllerTests {
     fun addCinemaHallTestOk() {
         //Given
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val expected = CinemaHallRequest.newBuilder()
-            .setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall))
-            .build()
+        val expected =
+            CinemaHallRequest.newBuilder().setCinemaHall(cinemaHallConverter.cinemaHallToProto(cinemaHall)).build()
         //When
         val future = natsConnection
             .requestWithTimeout(
@@ -47,10 +46,7 @@ class NatsCinemaHallControllerTests {
             .map { cinemaHallConverter.cinemaHallToProto(it) }
             .collectList()
             .block()
-        val expected = ListOfCinemaHalls
-            .newBuilder()
-            .addAllCinemaHalls(protoFromDb)
-            .build()
+        val expected = ListOfCinemaHalls.newBuilder().addAllCinemaHalls(protoFromDb).build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.FIND_ALL_CINEMA_HALLS_SUBJECT,

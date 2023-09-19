@@ -26,9 +26,7 @@ class NatsMovieControllerTests {
     fun addMovieTestOk() {
         //Given
         val movie = Movie(title = "proto TITLE", description = "grate one")
-        val expected = MovieRequest.newBuilder()
-            .setMovie(movieConverter.movieToProto(movie))
-            .build()
+        val expected = MovieRequest.newBuilder().setMovie(movieConverter.movieToProto(movie)).build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.ADD_NEW_MOVIE_SUBJECT,
@@ -46,10 +44,7 @@ class NatsMovieControllerTests {
             .map { movieConverter.movieToProto(it) }
             .collectList()
             .block()
-        val expected = ListOfMovies
-            .newBuilder()
-            .addAllMovies(protoFromDb)
-            .build()
+        val expected = ListOfMovies.newBuilder().addAllMovies(protoFromDb).build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.FIND_ALL_MOVIES_SUBJECT,
