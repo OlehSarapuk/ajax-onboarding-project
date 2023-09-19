@@ -8,9 +8,9 @@ import com.example.ajaxonboardingproject.MovieSessionUpdateRequest
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter
 import io.grpc.stub.StreamObserver
-import org.springframework.stereotype.Controller
+import org.springframework.stereotype.Component
 
-@Controller
+@Component
 class MovieSessionGrpcService(
     private val movieSessionService: MovieSessionService,
     private val movieSessionConverter: MovieSessionConverter

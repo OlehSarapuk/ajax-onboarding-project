@@ -28,7 +28,7 @@ class GrpcCinemaHallServiceTests {
     @BeforeEach
     fun startServer() {
         channel = ManagedChannelBuilder
-            .forAddress("localhost", 8096)
+            .forAddress("localhost", 8097)
             .usePlaintext()
             .build()
         stub = CinemaHallServiceGrpc.newBlockingStub(channel)

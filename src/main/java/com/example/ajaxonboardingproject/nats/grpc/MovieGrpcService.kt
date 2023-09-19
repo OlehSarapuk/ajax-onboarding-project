@@ -6,9 +6,9 @@ import com.example.ajaxonboardingproject.MovieServiceGrpc
 import com.example.ajaxonboardingproject.service.MovieService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieConverter
 import io.grpc.stub.StreamObserver
-import org.springframework.stereotype.Controller
+import org.springframework.stereotype.Component
 
-@Controller
+@Component
 class MovieGrpcService(
     private val movieService: MovieService,
     private val movieConverter: MovieConverter
