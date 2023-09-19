@@ -1,7 +1,6 @@
 package com.example.ajaxonboardingproject.nats.grpc
 
-import com.example.ajaxonboardingproject.kafka.NatsKafkaListener
-import com.example.ajaxonboardingproject.kafka.Observer
+import com.example.ajaxonboardingproject.kafka.CinemaHallKafkaGrpcService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import jakarta.annotation.PostConstruct
@@ -12,7 +11,7 @@ class GrpcServer(
     private val cinemaHallGrpcService: CinemaHallGrpcService,
     private val movieGrpcService: MovieGrpcService,
     private val movieSessionGrpcService: MovieSessionGrpcService,
-    private val listener: NatsKafkaListener
+    private val listener: CinemaHallKafkaGrpcService
 ) {
     private val server: Server = ServerBuilder
         .forPort(8097)

@@ -4,6 +4,7 @@ import com.google.protobuf.GeneratedMessageV3
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.Serializer
 import org.apache.kafka.common.serialization.StringSerializer
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
@@ -12,11 +13,14 @@ import org.springframework.kafka.core.ProducerFactory
 
 @Configuration
 class KafkaProducerConfig {
+    @Value("\${spring.kafka.bootstrap-servers-config}")
+    private lateinit var address: String
+
     @Bean
     fun producerFactory(): ProducerFactory<String, GeneratedMessageV3> {
         return DefaultKafkaProducerFactory(
             mapOf(
-                Pair(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092"),
+                Pair(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, address),
                 Pair(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java),
                 Pair(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ProtobufSerializer::class.java)
             )

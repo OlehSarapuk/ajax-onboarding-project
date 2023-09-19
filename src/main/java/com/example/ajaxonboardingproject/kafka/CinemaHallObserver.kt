@@ -5,7 +5,7 @@ import com.example.ajaxonboardingproject.CinemaHallRequest
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 
-class Observer {
+class CinemaHallObserver {
     private lateinit var channel: ManagedChannel
     private lateinit var stub: CinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceBlockingStub
 

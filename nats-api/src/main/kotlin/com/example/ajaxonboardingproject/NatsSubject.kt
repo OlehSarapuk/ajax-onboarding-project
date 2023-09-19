@@ -8,4 +8,5 @@ object NatsSubject {
     const val ADD_NEW_MOVIE_SESSION_SUBJECT = "v2.ajax_onboarding_project.input.reqreply.movie_session.add"
     const val UPDATE_MOVIE_SESSION_SUBJECT = "v2.ajax_onboarding_project.input.reqreply.movie_session.update"
     const val DELETE_MOVIE_SESSION_SUBJECT = "v2.ajax_onboarding_project.input.reqreply.movie_session.delete"
+    const val KAFKA_GET_FRESHLY_ADDED_CINEMA_HALL_SUBJECT = "v2.ajax_onboarding_project.input.pubsub.cinema_hall.get_freshly_added"
 }

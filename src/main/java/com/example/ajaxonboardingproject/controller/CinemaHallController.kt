@@ -2,7 +2,7 @@ package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.request.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.dto.response.CinemaHallResponseDto
-import com.example.ajaxonboardingproject.kafka.Observer
+import com.example.ajaxonboardingproject.kafka.CinemaHallObserver
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
@@ -33,7 +33,7 @@ data class CinemaHallController(
 
     @GetMapping
     fun getAll(): Flux<CinemaHallResponseDto> {
-        Observer().observe()
+        CinemaHallObserver().observe()
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
     }
