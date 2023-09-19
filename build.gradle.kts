@@ -29,6 +29,7 @@ dependencies {
     implementation("io.grpc:grpc-stub:1.58.0")
     implementation("io.grpc:grpc-protobuf:1.58.0")
     implementation("io.grpc:grpc-netty:1.58.0")
+    implementation("org.springframework.kafka:spring-kafka:3.0.11")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:3.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.2")
     testImplementation("io.projectreactor:reactor-test:3.5.10")
