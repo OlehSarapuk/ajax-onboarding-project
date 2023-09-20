@@ -4,6 +4,7 @@ import com.example.ajaxonboardingproject.KafkaTopic
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.Deserializer
 import org.apache.kafka.common.serialization.StringDeserializer
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,6 +16,9 @@ import java.util.Collections
 @EnableKafka
 @Configuration
 class ReactiveKafkaConsumerConfig {
+    @Value("\${spring.kafka.bootstrap-servers}")
+    private lateinit var kafkaAddress: String
+
     @Bean
     fun kafkaReceiverOptions(
         kafkaProperties: KafkaProperties
@@ -22,7 +26,7 @@ class ReactiveKafkaConsumerConfig {
         val basicReceiverOptions: ReceiverOptions<String, ByteArray> =
             ReceiverOptions.create(
                 mapOf(
-                    Pair(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092"),
+                    Pair(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaAddress),
                     Pair(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java),
                     Pair(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ProtobufDeserializer::class.java),
                     Pair(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"),
