@@ -9,22 +9,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class GrpcServer(
-    private val listener: CinemaHallKafkaGrpcService,
+    private val cinemaHallKafkaGrpcService: CinemaHallKafkaGrpcService,
     @Value("\${spring.grpc.port}")
-    private val grpcPort: Int
+    var grpcPort: Int
 ) {
-    private val server: Server = ServerBuilder
-        .forPort(grpcPort)
-        .addService(listener)
-        .build()
-
-    private val thread = Thread {
-        server.start()
-        server.awaitTermination()
-    }
-
     @PostConstruct
-    fun startThread() {
-        thread.start()
+    fun startServer() {
+        val server: Server = ServerBuilder
+            .forPort(grpcPort)
+            .addService(cinemaHallKafkaGrpcService)
+            .build()
+        Thread {
+            server.start()
+            server.awaitTermination()
+        }.start()
     }
 }

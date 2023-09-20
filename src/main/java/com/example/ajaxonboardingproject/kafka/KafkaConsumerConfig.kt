@@ -5,7 +5,6 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.Deserializer
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
@@ -20,9 +19,7 @@ class ReactiveKafkaConsumerConfig {
     private lateinit var kafkaAddress: String
 
     @Bean
-    fun kafkaReceiverOptions(
-        kafkaProperties: KafkaProperties
-    ): ReceiverOptions<String, ByteArray> {
+    fun kafkaReceiverOptions(): ReceiverOptions<String, ByteArray> {
         val basicReceiverOptions: ReceiverOptions<String, ByteArray> =
             ReceiverOptions.create(
                 mapOf(
