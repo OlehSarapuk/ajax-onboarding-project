@@ -9,6 +9,7 @@ import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionCon
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieSessionUpdateController(
@@ -24,11 +25,11 @@ class NatsMovieSessionUpdateController(
 
     override fun generateReplyForNatsRequest(
         request: MovieSessionUpdateRequest
-    ): MovieSessionResponse {
+    ): Mono<MovieSessionResponse> {
         val movieSession: MovieSession = converter.protoToMovieSession(request.movieSession).apply {
             id = request.id
         }
-        val updatedMovieSession = service.update(movieSession).block()!!
-        return converter.movieSessionToProtoResponse(updatedMovieSession)
+        return service.update(movieSession)
+            .map { converter.movieSessionToProtoResponse(it) }
     }
 }

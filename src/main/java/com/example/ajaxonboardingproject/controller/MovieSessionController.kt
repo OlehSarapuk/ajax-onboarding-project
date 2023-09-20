@@ -7,6 +7,7 @@ import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
 import com.example.ajaxonboardingproject.service.mapper.ResponseDtoMapper
 import com.example.ajaxonboardingproject.util.DATE_PATTERN
+import com.mongodb.client.result.DeleteResult
 import jakarta.validation.Valid
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
 @RestController
@@ -30,36 +33,36 @@ data class MovieSessionController(
     @PostMapping
     fun add(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
-    ): MovieSessionResponseDto {
+    ): Mono<MovieSessionResponseDto> {
         val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
         return movieSessionService.add(movieSession)
             .map { movieSessionResponseDtoMapper.mapToDto(it) }
-            .block()!!
     }
 
     @GetMapping("/available")
     fun findAvailableSessions(
         @RequestParam movieId: String,
         @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDateTime
-    ): List<MovieSessionResponseDto> {
+    ): Flux<MovieSessionResponseDto> {
         return movieSessionService.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)
-            .collectList()
-            .block()!!
     }
 
     @PutMapping("/{id}")
     fun update(
         @PathVariable id: String,
         @Valid @RequestBody requestDto: MovieSessionRequestDto
-    ): MovieSessionResponseDto {
+    ): Mono<MovieSessionResponseDto> {
         val movieSession: MovieSession = movieSessionRequestDtoMapper.mapToModel(requestDto)
         movieSession.id = id
         return movieSessionService.update(movieSession)
             .map { movieSessionResponseDtoMapper.mapToDto(it) }
-            .block()!!
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: String) = movieSessionService.delete(id)
+    fun delete(
+        @PathVariable id: String
+    ): Mono<DeleteResult> {
+        return movieSessionService.delete(id)
+    }
 }

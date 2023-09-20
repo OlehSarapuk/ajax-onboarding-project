@@ -3,12 +3,12 @@ package com.example.ajaxonboardingproject.nats
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Component
 class NatsCinemaHallAddController(
@@ -24,8 +24,8 @@ class NatsCinemaHallAddController(
 
     override fun generateReplyForNatsRequest(
         request: CinemaHallRequest
-    ): CinemaHallResponse {
-        val cinemaHall: CinemaHall = service.add(converter.protoRequestToCinemaHall(request)).block()!!
-        return converter.cinemaHallToProtoResponse(cinemaHall)
+    ): Mono<CinemaHallResponse> {
+        return service.add(converter.protoRequestToCinemaHall(request))
+            .map { converter.cinemaHallToProtoResponse(it) }
     }
 }

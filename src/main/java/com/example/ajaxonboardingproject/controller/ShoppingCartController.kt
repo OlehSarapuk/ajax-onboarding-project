@@ -1,9 +1,7 @@
 package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.response.ShoppingCartResponseDto
-import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.model.ShoppingCart
-import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.service.UserService
@@ -41,12 +39,11 @@ data class ShoppingCartController(
     }
 
     @GetMapping("/by-user")
-    fun getByUser(auth: Authentication): ShoppingCartResponseDto {
+    fun getByUser(auth: Authentication): Mono<ShoppingCartResponseDto> {
         val details = auth.principal as UserDetails
         val email: String = details.username
         return userService.findByEmail(email)
             .flatMap { shoppingCartService.getShoppingCartByUser(it.id) }
             .map { shoppingCartResponseDtoMapper.mapToDto(it) }
-            .block()!!
     }
 }

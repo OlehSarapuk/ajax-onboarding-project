@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/cinema-halls")
@@ -23,17 +25,14 @@ data class CinemaHallController(
     @PostMapping
     fun add(
         @Valid @RequestBody requestDto: CinemaHallRequestDto
-    ): CinemaHallResponseDto {
+    ): Mono<CinemaHallResponseDto> {
         return cinemaHallService.add(cinemaHallRequestDtoMapper.mapToModel(requestDto))
             .map{ cinemaHallResponseDtoMapper.mapToDto(it) }
-            .block()!!
     }
 
     @GetMapping
-    fun getAll(): List<CinemaHallResponseDto> {
+    fun getAll(): Flux<CinemaHallResponseDto> {
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
-            .collectList()
-            .block()!!
     }
 }

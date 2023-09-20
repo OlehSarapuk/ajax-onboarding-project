@@ -7,14 +7,15 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.annotation.PostConstruct
-import jakarta.servlet.http.HttpServletRequest
+import java.util.Base64
+import java.util.Date
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.stereotype.Component
-import java.util.*
+import reactor.core.publisher.Mono
 
 @Component
 class JwtTokenProvider(
@@ -22,7 +23,7 @@ class JwtTokenProvider(
     var secret: String,
     @Value("\${security.jwt.token.expire_length}")
     val validityTime: Long,
-    val userDetailsService: UserDetailsService
+    val userDetailsService: ReactiveUserDetailsService
 ) {
     @PostConstruct
     fun initialize() {
@@ -45,10 +46,10 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun getAuthentication(token: String): Authentication {
-        val userDetails: UserDetails = userDetailsService
-            .loadUserByUsername(getUserNameFromToken(token))
-        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+    fun getAuthentication(token: String): Mono<Authentication> {
+       return userDetailsService
+            .findByUsername(getUserNameFromToken(token))
+            .map { UsernamePasswordAuthenticationToken(it, "", it.authorities) }
     }
 
     fun getUserNameFromToken(token: String): String {
@@ -59,8 +60,8 @@ class JwtTokenProvider(
             .subject
     }
 
-    fun resolveToken(request: HttpServletRequest): String? {
-        val token: String? = request.getHeader("Authorization")
+    fun resolveToken(serverRequest: ServerHttpRequest): String? {
+        val token = serverRequest.headers.getFirst("Authorization")
         if (token != null && token.startsWith("Bearer ")) {
             return token.substring(startIndex = 7)
         }

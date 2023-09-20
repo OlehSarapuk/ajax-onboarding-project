@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
 
 @RestController
 class AuthenticationController(
@@ -23,19 +24,18 @@ class AuthenticationController(
     @PostMapping("/register")
     fun register(
         @Valid @RequestBody requestDto: UserRegistrationRequestDto
-    ): UserResponseDto {
+    ): Mono<UserResponseDto> {
         return authenticationService
             .register(requestDto.email, requestDto.password)
             .map { userDtoResponseMapper.mapToDto(it) }
-            .block()!!
     }
 
     @PostMapping("/login")
     fun login(
         @Valid @RequestBody requestDto: UserLoginRequestDto
-    ): ResponseEntity<Any> {
-        val user: User = authenticationService.login(requestDto.login, requestDto.password).block()!!
-        val token: String = jwtTokenProvider.createToken(user.email, user.roles)
-        return ResponseEntity("token" to token, HttpStatus.OK)
+    ): Mono<ResponseEntity<Pair<String, String>>> {
+        return authenticationService.login(requestDto.login, requestDto.password)
+            .map { jwtTokenProvider.createToken(it.email, it.roles) }
+            .map { ResponseEntity("token" to it, HttpStatus.OK) }
     }
 }

@@ -32,9 +32,10 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val request = MovieSessionAddRequest.newBuilder()
-            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
-            .build()
+        val request =
+            MovieSessionAddRequest.newBuilder()
+                .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+                .build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.ADD_NEW_MOVIE_SESSION_SUBJECT,
@@ -53,10 +54,11 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "Nats", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val expected =  MovieSessionUpdateRequest.newBuilder()
-            .setId(movieSessionFromDB.id)
-            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
-            .build()
+        val expected =
+            MovieSessionUpdateRequest.newBuilder()
+                .setId(movieSessionFromDB.id)
+                .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+                .build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT,
@@ -77,9 +79,8 @@ class NatsMovieSessionControllerTests {
         movieSessionRepository.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
         val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movieSessionRequest = MovieSessionUpdateRequest.newBuilder()
-            .setId(movieSessionFromDB.id)
-            .build()
+        val movieSessionRequest =
+            MovieSessionUpdateRequest.newBuilder().setId(movieSessionFromDB.id).build()
         //When
         val future = natsConnection.requestWithTimeout(
             NatsSubject.DELETE_MOVIE_SESSION_SUBJECT,
