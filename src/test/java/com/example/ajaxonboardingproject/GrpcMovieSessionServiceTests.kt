@@ -60,13 +60,16 @@ class GrpcMovieSessionServiceTests(
     @Test
     fun updateMovieSessionGrpcTestOk() {
         //Given
-        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        movieSessionRepository.save(movieSession).block()
+        val cinemaHallToUpdate = CinemaHall(capacity = 10, description = "grate")
+        val movieSessionToUpdate = MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
+        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
         val expected = MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
-            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
+            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSessionToUpdate))
             .build()
         //When
         val actual = stub.updateMovieSession(expected)
