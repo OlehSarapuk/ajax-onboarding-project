@@ -65,7 +65,8 @@ class GrpcMovieSessionServiceTests(
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         movieSessionRepository.save(movieSession).block()
         val cinemaHallToUpdate = CinemaHall(capacity = 10, description = "grate")
-        val movieSessionToUpdate = MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
+        val movieSessionToUpdate =
+            MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
         val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
         val expected = MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
