@@ -1,34 +1,30 @@
 package com.example.ajaxonboardingproject.config
 
-import com.example.ajaxonboardingproject.nats.grpc.CinemaHallGrpcService
-import com.example.ajaxonboardingproject.nats.grpc.MovieGrpcService
-import com.example.ajaxonboardingproject.nats.grpc.MovieSessionGrpcService
+import com.example.ajaxonboardingproject.kafka.CinemaHallKafkaGrpcService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 @Component
 class GrpcServer(
-    private val cinemaHallGrpcService: CinemaHallGrpcService,
-    private val movieGrpcService: MovieGrpcService,
-    private val movieSessionGrpcService: MovieSessionGrpcService,
+    private val listener: CinemaHallKafkaGrpcService,
     @Value("\${spring.grpc.port}")
-    var grpcPort: Int
+    private val grpcPort: Int
 ) {
+    private val server: Server = ServerBuilder
+        .forPort(grpcPort)
+        .addService(listener)
+        .build()
+
+    private val thread = Thread {
+        server.start()
+        server.awaitTermination()
+    }
+
     @PostConstruct
-    fun startServer() {
-        val server: Server = ServerBuilder
-            .forPort(grpcPort)
-            .addService(cinemaHallGrpcService)
-            .addService(movieGrpcService)
-            .addService(movieSessionGrpcService)
-            .build()
-        Thread {
-            server.start()
-            server.awaitTermination()
-        }.start()
+    fun startThread() {
+        thread.start()
     }
 }

@@ -21,7 +21,8 @@ import reactor.core.publisher.Mono
 data class CinemaHallController(
     private val cinemaHallService: CinemaHallService,
     private val cinemaHallRequestDtoMapper: RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
-    private val cinemaHallResponseDtoMapper: ResponseDtoMapper<CinemaHallResponseDto, CinemaHall>
+    private val cinemaHallResponseDtoMapper: ResponseDtoMapper<CinemaHallResponseDto, CinemaHall>,
+    private val cinemaHallObserver: CinemaHallObserver
 ) {
     @PostMapping
     fun add(
@@ -33,7 +34,7 @@ data class CinemaHallController(
 
     @GetMapping
     fun getAll(): Flux<CinemaHallResponseDto> {
-        CinemaHallObserver().observe()
+        cinemaHallObserver.observe()
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
     }
