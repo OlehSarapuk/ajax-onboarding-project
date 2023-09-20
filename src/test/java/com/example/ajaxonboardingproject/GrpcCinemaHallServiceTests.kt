@@ -11,10 +11,14 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class GrpcCinemaHallServiceTests {
+class GrpcCinemaHallServiceTests(
+    @Value("\${spring.grpc.port}")
+    var grpcPort: Int
+) {
     @Autowired
     private lateinit var cinemaHallService: CinemaHallService
 
@@ -28,7 +32,7 @@ class GrpcCinemaHallServiceTests {
     @BeforeEach
     fun startServer() {
         channel = ManagedChannelBuilder
-            .forAddress("localhost", 8097)
+            .forAddress("localhost", grpcPort)
             .usePlaintext()
             .build()
         stub = CinemaHallServiceGrpc.newBlockingStub(channel)

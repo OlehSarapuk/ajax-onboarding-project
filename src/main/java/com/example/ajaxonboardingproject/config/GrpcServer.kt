@@ -6,6 +6,7 @@ import com.example.ajaxonboardingproject.nats.grpc.MovieSessionGrpcService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import jakarta.annotation.PostConstruct
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Component
 class GrpcServer(
     private val cinemaHallGrpcService: CinemaHallGrpcService,
     private val movieGrpcService: MovieGrpcService,
-    private val movieSessionGrpcService: MovieSessionGrpcService
+    private val movieSessionGrpcService: MovieSessionGrpcService,
+    @Value("\${spring.grpc.port}")
+    var grpcPort: Int
 ) {
     @PostConstruct
     fun startServer() {
         val server: Server = ServerBuilder
-            .forPort(8097)
+            .forPort(grpcPort)
             .addService(cinemaHallGrpcService)
             .addService(movieGrpcService)
             .addService(movieSessionGrpcService)

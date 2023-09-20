@@ -14,11 +14,15 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 
 @SpringBootTest
-class GrpcMovieSessionServiceTests {
+class GrpcMovieSessionServiceTests(
+    @Value("\${spring.grpc.port}")
+    var grpcPort: Int
+) {
     @Autowired
     private lateinit var movieSessionConverter: MovieSessionConverter
 
@@ -32,7 +36,7 @@ class GrpcMovieSessionServiceTests {
     @BeforeEach
     fun startServer() {
         channel = ManagedChannelBuilder
-            .forAddress("localhost", 8097)
+            .forAddress("localhost", grpcPort)
             .usePlaintext()
             .build()
         stub = MovieSessionServiceGrpc.newBlockingStub(channel)
