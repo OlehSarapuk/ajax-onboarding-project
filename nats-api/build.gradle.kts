@@ -17,7 +17,6 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:1.58.0")
     implementation("io.grpc:grpc-netty:1.58.0")
     implementation("io.grpc:grpc-stub:1.58.0")
-    implementation("com.salesforce.servicelibs:rxgrpc-stub:0.9.0")
     implementation("com.salesforce.servicelibs:reactor-grpc:1.2.4")
     implementation("com.salesforce.servicelibs:reactive-grpc-common:1.2.4")
     implementation("com.salesforce.servicelibs:reactor-grpc-stub:1.2.4")
