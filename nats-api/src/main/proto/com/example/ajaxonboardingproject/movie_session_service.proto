@@ -5,9 +5,9 @@ package com.example.ajaxonboardingproject;
 import "com/example/ajaxonboardingproject/movie_session.proto";
 
 service MovieSessionService {
-  rpc add_movie_session (MovieSessionAddRequest) returns (MovieSessionResponse);
+  rpc addMovieSession (MovieSessionAddRequest) returns (MovieSessionResponse);
 
-  rpc update_movie_session (MovieSessionUpdateRequest) returns (MovieSessionResponse);
+  rpc updateMovieSession (MovieSessionUpdateRequest) returns (MovieSessionResponse);
 
-  rpc delete_movie_session (MovieSessionDeleteRequest) returns (MovieSessionResponse);
+  rpc deleteMovieSession (MovieSessionDeleteRequest) returns (MovieSessionResponse);
 }

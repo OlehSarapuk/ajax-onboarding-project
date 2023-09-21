@@ -21,7 +21,7 @@ class AppConfig(
 ) {
     @Autowired
     @Lazy
-    private lateinit var bindableService: BindableService
+    private lateinit var bindableServices: List<BindableService>
 
     @Bean
     fun passwordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
@@ -33,7 +33,9 @@ class AppConfig(
     fun getGrpcServer(): Server {
         val grpcServer = ServerBuilder
             .forPort(grpcPort)
-            .addService(bindableService)
+            .apply {
+                bindableServices.forEach { addService(it) }
+            }
             .build()
         Thread {
             grpcServer.start()
