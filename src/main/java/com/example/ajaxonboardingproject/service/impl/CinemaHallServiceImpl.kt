@@ -19,12 +19,12 @@ class CinemaHallServiceImpl(
 ) : CinemaHallService {
     override fun add(cinemaHall: CinemaHall): Mono<CinemaHall> {
         return cinemaHallRepository.save(cinemaHall)
-            .doOnNext {
+            .flatMap {
                 reactiveKafkaConsumerTemplate.send(
                     KafkaTopic.GET_FRESHLY_ADDED_CINEMA_HALLS,
                     cinemaHallConverter.cinemaHallToProtoResponse(it)
-                ).subscribe()
-        }
+                ).thenReturn(it)
+            }
     }
 
     override fun get(id: String): Mono<CinemaHall> {

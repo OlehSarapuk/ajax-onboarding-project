@@ -8,25 +8,26 @@ import io.nats.client.Connection
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import reactor.core.publisher.Sinks
 
 @Component
 class CinemaHallKafkaGrpcService(
     private val connection: Connection
 ): ReactorCinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
-    private val list: MutableList<CinemaHallResponse> = mutableListOf()
+    private val responseSink: Sinks.Many<CinemaHallResponse> = Sinks.many().unicast().onBackpressureBuffer()
 
     @PostConstruct
     fun listenToEvents() {
         val dispatcher = connection.createDispatcher { message ->
-            list.add(CinemaHallResponse.parseFrom(message.data))
+            responseSink.tryEmitNext(CinemaHallResponse.parseFrom(message.data))
+
         }
         dispatcher.subscribe(NatsSubject.KAFKA_GET_FRESHLY_ADDED_CINEMA_HALL_SUBJECT)
     }
 
     override fun kafkaAddCinemaHall(
-        request: Mono<CinemaHallRequest>
+        request: Flux<CinemaHallRequest>
     ): Flux<CinemaHallResponse> {
-        return Flux.fromIterable(list)
+        return Flux.defer { responseSink.asFlux() }
     }
 }

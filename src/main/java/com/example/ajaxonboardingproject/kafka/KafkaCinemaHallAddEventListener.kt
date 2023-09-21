@@ -14,7 +14,6 @@ class KafkaCinemaHallAddEventListener(
     val reactiveKafkaConsumerTemplate: ReactiveKafkaConsumerTemplate<String, ByteArray>
 ): CommandLineRunner {
 
-    @Bean
     fun listen(): Flux<ByteArray> {
         return reactiveKafkaConsumerTemplate
             .receiveAutoAck()

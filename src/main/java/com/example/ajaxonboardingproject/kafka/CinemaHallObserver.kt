@@ -7,6 +7,8 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Component
 class CinemaHallObserver(
@@ -22,7 +24,7 @@ class CinemaHallObserver(
             .usePlaintext()
             .build()
         stub = ReactorCinemaHallKafkaServiceGrpc.newReactorStub(channel)
-        stub.kafkaAddCinemaHall(CinemaHallRequest.getDefaultInstance())
+        stub.kafkaAddCinemaHall(Flux.from(Mono.just(CinemaHallRequest.getDefaultInstance())))
                 .doOnNext { println(it) }
                 .subscribe()
         channel.shutdown()
