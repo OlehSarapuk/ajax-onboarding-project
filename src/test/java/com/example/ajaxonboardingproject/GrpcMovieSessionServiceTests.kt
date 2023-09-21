@@ -8,26 +8,42 @@ import com.example.ajaxonboardingproject.model.Movie
 import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.repository.MovieSessionRepository
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter
-import io.nats.client.Connection
+import io.grpc.ManagedChannel
+import io.grpc.ManagedChannelBuilder
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.Duration
 import java.time.LocalDateTime
 
 @SpringBootTest
-class NatsMovieSessionControllerTests {
+class GrpcMovieSessionServiceTests(
+    @Value("\${spring.grpc.port}")
+    var grpcPort: Int
+) {
     @Autowired
-    lateinit var natsConnection: Connection
+    private lateinit var movieSessionConverter: MovieSessionConverter
 
     @Autowired
-    lateinit var movieSessionConverter: MovieSessionConverter
+    private lateinit var movieSessionRepository: MovieSessionRepository
 
-    @Autowired
-    lateinit var movieSessionRepository: MovieSessionRepository
+    private lateinit var stub: MovieSessionServiceGrpc.MovieSessionServiceBlockingStub
+
+    private lateinit var channel: ManagedChannel
+
+    @BeforeEach
+    fun startServer() {
+        channel = ManagedChannelBuilder
+            .forAddress("localhost", grpcPort)
+            .usePlaintext()
+            .build()
+        stub = MovieSessionServiceGrpc.newBlockingStub(channel)
+    }
 
     @Test
-    fun addMovieSessionTestOk() {
+    fun addMovieSessionGrpcTestOk() {
         //Given
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
@@ -36,59 +52,53 @@ class NatsMovieSessionControllerTests {
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
         //When
-        val future = natsConnection.requestWithTimeout(
-            NatsSubject.ADD_NEW_MOVIE_SESSION_SUBJECT,
-            expected.toByteArray(),
-            Duration.ofMillis(100000)
-        )
+        val actual = stub.addMovieSession(expected)
         //Then
-        val actual = MovieSessionResponse.parseFrom(future.get().data)
         assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test
-    fun updateMovieSessionTestOk() {
+    fun updateMovieSessionGrpcTestOk() {
         //Given
-        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movie = Movie(title = "Nats", description = "grate one")
+        val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        val expected =
-            MovieSessionUpdateRequest.newBuilder()
-                .setId(movieSessionFromDB.id)
-                .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
-                .build()
+        movieSessionRepository.save(movieSession).block()
+        val cinemaHallToUpdate = CinemaHall(capacity = 10, description = "grate")
+        val movieSessionToUpdate =
+            MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
+        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
+        val expected = MovieSessionUpdateRequest.newBuilder()
+            .setId(movieSessionFromDB.id)
+            .setMovieSession(movieSessionConverter.movieSessionToProto(movieSessionToUpdate))
+            .build()
         //When
-        val future = natsConnection.requestWithTimeout(
-            NatsSubject.UPDATE_MOVIE_SESSION_SUBJECT,
-            expected.toByteArray(),
-            Duration.ofMillis(100000)
-        )
+        val actual = stub.updateMovieSession(expected)
         //Then
-        val actual = MovieSessionResponse.parseFrom(future.get().data)
         assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test
-    fun deleteMovieSessionTestOk() {
+    fun deleteMovieSessionGrpcTestOk() {
         //Given
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         movieSessionRepository.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
-        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
-        val movieSessionRequest =
-            MovieSessionUpdateRequest.newBuilder().setId(movieSessionFromDB.id).build()
+        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
+        val movieSessionRequest = MovieSessionDeleteRequest.newBuilder()
+            .setId(movieSessionFromDB.id)
+            .build()
         //When
-        val future = natsConnection.requestWithTimeout(
-            NatsSubject.DELETE_MOVIE_SESSION_SUBJECT,
-            movieSessionRequest.toByteArray(),
-            Duration.ofMillis(100000)
-        )
-        future.get().data
+        stub.deleteMovieSession(movieSessionRequest)
         //Then
         val sizeOfDBAfter = movieSessionRepository.findAll().collectList().block()!!.size
         assertThat(sizeOfDBBefore).isGreaterThan(sizeOfDBAfter)
+    }
+
+    @AfterEach
+    fun shutDownServer() {
+        channel.shutdown()
     }
 }

@@ -36,7 +36,7 @@ class NatsCinemaHallControllerTests {
                 Duration.ofMillis(100000))
         //Then
         val actual = CinemaHallResponse.parseFrom(future.get().data)
-        assertThat(expected.cinemaHall).isEqualTo(actual.cinemaHall)
+        assertThat(actual.cinemaHall).isEqualTo(expected.cinemaHall)
     }
 
     @Test
@@ -54,6 +54,6 @@ class NatsCinemaHallControllerTests {
             Duration.ofMillis(100000))
         //Then
         val actual = ListOfCinemaHalls.parseFrom(future.get().data)
-        assertThat(expected).isEqualTo(actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

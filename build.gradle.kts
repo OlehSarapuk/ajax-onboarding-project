@@ -26,6 +26,7 @@ dependencies {
     implementation("io.nats:jnats:2.16.14")
     implementation("com.google.protobuf:protobuf-java:3.24.2")
     implementation("com.google.protobuf:protobuf-java-util:3.20.1")
+    implementation("io.grpc:grpc-protobuf:1.58.0")
     implementation("io.grpc:grpc-netty:1.58.0")
     implementation("io.grpc:grpc-stub:1.58.0")
     implementation("com.salesforce.servicelibs:reactor-grpc:1.2.4")
