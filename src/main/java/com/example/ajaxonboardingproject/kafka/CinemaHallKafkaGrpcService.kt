@@ -14,7 +14,7 @@ import reactor.core.publisher.Sinks
 class CinemaHallKafkaGrpcService(
     private val connection: Connection
 ): ReactorCinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
-    private val responseSink: Sinks.Many<CinemaHallResponse> = Sinks.many().unicast().onBackpressureBuffer()
+    private val responseSink: Sinks.Many<CinemaHallResponse> = Sinks.many().multicast().onBackpressureBuffer()
 
     @PostConstruct
     fun listenToEvents() {
