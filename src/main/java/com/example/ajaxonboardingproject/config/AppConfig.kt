@@ -32,7 +32,7 @@ class AppConfig(
     @Bean
     fun getGrpcServer(): Server {
         val grpcServer = ServerBuilder
-            .forPort(8097)
+            .forPort(grpcPort)
             .addService(bindableService)
             .build()
         Thread {
