@@ -34,7 +34,7 @@ class NatsMovieControllerTests {
             Duration.ofMillis(100000))
         //Then
         val actual = MovieResponse.parseFrom(future.get().data)
-        assertThat(expected.movie).isEqualTo(actual.movie)
+        assertThat(actual.movie).isEqualTo(expected.movie)
     }
 
     @Test
@@ -52,6 +52,6 @@ class NatsMovieControllerTests {
             Duration.ofMillis(100000))
         //Then
         val actual = ListOfMovies.parseFrom(future.get().data)
-        assertThat(expected).isEqualTo(actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }
