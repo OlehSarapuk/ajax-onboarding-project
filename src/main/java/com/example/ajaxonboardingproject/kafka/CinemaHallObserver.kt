@@ -1,7 +1,8 @@
 package com.example.ajaxonboardingproject.kafka
 
-import com.example.ajaxonboardingproject.CinemaHallKafkaServiceGrpc
 import com.example.ajaxonboardingproject.CinemaHallRequest
+import com.example.ajaxonboardingproject.ReactorCinemaHallKafkaServiceGrpc
+import com.example.ajaxonboardingproject.ReactorCinemaHallKafkaServiceGrpc.ReactorCinemaHallKafkaServiceStub
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.springframework.beans.factory.annotation.Value
@@ -13,17 +14,17 @@ class CinemaHallObserver(
     private val grpcPort: Int
 ) {
     private lateinit var channel: ManagedChannel
-    private lateinit var stub: CinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceBlockingStub
+    private lateinit var stub: ReactorCinemaHallKafkaServiceStub
 
     fun observe() {
         channel = ManagedChannelBuilder
             .forAddress("localhost", grpcPort)
             .usePlaintext()
             .build()
-        stub = CinemaHallKafkaServiceGrpc.newBlockingStub(channel)
-        val kafkaAddCinemaHall =
-            stub.kafkaAddCinemaHall(CinemaHallRequest.getDefaultInstance())
-        kafkaAddCinemaHall.forEach { println(it) }
+        stub = ReactorCinemaHallKafkaServiceGrpc.newReactorStub(channel)
+        stub.kafkaAddCinemaHall(CinemaHallRequest.getDefaultInstance())
+                .doOnNext { println(it) }
+                .subscribe()
         channel.shutdown()
     }
 }

@@ -1,18 +1,19 @@
 package com.example.ajaxonboardingproject.kafka
 
-import com.example.ajaxonboardingproject.CinemaHallKafkaServiceGrpc
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.NatsSubject
-import io.grpc.stub.StreamObserver
+import com.example.ajaxonboardingproject.ReactorCinemaHallKafkaServiceGrpc
 import io.nats.client.Connection
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @Component
 class CinemaHallKafkaGrpcService(
     private val connection: Connection
-): CinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
+): ReactorCinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
     private val list: MutableList<CinemaHallResponse> = mutableListOf()
 
     @PostConstruct
@@ -24,11 +25,8 @@ class CinemaHallKafkaGrpcService(
     }
 
     override fun kafkaAddCinemaHall(
-        request: CinemaHallRequest,
-        responseObserver: StreamObserver<CinemaHallResponse>
-    ) {
-        list.map { responseObserver.onNext(it) }
-        list.clear()
-        responseObserver.onCompleted()
+        request: Mono<CinemaHallRequest>
+    ): Flux<CinemaHallResponse> {
+        return Flux.fromIterable(list)
     }
 }

@@ -1,10 +1,9 @@
 package com.example.ajaxonboardingproject.kafka
 
-import com.example.ajaxonboardingproject.KafkaTopic
 import com.example.ajaxonboardingproject.NatsSubject
 import io.nats.client.Connection
 import org.springframework.boot.CommandLineRunner
-import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.context.annotation.Bean
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
@@ -15,6 +14,7 @@ class KafkaCinemaHallAddEventListener(
     val reactiveKafkaConsumerTemplate: ReactiveKafkaConsumerTemplate<String, ByteArray>
 ): CommandLineRunner {
 
+    @Bean
     fun listen(): Flux<ByteArray> {
         return reactiveKafkaConsumerTemplate
             .receiveAutoAck()

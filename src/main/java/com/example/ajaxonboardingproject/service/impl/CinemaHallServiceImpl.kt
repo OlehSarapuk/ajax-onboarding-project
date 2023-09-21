@@ -6,8 +6,6 @@ import com.example.ajaxonboardingproject.repository.CinemaHallRepository
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.proto.converter.CinemaHallConverter
 import com.google.protobuf.GeneratedMessageV3
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate
 import org.springframework.kafka.core.reactive.ReactiveKafkaProducerTemplate
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -20,14 +18,13 @@ class CinemaHallServiceImpl(
     private val cinemaHallConverter: CinemaHallConverter
 ) : CinemaHallService {
     override fun add(cinemaHall: CinemaHall): Mono<CinemaHall> {
-        val saveCinemaHall = cinemaHallRepository.save(cinemaHall)
-        saveCinemaHall.map {
-            reactiveKafkaConsumerTemplate.send(
-                KafkaTopic.GET_FRESHLY_ADDED_CINEMA_HALLS,
-                cinemaHallConverter.cinemaHallToProtoResponse(it)
-            ).subscribe()
-        }.subscribe()
-        return saveCinemaHall
+        return cinemaHallRepository.save(cinemaHall)
+            .doOnNext {
+                reactiveKafkaConsumerTemplate.send(
+                    KafkaTopic.GET_FRESHLY_ADDED_CINEMA_HALLS,
+                    cinemaHallConverter.cinemaHallToProtoResponse(it)
+                ).subscribe()
+        }
     }
 
     override fun get(id: String): Mono<CinemaHall> {

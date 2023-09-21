@@ -1,11 +1,13 @@
 package com.example.ajaxonboardingproject.config
 
+import com.example.ajaxonboardingproject.NatsSubject
 import io.nats.client.Connection
 import io.nats.client.Nats
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import reactor.core.publisher.Flux
 
 @Configuration
 class AppConfig {
