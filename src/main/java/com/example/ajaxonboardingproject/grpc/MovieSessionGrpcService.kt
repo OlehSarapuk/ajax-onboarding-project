@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.nats.grpc
+package com.example.ajaxonboardingproject.grpc
 
 import com.example.ajaxonboardingproject.MovieSessionAddRequest
 import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
@@ -20,9 +20,9 @@ class MovieSessionGrpcService(
         request: MovieSessionAddRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        val movieSession =
-            movieSessionService.add(movieSessionConverter.protoToMovieSession(request.movieSession)).block()!!
-        responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(movieSession))
+        movieSessionService.add(movieSessionConverter.protoToMovieSession(request.movieSession))
+            .doOnNext { responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(it)) }
+            .block()
         responseObserver.onCompleted()
     }
 
@@ -30,9 +30,9 @@ class MovieSessionGrpcService(
         request: MovieSessionUpdateRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        val movieSession =
-            movieSessionService.update(movieSessionConverter.protoToMovieSession(request.movieSession)).block()!!
-        responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(movieSession))
+        movieSessionService.update(movieSessionConverter.protoToMovieSession(request.movieSession))
+            .doOnNext { responseObserver.onNext(movieSessionConverter.movieSessionToProtoResponse(it)) }
+            .block()
         responseObserver.onCompleted()
     }
 
@@ -40,8 +40,9 @@ class MovieSessionGrpcService(
         request: MovieSessionDeleteRequest,
         responseObserver: StreamObserver<MovieSessionResponse>
     ) {
-        movieSessionService.delete(request.id).block()
-        responseObserver.onNext(MovieSessionResponse.newBuilder().build())
+        movieSessionService.delete(request.id)
+            .doOnNext { responseObserver.onNext(MovieSessionResponse.getDefaultInstance()) }
+            .block()
         responseObserver.onCompleted()
     }
 }

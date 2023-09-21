@@ -48,7 +48,7 @@ class GrpcCinemaHallServiceTests(
         //When
         val actual: CinemaHallResponse = stub.addCinemaHall(expected)
         //Then
-        assertThat(expected.cinemaHall).isEqualTo(actual.cinemaHall)
+        assertThat(actual.cinemaHall).isEqualTo(expected.cinemaHall)
     }
 
     @Test
@@ -61,7 +61,7 @@ class GrpcCinemaHallServiceTests(
         val actual: MutableList<CinemaHall> = mutableListOf()
         allCinemaHalls
             .forEach { actual.add(cinemaHallConverter.protoToCinemaHall(it.cinemaHall)) }
-        assertThat(expected.size).isEqualTo(actual.size)
+        assertThat(actual.size).isEqualTo(expected.size)
     }
 
     @AfterEach

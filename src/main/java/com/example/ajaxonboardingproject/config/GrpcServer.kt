@@ -1,8 +1,8 @@
 package com.example.ajaxonboardingproject.config
 
-import com.example.ajaxonboardingproject.nats.grpc.CinemaHallGrpcService
-import com.example.ajaxonboardingproject.nats.grpc.MovieGrpcService
-import com.example.ajaxonboardingproject.nats.grpc.MovieSessionGrpcService
+import com.example.ajaxonboardingproject.grpc.CinemaHallGrpcService
+import com.example.ajaxonboardingproject.grpc.MovieGrpcService
+import com.example.ajaxonboardingproject.grpc.MovieSessionGrpcService
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import jakarta.annotation.PostConstruct

@@ -54,7 +54,7 @@ class GrpcMovieSessionServiceTests(
         //When
         val actual = stub.addMovieSession(expected)
         //Then
-        assertThat(expected.movieSession).isEqualTo(actual.movieSession)
+        assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test
@@ -75,7 +75,7 @@ class GrpcMovieSessionServiceTests(
         //When
         val actual = stub.updateMovieSession(expected)
         //Then
-        assertThat(expected.movieSession).isEqualTo(actual.movieSession)
+        assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test

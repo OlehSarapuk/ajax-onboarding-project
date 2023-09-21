@@ -43,7 +43,7 @@ class NatsMovieSessionControllerTests {
         )
         //Then
         val actual = MovieSessionResponse.parseFrom(future.get().data)
-        assertThat(expected.movieSession).isEqualTo(actual.movieSession)
+        assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test
@@ -66,7 +66,7 @@ class NatsMovieSessionControllerTests {
         )
         //Then
         val actual = MovieSessionResponse.parseFrom(future.get().data)
-        assertThat(expected.movieSession).isEqualTo(actual.movieSession)
+        assertThat(actual.movieSession).isEqualTo(expected.movieSession)
     }
 
     @Test

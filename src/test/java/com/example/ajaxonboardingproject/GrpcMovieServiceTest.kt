@@ -48,7 +48,7 @@ class GrpcMovieServiceTest(
         //When
         val actual: MovieResponse = stub.addMovie(expected)
         //Then
-        assertThat(expected.movie).isEqualTo(actual.movie)
+        assertThat(actual.movie).isEqualTo(expected.movie)
     }
 
     @Test
@@ -61,7 +61,7 @@ class GrpcMovieServiceTest(
         val actual: MutableList<Movie> = mutableListOf()
         allMovies
             .forEach { actual.add(movieConverter.protoToMovie(it.movie)) }
-        assertThat(expected.size).isEqualTo(actual.size)
+        assertThat(actual.size).isEqualTo(expected.size)
     }
 
     @AfterEach

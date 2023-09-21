@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.nats.grpc
+package com.example.ajaxonboardingproject.grpc
 
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
@@ -18,8 +18,9 @@ class CinemaHallGrpcService(
         request: CinemaHallRequest,
         responseObserver: StreamObserver<CinemaHallResponse>
     ) {
-        val cinemaHall = cinemaHallService.add(cinemaHallConverter.protoRequestToCinemaHall(request)).block()!!
-        responseObserver.onNext(cinemaHallConverter.cinemaHallToProtoResponse(cinemaHall))
+        cinemaHallService.add(cinemaHallConverter.protoRequestToCinemaHall(request))
+            .doOnNext {responseObserver.onNext(cinemaHallConverter.cinemaHallToProtoResponse(it)) }
+            .block()
         responseObserver.onCompleted()
     }
 
@@ -29,9 +30,8 @@ class CinemaHallGrpcService(
     ) {
         cinemaHallService.getAll()
             .map { cinemaHallConverter.cinemaHallToProtoResponse(it) }
-            .collectList()
-            .block()!!
-            .forEach { responseObserver.onNext(it) }
+            .doOnNext { responseObserver.onNext(it) }
+            .blockLast()
         responseObserver.onCompleted()
     }
 }
