@@ -54,7 +54,6 @@ jobs:
               --env CONFLUENT_METRICS_ENABLE=true 
               --env CONFLUENT_SUPPORT_CUSTOMER_ID=anonymous 
               --env GROUP_ID=ajax 
-              --depends-on zookeeper 
               confluentinc/cp-kafka
 
       - name: Set up JDK 17
