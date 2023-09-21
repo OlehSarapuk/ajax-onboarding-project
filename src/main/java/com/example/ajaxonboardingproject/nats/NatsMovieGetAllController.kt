@@ -24,7 +24,7 @@ class NatsMovieGetAllController(
 
     @Suppress("UnusedParameter")
     override fun generateReplyForNatsRequest(
-        request: MovieRequest
+        request: Mono<MovieRequest>
     ): Mono<ListOfMovies> {
         return service.getAll()
             .map { converter.movieToProto(it) }

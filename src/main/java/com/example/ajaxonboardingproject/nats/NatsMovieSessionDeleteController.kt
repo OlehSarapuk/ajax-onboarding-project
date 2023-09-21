@@ -21,9 +21,10 @@ class NatsMovieSessionDeleteController(
         MovieSessionDeleteRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionDeleteRequest
+        request: Mono<MovieSessionDeleteRequest>
     ): Mono<MovieSessionResponse> {
-        service.delete(request.id).block()
-        return Mono.just(MovieSessionResponse.getDefaultInstance())
+        return request
+            .flatMap { service.delete(it.id) }
+            .map { MovieSessionResponse.getDefaultInstance() }
     }
 }

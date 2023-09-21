@@ -3,7 +3,6 @@ package com.example.ajaxonboardingproject.nats
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.MovieSessionUpdateRequest
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.model.MovieSession
 import com.example.ajaxonboardingproject.service.MovieSessionService
 import com.example.ajaxonboardingproject.service.proto.converter.MovieSessionConverter
 import com.google.protobuf.Parser
@@ -24,12 +23,15 @@ class NatsMovieSessionUpdateController(
         MovieSessionUpdateRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: MovieSessionUpdateRequest
+        request: Mono<MovieSessionUpdateRequest>
     ): Mono<MovieSessionResponse> {
-        val movieSession: MovieSession = converter.protoToMovieSession(request.movieSession).apply {
-            id = request.id
-        }
-        return service.update(movieSession)
+        return request
+            .map {
+                request -> converter.protoToMovieSession(request.movieSession).apply {
+                    id = request.id
+                }
+            }
+            .flatMap { service.update(it) }
             .map { converter.movieSessionToProtoResponse(it) }
     }
 }
