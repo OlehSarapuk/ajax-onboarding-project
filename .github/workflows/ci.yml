@@ -28,7 +28,7 @@ jobs:
         run: docker run -d --name nats -p 4222:4222 nats:latest
 
       - name: Start broker and zookeeper containers
-        run: docker-compose up --detach -f docker-compose-kafka.yml
+        run: docker-compose up --detach -f ../../docker-compose-kafka.yml
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
