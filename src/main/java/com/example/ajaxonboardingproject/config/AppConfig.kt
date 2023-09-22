@@ -29,18 +29,13 @@ class AppConfig(
     @Bean
     fun natsConnection(): Connection = Nats.connect(natsUrl)
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     fun getGrpcServer(): Server {
-        val grpcServer = ServerBuilder
+        val grpcServerBuilder = ServerBuilder
             .forPort(grpcPort)
             .apply {
                 bindableServices.forEach { addService(it) }
             }
-            .build()
-        Thread {
-            grpcServer.start()
-            grpcServer.awaitTermination()
-        }.start()
-        return grpcServer
+        return grpcServerBuilder.build().start()
     }
 }
