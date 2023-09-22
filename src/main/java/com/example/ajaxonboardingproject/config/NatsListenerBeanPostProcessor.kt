@@ -18,5 +18,3 @@ class NatsListenerBeanPostProcessor : BeanPostProcessor {
         return bean
     }
 }
-
-
