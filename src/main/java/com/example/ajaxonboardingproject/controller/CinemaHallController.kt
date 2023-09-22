@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject.controller
 
 import com.example.ajaxonboardingproject.dto.request.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.dto.response.CinemaHallResponseDto
+import com.example.ajaxonboardingproject.kafka.CinemaHallObserver
 import com.example.ajaxonboardingproject.model.CinemaHall
 import com.example.ajaxonboardingproject.service.CinemaHallService
 import com.example.ajaxonboardingproject.service.mapper.RequestDtoMapper
@@ -20,7 +21,8 @@ import reactor.core.publisher.Mono
 data class CinemaHallController(
     private val cinemaHallService: CinemaHallService,
     private val cinemaHallRequestDtoMapper: RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
-    private val cinemaHallResponseDtoMapper: ResponseDtoMapper<CinemaHallResponseDto, CinemaHall>
+    private val cinemaHallResponseDtoMapper: ResponseDtoMapper<CinemaHallResponseDto, CinemaHall>,
+    private val cinemaHallObserver: CinemaHallObserver
 ) {
     @PostMapping
     fun add(
@@ -32,6 +34,7 @@ data class CinemaHallController(
 
     @GetMapping
     fun getAll(): Flux<CinemaHallResponseDto> {
+        cinemaHallObserver.observe()
         return cinemaHallService.getAll()
             .map(cinemaHallResponseDtoMapper::mapToDto)
     }

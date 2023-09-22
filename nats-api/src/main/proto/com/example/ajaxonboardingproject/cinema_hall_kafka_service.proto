@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package com.example.ajaxonboardingproject;
+
+import "com/example/ajaxonboardingproject/cinema_hall.proto";
+
+service CinemaHallKafkaService {
+  rpc kafkaAddCinemaHall (stream CinemaHallRequest) returns (stream CinemaHallResponse);
+}

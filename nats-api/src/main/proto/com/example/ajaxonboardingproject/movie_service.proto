@@ -5,7 +5,7 @@ package com.example.ajaxonboardingproject;
 import "com/example/ajaxonboardingproject/movie.proto";
 
 service MovieService {
-  rpc add_movie (MovieRequest) returns (MovieResponse);
+  rpc addMovie (MovieRequest) returns (MovieResponse);
 
-  rpc get_all_movies (MovieRequest) returns (stream MovieResponse);
+  rpc getAllMovies (MovieRequest) returns (stream MovieResponse);
 }
