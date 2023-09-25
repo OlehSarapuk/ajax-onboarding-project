@@ -1,4 +1,10 @@
+package com.example.ajaxonboardingproject.authentication.lib
+
+<<<<<<<< HEAD:src/main/java/com/example/ajaxonboardingproject/infrastructure/lib/FieldsValueMatch.kt
 package com.example.ajaxonboardingproject.infrastructure.lib
+========
+package com.example.ajaxonboardingproject.authentication.lib
+>>>>>>>> origin/ddd:src/main/java/com/example/ajaxonboardingproject/authentication/lib/FieldsValueMatch.kt
 
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
