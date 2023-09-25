@@ -2,7 +2,6 @@ package com.example.ajaxonboardingproject.infrastructure.nats
 
 import io.nats.client.Message
 import io.nats.client.MessageHandler
-import org.springframework.stereotype.Component
 import reactor.core.scheduler.Scheduler
 
 class ReactiveNatsHandler(
