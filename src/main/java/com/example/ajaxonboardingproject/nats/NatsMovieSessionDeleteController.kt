@@ -25,6 +25,6 @@ class NatsMovieSessionDeleteController(
     ): Mono<MovieSessionResponse> {
         return request
             .flatMap { service.delete(it.id) }
-            .map { MovieSessionResponse.getDefaultInstance() }
+            .thenReturn(MovieSessionResponse.getDefaultInstance())
     }
 }

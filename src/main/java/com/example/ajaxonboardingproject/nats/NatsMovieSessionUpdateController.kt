@@ -26,11 +26,7 @@ class NatsMovieSessionUpdateController(
         request: Mono<MovieSessionUpdateRequest>
     ): Mono<MovieSessionResponse> {
         return request
-            .map {
-                request -> converter.protoToMovieSession(request.movieSession).apply {
-                    id = request.id
-                }
-            }
+            .map { converter.protoToMovieSession(it.movieSession).apply { id = it.id } }
             .flatMap { service.update(it) }
             .map { converter.movieSessionToProtoResponse(it) }
     }
