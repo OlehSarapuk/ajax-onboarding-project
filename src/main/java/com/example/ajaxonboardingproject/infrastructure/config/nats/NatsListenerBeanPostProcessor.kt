@@ -1,7 +1,7 @@
-package com.example.ajaxonboardingproject.config
+package com.example.ajaxonboardingproject.infrastructure.config.nats
 
-import com.example.ajaxonboardingproject.nats.NatsController
-import com.example.ajaxonboardingproject.nats.ReactiveNatsHandler
+import com.example.ajaxonboardingproject.infrastructure.nats.ReactiveNatsHandler
+import com.example.ajaxonboardingproject.infrastructure.nats.NatsController
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
 import reactor.core.scheduler.Scheduler
