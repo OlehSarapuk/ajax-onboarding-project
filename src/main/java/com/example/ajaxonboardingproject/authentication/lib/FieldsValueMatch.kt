@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.infrastructure.lib
+package com.example.ajaxonboardingproject.authentication.lib
 
 import jakarta.validation.Constraint
 import jakarta.validation.Payload

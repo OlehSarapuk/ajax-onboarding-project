@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.authentication.dto
 
-import com.example.ajaxonboardingproject.infrastructure.lib.ValidEmail
+import com.example.ajaxonboardingproject.authentication.lib.ValidEmail
 import jakarta.validation.constraints.Size
 import java.io.Serializable
 
