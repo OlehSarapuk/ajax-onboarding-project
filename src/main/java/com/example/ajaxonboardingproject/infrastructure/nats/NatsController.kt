@@ -16,8 +16,5 @@ interface NatsController<ReqT : GeneratedMessageV3, RespT: GeneratedMessageV3> {
 
     fun generateReplyForNatsRequest(request: ReqT): Mono<RespT>
 
-    fun handle(msg: Message): Mono<RespT> {
-        val request: ReqT = parser.parseFrom(msg.data)
-        return generateReplyForNatsRequest(request)
-    }
+    fun handle(msg: Message): Mono<RespT> = generateReplyForNatsRequest(parser.parseFrom(msg.data))
 }

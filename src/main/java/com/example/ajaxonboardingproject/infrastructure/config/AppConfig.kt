@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import reactor.core.scheduler.Scheduler
+import reactor.core.scheduler.Schedulers
 
 @Configuration
 class AppConfig(
@@ -38,4 +40,7 @@ class AppConfig(
             }
         return grpcServerBuilder.build().start()
     }
+
+    @Bean
+    fun scheduler(): Scheduler = Schedulers.boundedElastic()
 }
