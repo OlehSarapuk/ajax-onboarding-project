@@ -24,7 +24,7 @@ class NatsCinemaHallGetAllController(
 
     @Suppress("UnusedParameter")
     override fun generateReplyForNatsRequest(
-        request: Mono<CinemaHallRequest>
+        request: CinemaHallRequest
     ): Mono<ListOfCinemaHalls> {
         return service.getAll()
             .map { converter.cinemaHallToProto(it) }

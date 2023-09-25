@@ -23,11 +23,9 @@ class NatsMovieSessionAddController(
         MovieSessionAddRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: Mono<MovieSessionAddRequest>
+        request: MovieSessionAddRequest
     ): Mono<MovieSessionResponse> {
-        return request
-            .map { converter.protoToMovieSession(it.movieSession) }
-            .flatMap { service.add(it) }
+        return service.add(converter.protoToMovieSession(request.movieSession))
             .map { converter.movieSessionToProtoResponse(it) }
     }
 }

@@ -23,11 +23,9 @@ class NatsCinemaHallAddController(
         CinemaHallRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: Mono<CinemaHallRequest>
+        request: CinemaHallRequest
     ): Mono<CinemaHallResponse> {
-        return request
-            .map { converter.protoRequestToCinemaHall(it) }
-            .flatMap { service.add(it) }
+        return service.add(converter.protoRequestToCinemaHall(request))
             .map { converter.cinemaHallToProtoResponse(it) }
     }
 }

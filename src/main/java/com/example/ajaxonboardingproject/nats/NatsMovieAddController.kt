@@ -23,11 +23,9 @@ class NatsMovieAddController(
         MovieRequest.parser()
 
     override fun generateReplyForNatsRequest(
-        request: Mono<MovieRequest>
+        request: MovieRequest
     ): Mono<MovieResponse> {
-        return request
-            .map { converter.protoRequestToMovie(it) }
-            .flatMap { service.add(it) }
+        return service.add(converter.protoRequestToMovie(request))
             .map { converter.movieToProtoResponse(it) }
     }
 }
