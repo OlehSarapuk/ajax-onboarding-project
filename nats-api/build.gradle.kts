@@ -51,7 +51,3 @@ tasks {
         delete(protobuf.generatedFilesBaseDir)
     }
 }
-
-springBoot {
-    mainClass = "com.example.ajaxonboardingproject.AjaxOnboardingProjectApplication.kt"
-}

@@ -111,4 +111,8 @@ subprojects{
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    springBoot {
+        mainClass = "com.example.ajaxonboardingproject.AjaxOnboardingProjectApplication.kt"
+    }
 }
