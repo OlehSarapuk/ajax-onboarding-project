@@ -2,6 +2,7 @@ package com.example.ajaxonboardingproject
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
 import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.application.service.CinemaHallService
 import io.grpc.ManagedChannel
@@ -22,7 +23,7 @@ class GrpcCinemaHallServiceTests(
     private lateinit var cinemaHallService: CinemaHallService
 
     @Autowired
-    private lateinit var cinemaHallConverter: com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
+    private lateinit var cinemaHallConverter: CinemaHallConverter
 
     private lateinit var stub: CinemaHallServiceGrpc.CinemaHallServiceBlockingStub
 
