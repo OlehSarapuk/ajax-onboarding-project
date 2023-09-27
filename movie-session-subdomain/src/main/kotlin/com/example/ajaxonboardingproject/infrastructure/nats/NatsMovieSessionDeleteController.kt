@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.nats.NatsController
-import com.example.ajaxonboardingproject.application.service.MovieSessionService
+import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieSessionDeleteController(
-    private val service: MovieSessionService,
+    private val service: MovieSessionInPort,
     override val connection: Connection
 ) : NatsController<MovieSessionDeleteRequest, MovieSessionResponse> {
 

@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.dto.RequestDtoMapper
 import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.application.dto.MovieRequestDto
 import com.example.ajaxonboardingproject.application.dto.MovieResponseDto
-import com.example.ajaxonboardingproject.application.service.MovieService
+import com.example.ajaxonboardingproject.application.service.MovieInPort
 import com.example.ajaxonboardingproject.domain.Movie
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/movies")
 data class MovieController(
-    private val movieService: MovieService,
+    private val movieInPort: MovieInPort,
     private val movieRequestDtoMapper: RequestDtoMapper<MovieRequestDto, Movie>,
     private val movieResponseDtoMapper: ResponseDtoMapper<MovieResponseDto, Movie>
 ) {
@@ -26,13 +26,13 @@ data class MovieController(
     fun add(
         @Valid @RequestBody requestDto: MovieRequestDto
     ): Mono<MovieResponseDto> {
-        return movieService.add(movieRequestDtoMapper.mapToModel(requestDto))
+        return movieInPort.add(movieRequestDtoMapper.mapToModel(requestDto))
             .map { movieResponseDtoMapper.mapToDto(it) }
     }
 
     @GetMapping
     fun getAll(): Flux<MovieResponseDto> {
-        return movieService.getAll()
+        return movieInPort.getAll()
             .map(movieResponseDtoMapper::mapToDto)
     }
 }

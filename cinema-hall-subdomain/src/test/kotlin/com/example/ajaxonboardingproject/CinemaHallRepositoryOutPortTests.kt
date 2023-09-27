@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject
 
 import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.application.repository.CinemaHallRepository
+import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,13 +11,13 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 @SpringBootTest
-class CinemaHallRepositoryTests {
+class CinemaHallRepositoryOutPortTests {
     @Autowired
-    private lateinit var cinemaHallRepository: CinemaHallRepository
+    private lateinit var cinemaHallRepositoryOutPort: CinemaHallRepositoryOutPort
 
     @BeforeEach
     fun clearCollection() {
-        cinemaHallRepository.deleteAll().block()
+        cinemaHallRepositoryOutPort.deleteAll().block()
     }
 
     @Test
@@ -28,7 +28,7 @@ class CinemaHallRepositoryTests {
             description = "grate one"
         )
         //When
-        val actual: Mono<CinemaHall> = cinemaHallRepository.save(expected)
+        val actual: Mono<CinemaHall> = cinemaHallRepositoryOutPort.save(expected)
         //Then
         StepVerifier.create(actual)
             .expectNext(expected)
@@ -42,9 +42,9 @@ class CinemaHallRepositoryTests {
             capacity = 100,
             description = "grate one"
         )
-        val expected: CinemaHall = cinemaHallRepository.save(cinemaHall).block()!!
+        val expected: CinemaHall = cinemaHallRepositoryOutPort.save(cinemaHall).block()!!
         //When
-        val actual: Mono<CinemaHall> = cinemaHallRepository.findById(expected.id)
+        val actual: Mono<CinemaHall> = cinemaHallRepositoryOutPort.findById(expected.id)
         //Then
         StepVerifier.create(actual)
             .expectNext(expected)
@@ -62,10 +62,10 @@ class CinemaHallRepositoryTests {
             capacity = 150,
             description = "awesome one"
         )
-        val expectedCinemaHall1 = cinemaHallRepository.save(cinemaHall1).block()!!
-        val expectedCinemaHall2 = cinemaHallRepository.save(cinemaHall2).block()!!
+        val expectedCinemaHall1 = cinemaHallRepositoryOutPort.save(cinemaHall1).block()!!
+        val expectedCinemaHall2 = cinemaHallRepositoryOutPort.save(cinemaHall2).block()!!
         //When
-        val actual: Flux<CinemaHall> = cinemaHallRepository.findAll()
+        val actual: Flux<CinemaHall> = cinemaHallRepositoryOutPort.findAll()
         //Then
         StepVerifier.create(actual)
             .expectNext(expectedCinemaHall1)

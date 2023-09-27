@@ -5,7 +5,7 @@ import com.example.ajaxonboardingproject.MovieRequest
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.nats.NatsController
 import com.example.ajaxonboardingproject.application.proto.converter.MovieConverter
-import com.example.ajaxonboardingproject.application.service.MovieService
+import com.example.ajaxonboardingproject.application.service.MovieInPort
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 @Component
 class NatsMovieGetAllController(
     private val converter: MovieConverter,
-    private val service: MovieService,
+    private val service: MovieInPort,
     override val connection: Connection
 ) : NatsController<MovieRequest, ListOfMovies> {
 

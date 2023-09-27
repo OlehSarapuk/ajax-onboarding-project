@@ -5,7 +5,7 @@ import com.mongodb.client.result.DeleteResult
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-interface CinemaHallRepository {
+interface CinemaHallRepositoryOutPort {
 
     fun save(cinemaHall: CinemaHall): Mono<CinemaHall>
 

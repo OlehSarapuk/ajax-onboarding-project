@@ -1,8 +1,8 @@
-package com.example.ajaxonboardingproject.infrastructure.repsitory
+package com.example.ajaxonboardingproject.infrastructure.database.repsitory
 
-import com.example.ajaxonboardingproject.application.repository.MovieSessionRepository
+import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
 import com.example.ajaxonboardingproject.domain.MovieSession
-import com.example.ajaxonboardingproject.infrastructure.model.MovieSessionEntity
+import com.example.ajaxonboardingproject.infrastructure.database.model.MovieSessionEntity
 import com.mongodb.client.result.DeleteResult
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -13,53 +13,55 @@ import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
 @Repository
-class MovieSessionRepositoryImpl(
+class MovieSessionRepository(
     private val mongoTemplate: ReactiveMongoTemplate
-) : MovieSessionRepository {
+) : MovieSessionRepositoryOutPort {
 
     override fun findByMovieIdAndShowTimeAfter(id: String, date: LocalDateTime): Flux<MovieSession> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
             .addCriteria(Criteria.where("showTime").gt(date))
         return mongoTemplate.find(query, MovieSessionEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
     override fun save(movieSession: MovieSession): Mono<MovieSession> {
-        return mongoTemplate.save(mapToEntity(movieSession))
-            .map { mapToDomain(it) }
+        return mongoTemplate.save(movieSession.mapToEntity())
+            .map { it.mapToDomain() }
     }
 
     override fun findById(id: String): Mono<MovieSession> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
         return mongoTemplate.findOne(query, MovieSessionEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
     override fun delete(movieSession: MovieSession): Mono<DeleteResult> {
-        val movieSessionEntity = mapToEntity(movieSession).apply { id = movieSession.id }
+        val movieSessionEntity = movieSession.mapToEntity()
+        movieSession.id?.let { movieSessionEntity.id = it }
         return mongoTemplate.remove(movieSessionEntity)
     }
 
     override fun findAll(): Flux<MovieSession> {
         return mongoTemplate.findAll(MovieSessionEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
-    private fun mapToDomain(entity: MovieSessionEntity): MovieSession {
+    private fun MovieSessionEntity.mapToDomain(): MovieSession {
         return MovieSession(
-            movie = entity.movie,
-            cinemaHall = entity.cinemaHall,
-            showTime = entity.showTime
-        ).apply { id = entity.id }
+            id = this.id,
+            movie = this.movie,
+            cinemaHall = this.cinemaHall,
+            showTime = this.showTime
+        )
     }
 
-    private fun mapToEntity(domain: MovieSession): MovieSessionEntity {
+    private fun MovieSession.mapToEntity(): MovieSessionEntity {
         return MovieSessionEntity(
-            movie = domain.movie,
-            cinemaHall = domain.cinemaHall,
-            showTime = domain.showTime
+            movie = this.movie,
+            cinemaHall = this.cinemaHall,
+            showTime = this.showTime
         )
     }
 }

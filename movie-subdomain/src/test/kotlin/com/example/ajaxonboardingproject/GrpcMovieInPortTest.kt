@@ -3,7 +3,7 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.application.service.MovieService
+import com.example.ajaxonboardingproject.application.service.MovieInPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieConverter
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class GrpcMovieServiceTest(
+class GrpcMovieInPortTest(
     @Value("\${spring.grpc.port}")
     var grpcPort: Int
 ) {
     @Autowired
-    private lateinit var movieService: MovieService
+    private lateinit var movieInPort: MovieInPort
 
     @Autowired
     private lateinit var movieConverter: MovieConverter
@@ -54,7 +54,7 @@ class GrpcMovieServiceTest(
     @Test
     fun getAllCinemaHallsTestOk() {
         //Given
-        val expected = movieService.getAll().collectList().block()!!
+        val expected = movieInPort.getAll().collectList().block()!!
         //When
         val allMovies = stub.getAllMovies(MovieRequest.newBuilder().build())
         //Then

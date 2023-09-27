@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.infrastructure.model
+package com.example.ajaxonboardingproject.infrastructure.database.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document

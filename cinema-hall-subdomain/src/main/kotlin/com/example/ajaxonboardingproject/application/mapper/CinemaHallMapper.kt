@@ -12,6 +12,7 @@ class CinemaHallMapper : RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
     ResponseDtoMapper<CinemaHallResponseDto, CinemaHall> {
     override fun mapToModel(dto: CinemaHallRequestDto): CinemaHall {
         return CinemaHall(
+            id = null,
             description = dto.description,
             capacity = dto.capacity
         )
@@ -19,7 +20,7 @@ class CinemaHallMapper : RequestDtoMapper<CinemaHallRequestDto, CinemaHall>,
 
     override fun mapToDto(model: CinemaHall): CinemaHallResponseDto {
         return CinemaHallResponseDto(
-            id = model.id,
+            id = model.id ?: throw NoSuchElementException("movie has no id"),
             capacity = model.capacity,
             description = model.description
         )

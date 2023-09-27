@@ -3,10 +3,7 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.domain.MovieSession
-import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.application.repository.MovieSessionRepository
+import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
 import io.nats.client.Connection
 import org.junit.jupiter.api.Test
@@ -24,7 +21,7 @@ class NatsMovieSessionControllerTests {
     lateinit var movieSessionConverter: MovieSessionConverter
 
     @Autowired
-    lateinit var movieSessionRepository: MovieSessionRepository
+    lateinit var movieSessionRepositoryOutPort: MovieSessionRepositoryOutPort
 
     @Test
     fun addMovieSessionTestOk() {
@@ -49,7 +46,7 @@ class NatsMovieSessionControllerTests {
     @Test
     fun updateMovieSessionTestOk() {
         //Given
-        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
+        val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().collectList().block()!!.first()
         val movie = Movie(title = "Nats", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
@@ -75,9 +72,9 @@ class NatsMovieSessionControllerTests {
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        movieSessionRepository.save(movieSession).block()
-        val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
-        val movieSessionFromDB = movieSessionRepository.findAll().collectList().block()!!.first()
+        movieSessionRepositoryOutPort.save(movieSession).block()
+        val sizeOfDBBefore = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
+        val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().collectList().block()!!.first()
         val movieSessionRequest =
             MovieSessionUpdateRequest.newBuilder().setId(movieSessionFromDB.id).build()
         //When
@@ -88,7 +85,7 @@ class NatsMovieSessionControllerTests {
         )
         future.get().data
         //Then
-        val sizeOfDBAfter = movieSessionRepository.findAll().collectList().block()!!.size
+        val sizeOfDBAfter = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
         assertThat(sizeOfDBBefore).isGreaterThan(sizeOfDBAfter)
     }
 }

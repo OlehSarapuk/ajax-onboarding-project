@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
 import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.application.service.CinemaHallService
+import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.AfterEach
@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class GrpcCinemaHallServiceTests(
+class GrpcCinemaHallInPortTests(
     @Value("\${spring.grpc.port}")
     var grpcPort: Int
 ) {
     @Autowired
-    private lateinit var cinemaHallService: CinemaHallService
+    private lateinit var cinemaHallInPort: CinemaHallInPort
 
     @Autowired
     private lateinit var cinemaHallConverter: CinemaHallConverter
@@ -57,7 +57,7 @@ class GrpcCinemaHallServiceTests(
     @Test
     fun getAllCinemaHallsTestOk() {
         //Given
-        val expected = cinemaHallService.getAll().collectList().block()!!
+        val expected = cinemaHallInPort.getAll().collectList().block()!!
         //When
         val allCinemaHalls = stub.getAllCinemaHalls(CinemaHallRequest.newBuilder().build())
         //Then

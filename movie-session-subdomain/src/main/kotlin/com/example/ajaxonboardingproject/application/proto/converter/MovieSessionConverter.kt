@@ -25,6 +25,7 @@ class MovieSessionConverter(
         movieSessionProto: MovieSessionProto
     ): MovieSession {
         return MovieSession(
+            id = null,
             movie = movieConverter.protoToMovie(movieSessionProto.movie),
             cinemaHall = cinemaHallConverter.protoToCinemaHall(movieSessionProto.cinemaHall),
             showTime = localDateTimeConverter.timestampToLocalDateTime(movieSessionProto.showTime)

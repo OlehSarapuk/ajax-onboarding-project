@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.infrastructure.model
+package com.example.ajaxonboardingproject.infrastructure.database.model
 
 import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.domain.Movie

@@ -3,7 +3,7 @@ package com.example.ajaxonboardingproject.infrastructure.nats
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.application.service.CinemaHallService
+import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
 import com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
 import com.example.ajaxonboardingproject.nats.NatsController
 import com.google.protobuf.Parser
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 @Component
 class NatsCinemaHallAddController(
     private val converter: CinemaHallConverter,
-    private val service: CinemaHallService,
+    private val service: CinemaHallInPort,
     override val connection: Connection
 ) : NatsController<CinemaHallRequest, CinemaHallResponse> {
 

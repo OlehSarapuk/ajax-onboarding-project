@@ -3,10 +3,7 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.domain.MovieSession
-import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.application.repository.MovieSessionRepository
+import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -19,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 
 @SpringBootTest
-class GrpcMovieSessionServiceTests(
+class GrpcMovieSessionInPortTests(
     @Value("\${spring.grpc.port}")
     var grpcPort: Int
 ) {
@@ -27,7 +24,7 @@ class GrpcMovieSessionServiceTests(
     private lateinit var movieSessionConverter: MovieSessionConverter
 
     @Autowired
-    private lateinit var movieSessionRepository: MovieSessionRepository
+    private lateinit var movieSessionRepositoryOutPort: MovieSessionRepositoryOutPort
 
     private lateinit var stub: MovieSessionServiceGrpc.MovieSessionServiceBlockingStub
 
@@ -63,11 +60,11 @@ class GrpcMovieSessionServiceTests(
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        movieSessionRepository.save(movieSession).block()
+        movieSessionRepositoryOutPort.save(movieSession).block()
         val cinemaHallToUpdate = CinemaHall(capacity = 10, description = "grate")
         val movieSessionToUpdate =
             MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
-        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
+        val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().blockFirst()!!
         val expected = MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSessionToUpdate))
@@ -84,16 +81,16 @@ class GrpcMovieSessionServiceTests(
         val movie = Movie(title = "proto TITLE", description = "grate one")
         val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
         val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
-        movieSessionRepository.save(movieSession).block()
-        val sizeOfDBBefore = movieSessionRepository.findAll().collectList().block()!!.size
-        val movieSessionFromDB = movieSessionRepository.findAll().blockFirst()!!
+        movieSessionRepositoryOutPort.save(movieSession).block()
+        val sizeOfDBBefore = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
+        val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().blockFirst()!!
         val movieSessionRequest = MovieSessionDeleteRequest.newBuilder()
             .setId(movieSessionFromDB.id)
             .build()
         //When
         stub.deleteMovieSession(movieSessionRequest)
         //Then
-        val sizeOfDBAfter = movieSessionRepository.findAll().collectList().block()!!.size
+        val sizeOfDBAfter = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
         assertThat(sizeOfDBBefore).isGreaterThan(sizeOfDBAfter)
     }
 

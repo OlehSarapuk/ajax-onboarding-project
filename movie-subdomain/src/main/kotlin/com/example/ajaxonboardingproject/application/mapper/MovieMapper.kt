@@ -12,6 +12,7 @@ class MovieMapper : RequestDtoMapper<MovieRequestDto, Movie>,
     ResponseDtoMapper<MovieResponseDto, Movie> {
     override fun mapToModel(dto: MovieRequestDto): Movie {
         return Movie(
+            id = null,
             title = dto.title,
             description = dto.description
         )
@@ -19,7 +20,7 @@ class MovieMapper : RequestDtoMapper<MovieRequestDto, Movie>,
 
     override fun mapToDto(model: Movie): MovieResponseDto {
         return MovieResponseDto(
-            id = model.id,
+            id = model.id ?: throw NoSuchElementException("movie has no id"),
             title = model.title,
             description = model.description
         )

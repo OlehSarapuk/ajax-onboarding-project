@@ -2,8 +2,7 @@ package com.example.ajaxonboardingproject
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.application.repository.CinemaHallRepository
+import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
 import io.nats.client.Connection
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +18,7 @@ class NatsCinemaHallControllerTests {
     lateinit var cinemaHallConverter: com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
 
     @Autowired
-    lateinit var cinemaHallRepository: CinemaHallRepository
+    lateinit var cinemaHallRepositoryOutPort: CinemaHallRepositoryOutPort
 
     @Test
     fun addCinemaHallTestOk() {
@@ -44,7 +43,7 @@ class NatsCinemaHallControllerTests {
     @Test
     fun getAllCinemaHallsTestOk() {
         //Given
-        val protoFromDb = cinemaHallRepository.findAll()
+        val protoFromDb = cinemaHallRepositoryOutPort.findAll()
             .map { cinemaHallConverter.cinemaHallToProto(it) }
             .collectList()
             .block()

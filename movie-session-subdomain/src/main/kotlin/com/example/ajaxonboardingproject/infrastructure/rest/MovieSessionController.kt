@@ -6,7 +6,7 @@ import com.example.ajaxonboardingproject.util.DATE_PATTERN
 import com.example.ajaxonboardingproject.domain.MovieSession
 import com.example.ajaxonboardingproject.application.dto.MovieSessionRequestDto
 import com.example.ajaxonboardingproject.application.dto.MovieSessionResponseDto
-import com.example.ajaxonboardingproject.application.service.MovieSessionService
+import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import com.mongodb.client.result.DeleteResult
 import jakarta.validation.Valid
 import org.springframework.format.annotation.DateTimeFormat
@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/movie-sessions")
 data class MovieSessionController(
-    private val movieSessionService: MovieSessionService,
+    private val movieSessionInPort: MovieSessionInPort,
     private val movieSessionRequestDtoMapper: RequestDtoMapper<MovieSessionRequestDto, Mono<MovieSession>>,
     private val movieSessionResponseDtoMapper: ResponseDtoMapper<MovieSessionResponseDto, MovieSession>
 ) {
@@ -35,7 +35,7 @@ data class MovieSessionController(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): Mono<MovieSessionResponseDto> {
         return movieSessionRequestDtoMapper.mapToModel(requestDto)
-            .flatMap { movieSessionService.add(it) }
+            .flatMap { movieSessionInPort.add(it) }
             .map { movieSessionResponseDtoMapper.mapToDto(it) }
     }
 
@@ -44,7 +44,7 @@ data class MovieSessionController(
         @RequestParam movieId: String,
         @RequestParam @DateTimeFormat(pattern = DATE_PATTERN) date: LocalDateTime
     ): Flux<MovieSessionResponseDto> {
-        return movieSessionService.findAvailableSessions(movieId, date)
+        return movieSessionInPort.findAvailableSessions(movieId, date)
             .map(movieSessionResponseDtoMapper::mapToDto)
     }
 
@@ -54,8 +54,8 @@ data class MovieSessionController(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): Mono<MovieSessionResponseDto> {
         return movieSessionRequestDtoMapper.mapToModel(requestDto)
-            .doOnNext { it.id = id }
-            .flatMap { movieSessionService.update(it) }
+            .map { it.copy(id = id ) }
+            .flatMap { movieSessionInPort.update(it) }
             .map { movieSessionResponseDtoMapper.mapToDto(it) }
     }
 
@@ -63,6 +63,6 @@ data class MovieSessionController(
     fun delete(
         @PathVariable id: String
     ): Mono<DeleteResult> {
-        return movieSessionService.delete(id)
+        return movieSessionInPort.delete(id)
     }
 }

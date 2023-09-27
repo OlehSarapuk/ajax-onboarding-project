@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.domain.Movie
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-interface MovieRepository {
+interface MovieRepositoryOutPort {
 
     fun save(movie: Movie): Mono<Movie>
 

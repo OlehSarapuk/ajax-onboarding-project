@@ -1,8 +1,8 @@
-package com.example.ajaxonboardingproject.infrastructure.repository
+package com.example.ajaxonboardingproject.infrastructure.database.repository
 
-import com.example.ajaxonboardingproject.application.repository.CinemaHallRepository
+import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
 import com.example.ajaxonboardingproject.domain.CinemaHall
-import com.example.ajaxonboardingproject.infrastructure.model.CinemaHallEntity
+import com.example.ajaxonboardingproject.infrastructure.database.model.CinemaHallEntity
 import com.mongodb.client.result.DeleteResult
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -12,25 +12,25 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-class CinemaHallRepositoryImpl(
+class CinemaHallRepository(
     private val mongoTemplate: ReactiveMongoTemplate
-) : CinemaHallRepository {
+) : CinemaHallRepositoryOutPort {
 
     override fun save(cinemaHall: CinemaHall): Mono<CinemaHall> {
-        return mongoTemplate.save(mapToEntity(cinemaHall))
-            .map { mapToDomain(it) }
+        return mongoTemplate.save(cinemaHall.mapToEntity())
+            .map { it.mapToDomain() }
     }
 
     override fun findAll(): Flux<CinemaHall> {
         return mongoTemplate.findAll(CinemaHallEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
     override fun findById(id: String): Mono<CinemaHall> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
         return mongoTemplate.findOne(query, CinemaHallEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
     override fun deleteAll(): Mono<DeleteResult> {
@@ -38,17 +38,18 @@ class CinemaHallRepositoryImpl(
         return mongoTemplate.remove(query, CinemaHallEntity::class.java)
     }
 
-    private fun mapToDomain(entity: CinemaHallEntity): CinemaHall {
+    private fun CinemaHallEntity.mapToDomain(): CinemaHall {
         return CinemaHall(
-            description = entity.description,
-            capacity = entity.capacity
-        ).apply { id = entity.id }
+            id = this.id,
+            description = this.description,
+            capacity = this.capacity
+        )
     }
 
-    private fun mapToEntity(domain: CinemaHall): CinemaHallEntity {
+    private fun CinemaHall.mapToEntity(): CinemaHallEntity {
         return CinemaHallEntity(
-            description = domain.description,
-            capacity = domain.capacity
+            description = this.description,
+            capacity = this.capacity
         )
     }
 }

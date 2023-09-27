@@ -1,6 +1,6 @@
 package com.example.ajaxonboardingproject.rest
 
-import com.example.ajaxonboardingproject.application.service.MovieSessionService
+import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import com.example.ajaxonboardingproject.service.UserService
 import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.dto.ShoppingCartResponseDto
@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono
 @RequestMapping("/shopping-carts")
 data class ShoppingCartController(
     private val shoppingCartService: ShoppingCartService,
-    private val movieSessionService: MovieSessionService,
+    private val movieSessionInPort: MovieSessionInPort,
     private val userService: UserService,
     private val shoppingCartResponseDtoMapper: ResponseDtoMapper<ShoppingCartResponseDto, ShoppingCart>
 ) {
@@ -32,7 +32,7 @@ data class ShoppingCartController(
         val email: String = details.username
         Mono.zip(
             userService.findByEmail(email),
-            movieSessionService.get(movieSessionId)
+            movieSessionInPort.get(movieSessionId)
         ) { user, movieSession ->
             shoppingCartService.addSession(movieSession, user.id)
         }.subscribe()

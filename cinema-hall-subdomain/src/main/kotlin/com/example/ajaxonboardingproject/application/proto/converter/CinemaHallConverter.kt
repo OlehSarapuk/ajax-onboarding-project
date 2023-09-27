@@ -21,6 +21,7 @@ class CinemaHallConverter {
         cinemaHallProto: CinemaHallProto
     ): CinemaHall {
         return CinemaHall(
+            id = null,
             capacity = cinemaHallProto.capacity,
             description = cinemaHallProto.description
         )
@@ -38,6 +39,7 @@ class CinemaHallConverter {
         cinemaHallProto: CinemaHallRequest
     ): CinemaHall {
         return CinemaHall(
+            id = null,
             capacity = cinemaHallProto.cinemaHall.capacity,
             description = cinemaHallProto.cinemaHall.description
         )

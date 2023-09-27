@@ -4,7 +4,7 @@ import com.example.ajaxonboardingproject.MovieSessionAddRequest
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.NatsSubject
 import com.example.ajaxonboardingproject.nats.NatsController
-import com.example.ajaxonboardingproject.application.service.MovieSessionService
+import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
 import com.google.protobuf.Parser
 import io.nats.client.Connection
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono
 
 @Component
 class NatsMovieSessionAddController(
-    private val service: MovieSessionService,
+    private val service: MovieSessionInPort,
     private val converter: MovieSessionConverter,
     override val connection: Connection
 ) : NatsController<MovieSessionAddRequest, MovieSessionResponse> {

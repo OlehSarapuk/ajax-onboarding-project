@@ -2,8 +2,7 @@ package com.example.ajaxonboardingproject
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.application.repository.MovieRepository
+import com.example.ajaxonboardingproject.application.repository.MovieRepositoryOutPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieConverter
 import io.nats.client.Connection
 import org.junit.jupiter.api.Test
@@ -20,7 +19,7 @@ class NatsMovieControllerTests {
     lateinit var movieConverter: MovieConverter
 
     @Autowired
-    lateinit var movieRepository: MovieRepository
+    lateinit var movieRepositoryOutPort: MovieRepositoryOutPort
 
     @Test
     fun addMovieTestOk() {
@@ -40,7 +39,7 @@ class NatsMovieControllerTests {
     @Test
     fun getAllMoviesTestOk() {
         //Given
-        val protoFromDb = movieRepository.findAll()
+        val protoFromDb = movieRepositoryOutPort.findAll()
             .map { movieConverter.movieToProto(it) }
             .collectList()
             .block()

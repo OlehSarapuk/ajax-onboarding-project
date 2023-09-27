@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
-interface MovieSessionRepository {
+interface MovieSessionRepositoryOutPort {
 
     fun findByMovieIdAndShowTimeAfter(id: String, date: LocalDateTime): Flux<MovieSession>
 

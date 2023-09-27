@@ -21,6 +21,7 @@ class MovieConverter {
         movieProto: MovieProto
     ): Movie {
         return Movie(
+            id = null,
             title = movieProto.title,
             description = movieProto.description
         )
@@ -38,6 +39,7 @@ class MovieConverter {
         movieProto: MovieRequest
     ): Movie {
         return Movie(
+            id = null,
             title = movieProto.movie.title,
             description = movieProto.movie.description
         )

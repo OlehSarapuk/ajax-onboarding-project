@@ -1,8 +1,8 @@
-package com.example.ajaxonboardingproject.infrastructure.repository
+package com.example.ajaxonboardingproject.infrastructure.database.repository
 
-import com.example.ajaxonboardingproject.application.repository.MovieRepository
+import com.example.ajaxonboardingproject.application.repository.MovieRepositoryOutPort
 import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.infrastructure.model.MovieEntity
+import com.example.ajaxonboardingproject.infrastructure.database.model.MovieEntity
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -11,38 +11,39 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-class MovieRepositoryImpl(
+class MovieRepository(
     private val mongoTemplate: ReactiveMongoTemplate
-) : MovieRepository {
+) : MovieRepositoryOutPort {
 
     override fun save(movie: Movie): Mono<Movie> {
-        return mongoTemplate.save(mapToEntity(movie))
-            .map { mapToDomain(it) }
+        return mongoTemplate.save(movie.mapToEntity())
+            .map { it.mapToDomain() }
     }
 
     override fun findAll(): Flux<Movie> {
         return mongoTemplate.findAll(MovieEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
     override fun findById(id: String): Mono<Movie> {
         val query = Query()
             .addCriteria(Criteria.where("_id").`is`(id))
         return mongoTemplate.findOne(query, MovieEntity::class.java)
-            .map { mapToDomain(it) }
+            .map { it.mapToDomain() }
     }
 
-    private fun mapToDomain(entity: MovieEntity): Movie {
+    private fun MovieEntity.mapToDomain(): Movie {
         return Movie(
-            description = entity.description,
-            title = entity.title
-        ).apply { id = entity.id }
+            id = this.id,
+            description = this.description,
+            title = this.title
+        )
     }
 
-    private fun mapToEntity(domain: Movie): MovieEntity {
+    private fun Movie.mapToEntity(): MovieEntity {
         return MovieEntity(
-            description = domain.description,
-            title = domain.title
+            description = this.description,
+            title = this.title
         )
     }
 }
