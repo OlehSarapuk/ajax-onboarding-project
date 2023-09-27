@@ -1,10 +1,10 @@
 package com.example.ajaxonboardingproject.application.proto.converter
 
-import com.example.ajaxonboardingproject.CinemaHall as CinemaHallProto
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.CinemaHallResponse
 import com.example.ajaxonboardingproject.domain.CinemaHall
 import org.springframework.stereotype.Component
+import com.example.ajaxonboardingproject.CinemaHall as CinemaHallProto
 
 @Component
 class CinemaHallConverter {

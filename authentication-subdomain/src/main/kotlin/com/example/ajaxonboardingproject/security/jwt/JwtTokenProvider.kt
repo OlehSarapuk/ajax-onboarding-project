@@ -7,8 +7,6 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.annotation.PostConstruct
-import java.util.Base64
-import java.util.Date
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -16,6 +14,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
+import java.util.*
 
 @Component
 class JwtTokenProvider(
@@ -47,7 +46,7 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Mono<Authentication> {
-       return userDetailsService
+        return userDetailsService
             .findByUsername(getUserNameFromToken(token))
             .map { UsernamePasswordAuthenticationToken(it, "", it.authorities) }
     }

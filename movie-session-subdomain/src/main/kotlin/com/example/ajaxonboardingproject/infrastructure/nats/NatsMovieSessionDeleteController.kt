@@ -3,8 +3,8 @@ package com.example.ajaxonboardingproject.infrastructure.nats
 import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.nats.NatsController
 import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
+import com.example.ajaxonboardingproject.nats.NatsController
 import com.google.protobuf.Parser
 import io.nats.client.Connection
 import org.springframework.stereotype.Component

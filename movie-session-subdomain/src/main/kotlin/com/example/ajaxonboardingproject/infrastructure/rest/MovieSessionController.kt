@@ -1,12 +1,12 @@
 package com.example.ajaxonboardingproject.infrastructure.rest
 
-import com.example.ajaxonboardingproject.dto.RequestDtoMapper
-import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
-import com.example.ajaxonboardingproject.util.DATE_PATTERN
-import com.example.ajaxonboardingproject.domain.MovieSession
 import com.example.ajaxonboardingproject.application.dto.MovieSessionRequestDto
 import com.example.ajaxonboardingproject.application.dto.MovieSessionResponseDto
 import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
+import com.example.ajaxonboardingproject.domain.MovieSession
+import com.example.ajaxonboardingproject.dto.RequestDtoMapper
+import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
+import com.example.ajaxonboardingproject.util.DATE_PATTERN
 import com.mongodb.client.result.DeleteResult
 import jakarta.validation.Valid
 import org.springframework.format.annotation.DateTimeFormat
@@ -54,7 +54,7 @@ data class MovieSessionController(
         @Valid @RequestBody requestDto: MovieSessionRequestDto
     ): Mono<MovieSessionResponseDto> {
         return movieSessionRequestDtoMapper.mapToModel(requestDto)
-            .map { it.copy(id = id ) }
+            .map { it.copy(id = id) }
             .flatMap { movieSessionInPort.update(it) }
             .map { movieSessionResponseDtoMapper.mapToDto(it) }
     }

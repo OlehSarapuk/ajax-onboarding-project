@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component
 class CinemaHallGrpcService(
     private val cinemaHallInPort: CinemaHallInPort,
     private val cinemaHallConverter: CinemaHallConverter
-): CinemaHallServiceGrpc.CinemaHallServiceImplBase() {
+) : CinemaHallServiceGrpc.CinemaHallServiceImplBase() {
 
     override fun addCinemaHall(
         request: CinemaHallRequest,
         responseObserver: StreamObserver<CinemaHallResponse>
     ) {
         cinemaHallInPort.add(cinemaHallConverter.protoRequestToCinemaHall(request))
-            .doOnNext {responseObserver.onNext(cinemaHallConverter.cinemaHallToProtoResponse(it)) }
+            .doOnNext { responseObserver.onNext(cinemaHallConverter.cinemaHallToProtoResponse(it)) }
             .block()
         responseObserver.onCompleted()
     }

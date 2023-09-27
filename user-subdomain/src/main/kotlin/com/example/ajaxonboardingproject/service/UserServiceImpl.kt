@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject.service
 
-import com.example.ajaxonboardingproject.repository.UserRepository
 import com.example.ajaxonboardingproject.model.User
+import com.example.ajaxonboardingproject.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono

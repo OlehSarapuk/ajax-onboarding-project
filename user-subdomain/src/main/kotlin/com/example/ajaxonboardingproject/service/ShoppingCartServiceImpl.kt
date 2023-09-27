@@ -1,10 +1,10 @@
 package com.example.ajaxonboardingproject.service
 
 import com.example.ajaxonboardingproject.domain.MovieSession
-import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
-import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.ShoppingCart
+import com.example.ajaxonboardingproject.model.Ticket
 import com.example.ajaxonboardingproject.model.User
+import com.example.ajaxonboardingproject.repository.ShoppingCartRepository
 import com.example.ajaxonboardingproject.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono

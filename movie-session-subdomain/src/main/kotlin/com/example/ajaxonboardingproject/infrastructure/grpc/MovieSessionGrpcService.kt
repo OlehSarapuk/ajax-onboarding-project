@@ -5,8 +5,8 @@ import com.example.ajaxonboardingproject.MovieSessionDeleteRequest
 import com.example.ajaxonboardingproject.MovieSessionResponse
 import com.example.ajaxonboardingproject.MovieSessionServiceGrpc
 import com.example.ajaxonboardingproject.MovieSessionUpdateRequest
-import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
+import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
 import io.grpc.stub.StreamObserver
 import org.springframework.stereotype.Component
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class MovieSessionGrpcService(
     private val movieSessionInPort: MovieSessionInPort,
     private val movieSessionConverter: MovieSessionConverter
-): MovieSessionServiceGrpc.MovieSessionServiceImplBase() {
+) : MovieSessionServiceGrpc.MovieSessionServiceImplBase() {
 
     override fun addMovieSession(
         request: MovieSessionAddRequest,

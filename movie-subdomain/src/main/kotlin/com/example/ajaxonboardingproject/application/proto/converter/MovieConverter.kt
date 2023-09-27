@@ -1,10 +1,10 @@
 package com.example.ajaxonboardingproject.application.proto.converter
 
-import com.example.ajaxonboardingproject.Movie as MovieProto
 import com.example.ajaxonboardingproject.MovieRequest
 import com.example.ajaxonboardingproject.MovieResponse
 import com.example.ajaxonboardingproject.domain.Movie
 import org.springframework.stereotype.Component
+import com.example.ajaxonboardingproject.Movie as MovieProto
 
 @Component
 class MovieConverter {

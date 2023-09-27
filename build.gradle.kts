@@ -60,7 +60,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-subprojects{
+subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")

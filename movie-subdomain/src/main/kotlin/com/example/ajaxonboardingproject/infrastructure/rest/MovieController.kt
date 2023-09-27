@@ -1,11 +1,11 @@
 package com.example.ajaxonboardingproject.infrastructure.rest
 
-import com.example.ajaxonboardingproject.dto.RequestDtoMapper
-import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.application.dto.MovieRequestDto
 import com.example.ajaxonboardingproject.application.dto.MovieResponseDto
 import com.example.ajaxonboardingproject.application.service.MovieInPort
 import com.example.ajaxonboardingproject.domain.Movie
+import com.example.ajaxonboardingproject.dto.RequestDtoMapper
+import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

@@ -10,4 +10,4 @@ data class MovieSessionRequestDto(
     val cinemaHallId: String,
     @field:NotNull
     val showTime: LocalDateTime
-): Serializable
+) : Serializable

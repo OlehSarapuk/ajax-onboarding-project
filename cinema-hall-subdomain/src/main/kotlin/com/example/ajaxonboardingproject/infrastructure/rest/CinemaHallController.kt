@@ -1,12 +1,12 @@
 package com.example.ajaxonboardingproject.infrastructure.rest
 
-import com.example.ajaxonboardingproject.infrastructure.grpc.observer.CinemaHallObserver
 import com.example.ajaxonboardingproject.application.dto.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.application.dto.CinemaHallResponseDto
 import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
 import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.dto.RequestDtoMapper
 import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
+import com.example.ajaxonboardingproject.infrastructure.grpc.observer.CinemaHallObserver
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,7 +29,7 @@ data class CinemaHallController(
         @Valid @RequestBody requestDto: CinemaHallRequestDto
     ): Mono<CinemaHallResponseDto> {
         return cinemaHallInPort.add(cinemaHallRequestDtoMapper.mapToModel(requestDto))
-            .map{ cinemaHallResponseDtoMapper.mapToDto(it) }
+            .map { cinemaHallResponseDtoMapper.mapToDto(it) }
     }
 
     @GetMapping

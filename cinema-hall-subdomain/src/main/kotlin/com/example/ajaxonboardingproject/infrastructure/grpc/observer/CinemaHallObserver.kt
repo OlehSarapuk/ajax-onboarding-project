@@ -25,8 +25,8 @@ class CinemaHallObserver(
             .build()
         stub = ReactorCinemaHallKafkaServiceGrpc.newReactorStub(channel)
         stub.kafkaAddCinemaHall(Flux.from(Mono.just(CinemaHallRequest.getDefaultInstance())))
-                .doOnNext { println(it) }
-                .subscribe()
+            .doOnNext { println(it) }
+            .subscribe()
         channel.shutdown()
     }
 }

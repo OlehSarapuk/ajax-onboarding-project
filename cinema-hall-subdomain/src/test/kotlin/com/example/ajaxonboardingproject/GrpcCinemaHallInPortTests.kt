@@ -3,8 +3,8 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
-import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
+import com.example.ajaxonboardingproject.domain.CinemaHall
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.AfterEach
@@ -42,6 +42,7 @@ class GrpcCinemaHallInPortTests(
     fun addCinemaHallGrpcTestOk() {
         //Given
         val cinemaHall = CinemaHall(
+            id = null,
             capacity = 100,
             description = "grate one"
         )

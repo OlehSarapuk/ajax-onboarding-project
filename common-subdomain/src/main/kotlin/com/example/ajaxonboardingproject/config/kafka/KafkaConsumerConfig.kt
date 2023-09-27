@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate
 import reactor.kafka.receiver.ReceiverOptions
-import java.util.Collections
+import java.util.*
 
 @EnableKafka
 @Configuration

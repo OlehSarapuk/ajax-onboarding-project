@@ -13,7 +13,7 @@ import reactor.core.publisher.Sinks
 @Component
 class CinemaHallKafkaGrpcService(
     private val connection: Connection
-): ReactorCinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
+) : ReactorCinemaHallKafkaServiceGrpc.CinemaHallKafkaServiceImplBase() {
     private val responseSink: Sinks.Many<CinemaHallResponse> = Sinks.many().multicast().onBackpressureBuffer()
 
     @PostConstruct

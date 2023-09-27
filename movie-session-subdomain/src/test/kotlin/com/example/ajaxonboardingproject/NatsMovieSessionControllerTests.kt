@@ -3,8 +3,11 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
+import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
+import com.example.ajaxonboardingproject.domain.CinemaHall
+import com.example.ajaxonboardingproject.domain.Movie
+import com.example.ajaxonboardingproject.domain.MovieSession
 import io.nats.client.Connection
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,9 +29,10 @@ class NatsMovieSessionControllerTests {
     @Test
     fun addMovieSessionTestOk() {
         //Given
-        val movie = Movie(title = "proto TITLE", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "proto TITLE", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val expected = MovieSessionAddRequest.newBuilder()
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
@@ -47,9 +51,10 @@ class NatsMovieSessionControllerTests {
     fun updateMovieSessionTestOk() {
         //Given
         val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().collectList().block()!!.first()
-        val movie = Movie(title = "Nats", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "Nats", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val expected =
             MovieSessionUpdateRequest.newBuilder()
                 .setId(movieSessionFromDB.id)
@@ -69,9 +74,10 @@ class NatsMovieSessionControllerTests {
     @Test
     fun deleteMovieSessionTestOk() {
         //Given
-        val movie = Movie(title = "proto TITLE", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "proto TITLE", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         movieSessionRepositoryOutPort.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
         val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().collectList().block()!!.first()

@@ -2,9 +2,9 @@ package com.example.ajaxonboardingproject
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.example.ajaxonboardingproject.domain.Movie
-import com.example.ajaxonboardingproject.application.service.MovieInPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieConverter
+import com.example.ajaxonboardingproject.application.service.MovieInPort
+import com.example.ajaxonboardingproject.domain.Movie
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.AfterEach
@@ -41,7 +41,7 @@ class GrpcMovieInPortTest(
     @Test
     fun addMovieGrpcTestOk() {
         //Given
-        val movie = Movie(title = "Django Unchained", description = "grate one")
+        val movie = Movie(id = null, title = "Django Unchained", description = "grate one")
         val expected = MovieRequest.newBuilder()
             .setMovie(movieConverter.movieToProto(movie))
             .build()

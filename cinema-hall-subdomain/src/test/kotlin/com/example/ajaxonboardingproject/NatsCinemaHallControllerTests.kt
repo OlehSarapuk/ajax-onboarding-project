@@ -3,6 +3,7 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
+import com.example.ajaxonboardingproject.domain.CinemaHall
 import io.nats.client.Connection
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +25,7 @@ class NatsCinemaHallControllerTests {
     fun addCinemaHallTestOk() {
         //Given
         val cinemaHall = CinemaHall(
+            id = null,
             capacity = 100,
             description = "grate one"
         )
@@ -34,7 +36,8 @@ class NatsCinemaHallControllerTests {
             .requestWithTimeout(
                 NatsSubject.ADD_NEW_CINEMA_HALL_SUBJECT,
                 expected.toByteArray(),
-                Duration.ofMillis(100000))
+                Duration.ofMillis(100000)
+            )
         //Then
         val actual = CinemaHallResponse.parseFrom(future.get().data)
         assertThat(actual.cinemaHall).isEqualTo(expected.cinemaHall)
@@ -52,7 +55,8 @@ class NatsCinemaHallControllerTests {
         val future = natsConnection.requestWithTimeout(
             NatsSubject.FIND_ALL_CINEMA_HALLS_SUBJECT,
             null,
-            Duration.ofMillis(100000))
+            Duration.ofMillis(100000)
+        )
         //Then
         val actual = ListOfCinemaHalls.parseFrom(future.get().data)
         assertThat(actual).isEqualTo(expected)

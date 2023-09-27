@@ -3,8 +3,11 @@ package com.example.ajaxonboardingproject
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
 import com.example.ajaxonboardingproject.application.proto.converter.MovieSessionConverter
+import com.example.ajaxonboardingproject.application.repository.MovieSessionRepositoryOutPort
+import com.example.ajaxonboardingproject.domain.CinemaHall
+import com.example.ajaxonboardingproject.domain.Movie
+import com.example.ajaxonboardingproject.domain.MovieSession
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.junit.jupiter.api.AfterEach
@@ -42,9 +45,10 @@ class GrpcMovieSessionInPortTests(
     @Test
     fun addMovieSessionGrpcTestOk() {
         //Given
-        val movie = Movie(title = "proto TITLE", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "proto TITLE", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         val expected = MovieSessionAddRequest.newBuilder()
             .setMovieSession(movieSessionConverter.movieSessionToProto(movieSession))
             .build()
@@ -57,13 +61,14 @@ class GrpcMovieSessionInPortTests(
     @Test
     fun updateMovieSessionGrpcTestOk() {
         //Given
-        val movie = Movie(title = "proto TITLE", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "proto TITLE", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         movieSessionRepositoryOutPort.save(movieSession).block()
-        val cinemaHallToUpdate = CinemaHall(capacity = 10, description = "grate")
+        val cinemaHallToUpdate = CinemaHall(id = null, capacity = 10, description = "grate")
         val movieSessionToUpdate =
-            MovieSession(movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHallToUpdate, showTime = LocalDateTime.now())
         val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().blockFirst()!!
         val expected = MovieSessionUpdateRequest.newBuilder()
             .setId(movieSessionFromDB.id)
@@ -78,9 +83,10 @@ class GrpcMovieSessionInPortTests(
     @Test
     fun deleteMovieSessionGrpcTestOk() {
         //Given
-        val movie = Movie(title = "proto TITLE", description = "grate one")
-        val cinemaHall = CinemaHall(capacity = 100, description = "grate one")
-        val movieSession = MovieSession(movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
+        val movie = Movie(id = null, title = "proto TITLE", description = "grate one")
+        val cinemaHall = CinemaHall(id = null, capacity = 100, description = "grate one")
+        val movieSession =
+            MovieSession(id = null, movie = movie, cinemaHall = cinemaHall, showTime = LocalDateTime.now())
         movieSessionRepositoryOutPort.save(movieSession).block()
         val sizeOfDBBefore = movieSessionRepositoryOutPort.findAll().collectList().block()!!.size
         val movieSessionFromDB = movieSessionRepositoryOutPort.findAll().blockFirst()!!

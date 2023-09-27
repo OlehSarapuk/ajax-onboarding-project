@@ -1,10 +1,10 @@
 package com.example.ajaxonboardingproject.application.mapper
 
-import com.example.ajaxonboardingproject.dto.RequestDtoMapper
-import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.application.dto.MovieRequestDto
 import com.example.ajaxonboardingproject.application.dto.MovieResponseDto
 import com.example.ajaxonboardingproject.domain.Movie
+import com.example.ajaxonboardingproject.dto.RequestDtoMapper
+import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import org.springframework.stereotype.Component
 
 @Component

@@ -1,7 +1,7 @@
 package com.example.ajaxonboardingproject
 
-import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
+import com.example.ajaxonboardingproject.domain.CinemaHall
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +24,7 @@ class CinemaHallRepositoryOutPortTests {
     fun saveCinemaHallToDbTestOk() {
         //Given
         val expected = CinemaHall(
+            id = null,
             capacity = 100,
             description = "grate one"
         )
@@ -39,12 +40,13 @@ class CinemaHallRepositoryOutPortTests {
     fun findCinemaHallByIdFromDBTestOk() {
         //Given
         val cinemaHall = CinemaHall(
+            id = null,
             capacity = 100,
             description = "grate one"
         )
         val expected: CinemaHall = cinemaHallRepositoryOutPort.save(cinemaHall).block()!!
         //When
-        val actual: Mono<CinemaHall> = cinemaHallRepositoryOutPort.findById(expected.id)
+        val actual: Mono<CinemaHall> = cinemaHallRepositoryOutPort.findById(expected.id!!)
         //Then
         StepVerifier.create(actual)
             .expectNext(expected)
@@ -55,10 +57,12 @@ class CinemaHallRepositoryOutPortTests {
     fun findAllCinemaHallsFromDBTestOk() {
         // Given
         val cinemaHall1 = CinemaHall(
+            id = null,
             capacity = 100,
             description = "great one"
         )
         val cinemaHall2 = CinemaHall(
+            id = null,
             capacity = 150,
             description = "awesome one"
         )

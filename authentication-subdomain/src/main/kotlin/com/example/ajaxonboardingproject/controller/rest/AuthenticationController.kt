@@ -1,12 +1,12 @@
 package com.example.ajaxonboardingproject.controller.rest
 
-import com.example.ajaxonboardingproject.service.AuthenticationService
+import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.dto.UserLoginRequestDto
 import com.example.ajaxonboardingproject.dto.UserRegistrationRequestDto
 import com.example.ajaxonboardingproject.dto.UserResponseDto
 import com.example.ajaxonboardingproject.model.User
 import com.example.ajaxonboardingproject.security.jwt.JwtTokenProvider
-import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
+import com.example.ajaxonboardingproject.service.AuthenticationService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

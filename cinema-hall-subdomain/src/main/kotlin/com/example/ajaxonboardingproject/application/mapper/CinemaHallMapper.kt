@@ -2,9 +2,9 @@ package com.example.ajaxonboardingproject.application.mapper
 
 import com.example.ajaxonboardingproject.application.dto.CinemaHallRequestDto
 import com.example.ajaxonboardingproject.application.dto.CinemaHallResponseDto
+import com.example.ajaxonboardingproject.domain.CinemaHall
 import com.example.ajaxonboardingproject.dto.RequestDtoMapper
 import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
-import com.example.ajaxonboardingproject.domain.CinemaHall
 import org.springframework.stereotype.Component
 
 @Component

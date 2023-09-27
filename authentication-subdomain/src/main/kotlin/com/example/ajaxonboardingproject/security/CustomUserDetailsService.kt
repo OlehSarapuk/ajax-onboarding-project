@@ -17,7 +17,7 @@ class CustomUserDetailsService(private val userService: UserService) : ReactiveU
             .map {
                 withUsername(username).apply {
                     password(it.password)
-                    roles(*it.roles.map { role ->  role.name }.toTypedArray())
+                    roles(*it.roles.map { role -> role.name }.toTypedArray())
                 }.build()
             }
     }

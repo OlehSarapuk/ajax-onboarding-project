@@ -6,7 +6,7 @@ import io.nats.client.Connection
 import io.nats.client.Message
 import reactor.core.publisher.Mono
 
-interface NatsController<ReqT : GeneratedMessageV3, RespT: GeneratedMessageV3> {
+interface NatsController<ReqT : GeneratedMessageV3, RespT : GeneratedMessageV3> {
 
     val subject: String
 

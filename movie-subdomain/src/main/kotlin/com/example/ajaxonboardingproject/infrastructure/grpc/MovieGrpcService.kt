@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 class MovieGrpcService(
     private val movieInPort: MovieInPort,
     private val movieConverter: MovieConverter
-): MovieServiceGrpc.MovieServiceImplBase() {
+) : MovieServiceGrpc.MovieServiceImplBase() {
 
     override fun addMovie(
         request: MovieRequest,

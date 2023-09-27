@@ -1,11 +1,11 @@
 package com.example.ajaxonboardingproject.rest
 
 import com.example.ajaxonboardingproject.application.service.MovieSessionInPort
-import com.example.ajaxonboardingproject.service.UserService
 import com.example.ajaxonboardingproject.dto.ResponseDtoMapper
 import com.example.ajaxonboardingproject.dto.ShoppingCartResponseDto
-import com.example.ajaxonboardingproject.service.ShoppingCartService
 import com.example.ajaxonboardingproject.model.ShoppingCart
+import com.example.ajaxonboardingproject.service.ShoppingCartService
+import com.example.ajaxonboardingproject.service.UserService
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping

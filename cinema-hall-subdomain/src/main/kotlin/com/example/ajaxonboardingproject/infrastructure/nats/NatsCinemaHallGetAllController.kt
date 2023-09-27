@@ -3,8 +3,8 @@ package com.example.ajaxonboardingproject.infrastructure.nats
 import com.example.ajaxonboardingproject.CinemaHallRequest
 import com.example.ajaxonboardingproject.ListOfCinemaHalls
 import com.example.ajaxonboardingproject.NatsSubject
-import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
 import com.example.ajaxonboardingproject.application.proto.converter.CinemaHallConverter
+import com.example.ajaxonboardingproject.application.service.CinemaHallInPort
 import com.example.ajaxonboardingproject.nats.NatsController
 import com.google.protobuf.Parser
 import io.nats.client.Connection

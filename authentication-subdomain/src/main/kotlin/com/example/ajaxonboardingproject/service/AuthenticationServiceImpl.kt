@@ -3,8 +3,6 @@ package com.example.ajaxonboardingproject.service
 import com.example.ajaxonboardingproject.exception.AuthenticationException
 import com.example.ajaxonboardingproject.model.Role
 import com.example.ajaxonboardingproject.model.User
-import com.example.ajaxonboardingproject.service.ShoppingCartService
-import com.example.ajaxonboardingproject.service.UserService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

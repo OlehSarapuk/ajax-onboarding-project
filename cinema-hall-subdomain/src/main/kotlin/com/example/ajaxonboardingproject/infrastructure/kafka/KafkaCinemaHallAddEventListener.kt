@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux
 class KafkaCinemaHallAddEventListener(
     val natsConnection: Connection,
     val reactiveKafkaConsumerTemplate: ReactiveKafkaConsumerTemplate<String, ByteArray>
-): CommandLineRunner {
+) : CommandLineRunner {
 
     fun listen(): Flux<ByteArray> {
         return reactiveKafkaConsumerTemplate

@@ -32,7 +32,7 @@ class SecurityConfig(
     ): SecurityWebFilterChain {
         return http
             .securityContextRepository(jwtSecurityContextRepository)
-            .authorizeExchange{
+            .authorizeExchange {
                 it.pathMatchers(
                     HttpMethod.POST,
                     "/register",
