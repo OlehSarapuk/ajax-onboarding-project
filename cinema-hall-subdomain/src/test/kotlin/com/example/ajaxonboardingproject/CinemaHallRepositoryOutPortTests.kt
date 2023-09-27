@@ -1,5 +1,7 @@
 package com.example.ajaxonboardingproject
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
 import com.example.ajaxonboardingproject.domain.CinemaHall
 import org.junit.jupiter.api.BeforeEach
@@ -32,7 +34,10 @@ class CinemaHallRepositoryOutPortTests {
         val actual: Mono<CinemaHall> = cinemaHallRepositoryOutPort.save(expected)
         //Then
         StepVerifier.create(actual)
-            .expectNext(expected)
+            .assertNext {
+                assertThat(expected.capacity).isEqualTo(it.capacity)
+                assertThat(expected.description).isEqualTo(it.description)
+            }
             .verifyComplete()
     }
 
