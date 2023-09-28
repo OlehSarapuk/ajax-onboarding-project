@@ -14,7 +14,7 @@ class RedisConfig {
     @Bean
     fun reactiveRedisTemplate(
         factory: ReactiveRedisConnectionFactory
-    ) : ReactiveRedisTemplate<String, CinemaHallEntity> {
+    ): ReactiveRedisTemplate<String, CinemaHallEntity> {
         val valueSerializer = Jackson2JsonRedisSerializer(CinemaHallEntity::class.java)
         val builder: RedisSerializationContext.RedisSerializationContextBuilder<String, CinemaHallEntity> =
             RedisSerializationContext.newSerializationContext(StringRedisSerializer())

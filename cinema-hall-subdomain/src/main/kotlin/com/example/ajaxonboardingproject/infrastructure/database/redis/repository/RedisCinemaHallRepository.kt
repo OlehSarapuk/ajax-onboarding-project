@@ -20,7 +20,7 @@ class RedisCinemaHallRepository(
     }
 
     override fun save(cinemaHall: CinemaHall): Mono<CinemaHall> {
-        cinemaHall.id ?: throw RuntimeException("cinema hall has no id")
+        cinemaHall.id ?: throw NoSuchElementException("cinema hall has no id")
         return redisTemplate.opsForValue()
             .set(cinemaHall.id, cinemaHall.mapToEntity().apply { id = cinemaHall.id })
             .map { cinemaHall }
