@@ -1,4 +1,4 @@
-package com.example.ajaxonboardingproject.infrastructure.database.repository
+package com.example.ajaxonboardingproject.infrastructure.database.mongo
 
 import com.example.ajaxonboardingproject.application.repository.CinemaHallRepositoryOutPort
 import com.example.ajaxonboardingproject.domain.CinemaHall
@@ -38,18 +38,19 @@ class CinemaHallRepository(
         return mongoTemplate.remove(query, CinemaHallEntity::class.java)
     }
 
-    private fun CinemaHallEntity.mapToDomain(): CinemaHall {
-        return CinemaHall(
-            id = this.id,
-            description = this.description,
-            capacity = this.capacity
-        )
-    }
+}
 
-    private fun CinemaHall.mapToEntity(): CinemaHallEntity {
-        return CinemaHallEntity(
-            description = this.description,
-            capacity = this.capacity
-        )
-    }
+internal fun CinemaHallEntity.mapToDomain(): CinemaHall {
+    return CinemaHall(
+        id = this.id,
+        description = this.description,
+        capacity = this.capacity
+    )
+}
+
+internal fun CinemaHall.mapToEntity(): CinemaHallEntity {
+    return CinemaHallEntity(
+        description = this.description,
+        capacity = this.capacity
+    )
 }
