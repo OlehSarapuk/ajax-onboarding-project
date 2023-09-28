@@ -28,7 +28,7 @@ jobs:
         run: docker run -d --name nats -p 4222:4222 nats:latest
 
       - name: Start redis container
-        run: docker run -d --name redis -p 6397:6397 mongo:latest
+        run: docker run -d --name redis -p 6397:6397 redis:latest
 
       - name: Start docker network
         run: docker network create mynetwork
