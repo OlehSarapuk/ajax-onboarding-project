@@ -106,6 +106,7 @@ subprojects {
 
     noArg {
         annotation("org.springframework.web.bind.annotation.RestController")
+        annotation("org.springframework.data.mongodb.core.mapping.Document")
     }
 
     tasks.withType<Test> {
